@@ -1,5 +1,7 @@
 import { useContext } from "react";
-// import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 import SignInComponent, { onSubmitActionType } from "components/Auth/SignIn";
 import { AuthContext } from "context/auth/AuthProvider";
@@ -7,7 +9,7 @@ import { SigninUserType } from "types/authTypes";
 
 const SignInPage = () => {
   const { signInUserContext } = useContext(AuthContext);
-  // const history = useHistory();
+  const history = useHistory();
 
   const onSubmit = async (
     values: SigninUserType,
@@ -16,7 +18,6 @@ const SignInPage = () => {
     try {
       setSubmitting(true);
       await signInUserContext(values);
-      // history.push("/home");
       window.location.href = "/home";
       setSubmitting(false);
     } catch (error) {
@@ -25,9 +26,42 @@ const SignInPage = () => {
     }
   };
 
+  const {
+    handleSubmit,
+    values,
+    errors,
+    handleChange,
+    touched,
+    handleBlur,
+    isSubmitting,
+    getFieldProps,
+  } = useFormik<SigninUserType>({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit,
+    validationSchema: Yup.object({
+      email: Yup.string().email().required(),
+      password: Yup.string()
+        .min(4, "Password must be more than 4 characters")
+        .required(),
+    }),
+  });
+
   return (
     <div>
-      <SignInComponent onSubmit={onSubmit} />
+      <SignInComponent
+        values={values}
+        errors={errors}
+        touched={touched}
+        history={history}
+        isSubmitting={isSubmitting}
+        handleSubmit={handleSubmit}
+        handleChange={handleChange}
+        handleBlur={handleBlur}
+        getFieldProps={getFieldProps}
+      />
     </div>
   );
 };

@@ -1,72 +1,33 @@
 import React, { FC } from "react";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import { useFormik } from "formik";
 import { Checkbox } from "pretty-checkbox-react";
+import { History } from "history";
 
 import CustomButton from "components/ui/CustomButton";
 import InputWithLabel from "components/ui/InputWithLabel";
 import { Container, Form, UserAgent } from "./style";
-import AuthButton from "components/ui/AuthButton";
-import { SignupUserType } from "types/authTypes";
 import { ErrorLabel } from "../common/style";
-import { onSubmitType } from "../SignIn";
 
 type Props = {
-  onSubmit: onSubmitType<SignupUserType>;
+  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
+  values: any;
+  errors: any;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement> | undefined) => void;
+  touched: any;
+  handleBlur: (e: React.ChangeEvent<HTMLInputElement> | undefined) => void;
+  isSubmitting: boolean;
+  history: History;
 };
 
-const SignUpComponent: FC<Props> = ({ onSubmit }) => {
-  const history = useHistory();
-
-  const validate = (values: Partial<SignupUserType>) => {
-    const errors: Partial<SignupUserType> = {};
-
-    if (!values.email) {
-      errors.email = "Required";
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-    ) {
-      errors.email = "Invalid email address";
-    } else if (values.password !== values.password_confirmation) {
-      errors.password_confirmation = "Password does not match";
-    }
-
-    return errors;
-  };
-
-  const {
-    handleSubmit,
-    values,
-    errors,
-    handleChange,
-    touched,
-    handleBlur,
-    isSubmitting,
-  } = useFormik<SignupUserType>({
-    initialValues: {
-      username: "",
-      email: "",
-      password: "",
-      password_confirmation: "",
-      referral_id: "",
-      ip_address: "",
-      role_id: 3,
-    },
-    onSubmit,
-    validate,
-    validationSchema: Yup.object({
-      username: Yup.string()
-        .trim()
-        .min(4, "Username should be more than 4 characters")
-        .required(),
-      email: Yup.string().email("Email should be valid").required(),
-      password: Yup.string()
-        .min(4, "Password must be more than 4 characters")
-        .required(),
-    }),
-  });
-
+const SignUpComponent: FC<Props> = ({
+  values,
+  errors,
+  touched,
+  isSubmitting,
+  history,
+  handleBlur,
+  handleChange,
+  handleSubmit,
+}) => {
   return (
     <Container>
       <Form
@@ -79,19 +40,6 @@ const SignUpComponent: FC<Props> = ({ onSubmit }) => {
         <ErrorLabel textAlign="center">
           {typeof errors === "string" ? errors : null}
         </ErrorLabel>
-        {/* <InputWithLabel
-          placeholder="Enter Username"
-          label="Username"
-          name="username"
-          type="text"
-          error={touched && errors.username}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.username}
-          style={{
-            marginBottom: 30,
-          }}
-        /> */}
         <InputWithLabel
           placeholder="Enter Email"
           label="Email address"
@@ -164,11 +112,6 @@ const SignUpComponent: FC<Props> = ({ onSubmit }) => {
             <span onClick={() => history.push("/auth/signin")}>Signin</span>
           </p>
         </div>
-        <AuthButton
-          label="Continue With Google"
-          onClick={() => {}}
-          style={{ marginTop: 20 }}
-        />
       </Form>
     </Container>
   );

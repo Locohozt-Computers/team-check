@@ -1,41 +1,43 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import { History } from "history";
 
 import CustomButton from "components/ui/CustomButton";
 import InputWithLabel from "components/ui/InputWithLabel";
 import { Container, Form } from "./style";
 import { ErrorLabel } from "../common/style";
-import { onSubmitType } from "../SignIn";
 
-type ResetType = {
+export type ResetType = {
   email: string;
 };
 
 type Props = {
-  onSubmit: onSubmitType<{ email: string }>;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement> | undefined) => void;
+  values: any;
+  errors: any;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement> | undefined) => void;
+  touched: any;
+  handleBlur: (e: React.ChangeEvent<HTMLInputElement> | undefined) => void;
+  isSubmitting: boolean;
+  history: History;
 };
 
-const ForgotPassword: React.FC<Props> = ({ onSubmit }) => {
-  const history = useHistory();
-
-  const { handleSubmit, values, errors, handleChange, touched, handleBlur, isSubmitting } =
-    useFormik<ResetType>({
-      initialValues: {
-        email: "",
-      },
-      onSubmit,
-      validationSchema: Yup.object({
-        email: Yup.string().email().required(),
-      }),
-    });
-
+const ForgotPassword: React.FC<Props> = ({
+  values,
+  errors,
+  touched,
+  isSubmitting,
+  handleSubmit,
+  handleChange,
+  handleBlur,
+  history,
+}) => {
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
         <h1>Reset Password</h1>
-        <ErrorLabel textAlign="center">{typeof errors === "string" ? errors : null}</ErrorLabel>
+        <ErrorLabel textAlign="center">
+          {typeof errors === "string" ? errors : null}
+        </ErrorLabel>
         <InputWithLabel
           placeholder="Enter Email"
           label="Email address"
@@ -58,7 +60,7 @@ const ForgotPassword: React.FC<Props> = ({ onSubmit }) => {
         />
         <div className="flex">
           <p className="forgot-password">
-            Go back to {" "}
+            Go back to{" "}
             <span onClick={() => history.push("/auth/signin")}>Signin</span>
           </p>
         </div>

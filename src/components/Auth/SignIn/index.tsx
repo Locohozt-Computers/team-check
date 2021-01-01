@@ -1,13 +1,11 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import { History } from "history";
+import { FieldInputProps } from "formik";
 
 import AuthButton from "components/ui/AuthButton";
 import CustomButton from "components/ui/CustomButton";
 import InputWithLabel from "components/ui/InputWithLabel";
 import { Container, Form } from "./style";
-import { SigninUserType } from "types/authTypes";
 import { ErrorLabel } from "../common/style";
 
 export type onSubmitActionType = {
@@ -15,36 +13,31 @@ export type onSubmitActionType = {
   setErrors: (message: any) => void;
 };
 
+type Props = {
+  handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
+  values: any;
+  errors: any;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement> | undefined) => void;
+  touched: any;
+  handleBlur: (e: React.ChangeEvent<HTMLInputElement> | undefined) => void;
+  isSubmitting: boolean;
+  getFieldProps: (nameOrOptions: any) => FieldInputProps<any>;
+  history: History;
+};
+
 export type onSubmitType<T> = (values: T, actions: onSubmitActionType) => void;
 
-const SignInComponent: React.FC<{
-  onSubmit: onSubmitType<SigninUserType>;
-}> = ({ onSubmit }) => {
-  const history = useHistory();
-
-  const {
-    handleSubmit,
-    values,
-    errors,
-    handleChange,
-    touched,
-    handleBlur,
-    isSubmitting,
-    getFieldProps,
-  } = useFormik<SigninUserType>({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    onSubmit,
-    validationSchema: Yup.object({
-      email: Yup.string().email().required(),
-      password: Yup.string()
-        .min(4, "Password must be more than 4 characters")
-        .required(),
-    }),
-  });
-
+const SignInComponent: React.FC<Props> = ({
+  values,
+  errors,
+  touched,
+  isSubmitting,
+  history,
+  getFieldProps,
+  handleBlur,
+  handleChange,
+  handleSubmit,
+}) => {
   return (
     <Container>
       <Form
