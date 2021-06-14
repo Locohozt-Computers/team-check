@@ -6,6 +6,7 @@ import SignUpPage from 'pages/Signup';
 import axios from 'axios';
 import ForgotPassword from 'components/Auth/ForgotPassword';
 import HomePage from 'pages/Home';
+import SearchPage from 'pages/SearchPage';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_BASEURL
 
@@ -13,7 +14,7 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path='/' component={HomePage} />
+        <Route exact path='/' component={SearchPage} />
         <Route exact path='/home' component={HomePage} />
         <Route exact path='/phones' component={HomePage} />
         <Route exact path='/services' component={HomePage} />
