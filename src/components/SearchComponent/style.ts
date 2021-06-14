@@ -10,6 +10,7 @@ export const Content = styled.div`
     justify-content: center;
     align-items: center;
     height: 85vh;
+    padding: 0 10px;
 
     h2 {
         margin-bottom: 20px;

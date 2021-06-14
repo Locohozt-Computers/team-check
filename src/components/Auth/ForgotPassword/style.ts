@@ -9,7 +9,7 @@ export const Container = styled.div`
   background: #f1f1f7;
 `;
 export const Form = styled.form`
-  max-width: 400px;
+  max-width: 500px;
   width: 100%;
   min-height: 300px;
   background: white;
@@ -39,6 +39,3 @@ export const Form = styled.form`
     }
   }
 `;
-// export const Container = styled.div``
-// export const Container = styled.div``
-// export const Container = styled.div``

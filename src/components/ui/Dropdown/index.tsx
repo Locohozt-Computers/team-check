@@ -17,6 +17,7 @@ const Dropdown: FC<Props> = ({ menus = [] }) => {
     <DropdownContainer>
       {menus?.map((menu: { id: number; name: string; route: string }) => (
         <p
+          data-testid={`menu-${menu.id}`}
           key={menu.id}
           onClick={() => {
             if (menu.name === "Logout") {
