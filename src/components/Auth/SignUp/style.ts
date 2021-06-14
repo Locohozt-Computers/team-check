@@ -6,11 +6,11 @@ export const Container = styled.div`
   justify-content: center;
   width: 100%;
   min-height: 100vh;
-  padding: 2% 0;
+  padding: 2% 10px;
   background: #f1f1f7;
 `;
 export const Form = styled.form`
-  max-width: 40%;
+  max-width: 500px;
   width: 100%;
   min-height: 400px;
   background: white;

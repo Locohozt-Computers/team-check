@@ -1,16 +1,42 @@
-import React from "react";
+import React, { FC } from "react";
+import { useHistory } from "react-router-dom";
 
 import { Menus, MenuName, MenuLists, MenuList } from "./style";
 
-const SideMenus = () => {
+type Props = {
+  isCollapse?: boolean;
+};
+
+const SideMenus: FC<Props> = ({ isCollapse }) => {
+  const history = useHistory();
+
   return (
     <Menus>
-      <MenuName>Team Check</MenuName>
+      <MenuName>
+        <span className="blue" onClick={() => history.push("/")}>
+          Tech
+        </span>
+        <span className="red" onClick={() => history.push("/")}>
+          Check
+        </span>
+        <span className="yellow" onClick={() => history.push("/")}>
+          Point
+        </span>
+      </MenuName>
       <MenuLists>
-        <MenuList to="/home" activeClassName="selected">Home</MenuList>
-        <MenuList to="/phones" activeClassName="selected">Register Phones</MenuList>
-        <MenuList to="/services" activeClassName="selected">Wallet</MenuList>
-        <MenuList to="/user" activeClassName="selected">Profile</MenuList>
+        <MenuList isCollapse={isCollapse} to="/home" activeClassName="selected">
+          <i className="fas fa-home"></i> {!isCollapse && <span>Home</span>}
+        </MenuList>
+        <MenuList isCollapse={isCollapse} to="/phones" activeClassName="selected">
+          <i className="fas fa-phone"></i>{" "}
+          {!isCollapse && <span>Register Phones</span>}
+        </MenuList>
+        <MenuList isCollapse={isCollapse} to="/services" activeClassName="selected">
+          <i className="fas fa-wallet"></i> {!isCollapse && <span>Wallet</span>}
+        </MenuList>
+        <MenuList isCollapse={isCollapse} to="/user" activeClassName="selected">
+          <i className="fas fa-user"></i> {!isCollapse && <span>Profile</span>}
+        </MenuList>
       </MenuLists>
     </Menus>
   );

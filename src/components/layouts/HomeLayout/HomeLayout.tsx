@@ -7,11 +7,10 @@ import { Content, Dashboard, Sidebar } from "./style";
 const HomeLayout: React.FC = ({ children }) => {
   const [isCollapse, setIsCollapse] = useState(false);
 
-  console.log(isCollapse);
   return (
     <Dashboard isCollapse={isCollapse}>
       <Sidebar>
-        <SideMenus />
+        <SideMenus isCollapse={isCollapse} />
       </Sidebar>
       <Content>
         <Navbar isCollapse={isCollapse} setIsCollapse={setIsCollapse} />

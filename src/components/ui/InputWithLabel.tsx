@@ -12,7 +12,9 @@ type Props = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   style?: CSSProperties;
+  inputStyle?: CSSProperties;
   noLabel?: boolean | undefined;
+  showIcon?: boolean | undefined;
 };
 
 const InputWithLabel: React.FC<Props> = ({
@@ -25,26 +27,47 @@ const InputWithLabel: React.FC<Props> = ({
   onChange,
   onBlur,
   style,
-  noLabel
+  inputStyle,
+  noLabel,
+  showIcon,
 }) => {
   return (
-    <div style={style}>
+    <InputDiv style={style}>
       {noLabel ? null : <Label htmlFor={name}>{label} *</Label>}
-      <Input
-        type={type}
-        id={name}
-        value={value}
-        name={name}
-        placeholder={placeholder}
-        onChange={onChange}
-        onBlur={onBlur}
-        data-testid="input"
-      />
+      <div className="input" style={inputStyle}>
+        {showIcon && <i className="fas fa-search"></i>}
+        <Input
+          type={type}
+          id={name}
+          value={value}
+          name={name}
+          placeholder={placeholder}
+          onChange={onChange}
+          onBlur={onBlur}
+          data-testid="input"
+        />
+      </div>
       <ErrorLabel htmlFor="input">{error}</ErrorLabel>
-    </div>
+    </InputDiv>
   );
 };
 
+const InputDiv = styled.div`
+  .input {
+    border: 1px solid #dddddd;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    padding: 0 15px;
+
+    .fa-search {
+      color: #aaaaaa;
+      margin-right: 10px;
+    }
+  }
+`;
 const Label = styled.label`
   display: inline-block;
   font-size: 14px;
@@ -52,10 +75,9 @@ const Label = styled.label`
 `;
 const Input = styled.input`
   outline: none;
-  border: 1px solid #dddddd;
-  padding: 10px;
+  border: none;
   width: 100%;
-  border-radius: 4px;
+  padding: 15px 0;
 `;
 
 export default InputWithLabel;

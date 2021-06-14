@@ -10,6 +10,7 @@ const SignInPage = () => {
     try {
       setSubmitting(true);
     //   await signInUserContext(values);
+      localStorage.setItem('techCheckPoint', JSON.stringify({...values, token: 'abc'}))
       history.push("/home");
       setSubmitting(false);
     } catch (error) {

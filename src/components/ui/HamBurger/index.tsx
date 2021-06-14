@@ -4,7 +4,7 @@ import { Bar } from './style'
 
 type Props = {
     isCollapse: boolean;
-    setIsCollapse: Dispatch<SetStateAction<boolean>>
+    setIsCollapse: Dispatch<SetStateAction<boolean>>;
 }
 
 const HamBurger: React.FC<Props> = ({isCollapse, setIsCollapse}) => {

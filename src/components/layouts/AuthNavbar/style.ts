@@ -44,3 +44,13 @@ export const NavbarLink = styled(NavLink)`
     color: orange;
   }
 `;
+
+export const InitialCharacter = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  background-color: violet;
+  text-align: center;
+  line-height: 30px;
+  position: relative;
+`;
