@@ -2,6 +2,7 @@ import React from "react";
 import SearchComponent from "components/SearchComponent";
 import { Content, Container } from "components/SearchComponent/style";
 import CustomButton from "components/ui/CustomButton";
+import InputWithLabel from "components/ui/InputWithLabel";
 
 const SearchPage = () => {
   return (
@@ -13,6 +14,7 @@ const SearchPage = () => {
           <span className="red">Check</span>
           <span className="yellow">Point</span>
         </h2>
+        <InputWithLabel noLabel={true} onChange={() => {}} placeholder="Search for a device..." style={{width: '50%', marginBottom: 20}} />
         <CustomButton
           label="Search Device"
           onClick={() => {}}

@@ -8,10 +8,11 @@ type Props = {
   value?: string;
   error?: string;
   placeholder: string;
-  label: string;
+  label?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   style?: CSSProperties;
+  noLabel?: boolean | undefined;
 };
 
 const InputWithLabel: React.FC<Props> = ({
@@ -24,10 +25,11 @@ const InputWithLabel: React.FC<Props> = ({
   onChange,
   onBlur,
   style,
+  noLabel
 }) => {
   return (
     <div style={style}>
-      <Label htmlFor={name}>{label} *</Label>
+      {noLabel ? null : <Label htmlFor={name}>{label} *</Label>}
       <Input
         type={type}
         id={name}
