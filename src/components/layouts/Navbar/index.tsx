@@ -16,7 +16,10 @@ const Navbar: React.FC<Props> = ({isCollapse, setIsCollapse}) => {
             <HamBurger isCollapse={isCollapse} setIsCollapse={setIsCollapse} />
             <div className="menu">
                 <p>John Doe</p>
-                <p onClick={() => history.push('/auth/signin')}>Logout</p>
+                <p onClick={() => {
+                    localStorage.removeItem("techCheckPoint")
+                    history.push('/auth/signin')
+                }}>Logout</p>
             </div>
         </Container>
     )
