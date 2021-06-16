@@ -1,13 +1,46 @@
-import React from 'react'
+import React, { useContext } from "react";
 
-import SignUpComponent from 'components/Auth/SignUp'
+import SignUpComponent from "components/Auth/SignUp";
+import { AuthContext } from "context/auth/AuthProvider";
+import { useHistory } from "react-router-dom";
+import { SignupUserType } from "types/authTypes";
+import { getRole } from "components/helpers/getRole";
 
 const SignUpPage = () => {
-    return (
-        <div>
-            <SignUpComponent />
-        </div>
-    )
-}
+  const { signUpUserContext } = useContext(AuthContext);
+  const history = useHistory();
 
-export default SignUpPage
+  const onSubmit = async (
+    values: SignupUserType,
+    { setSubmitting, setErrors }: any
+  ) => {
+    const role = getRole(values.role_id);
+
+    if (role === -1) {
+      setErrors("Please choose just one user type");
+      return;
+    }
+
+    const finalValues = {
+      ...values,
+      role_id: role,
+    };
+
+    try {
+      setSubmitting(true);
+      await signUpUserContext(finalValues);
+      setSubmitting(false);
+      history.push("/home");
+    } catch (error) {
+      setSubmitting(false);
+      setErrors(error);
+    }
+  };
+  return (
+    <div>
+      <SignUpComponent onSubmit={onSubmit} />
+    </div>
+  );
+};
+
+export default SignUpPage;

@@ -33,11 +33,13 @@ const AuthProvider: React.FC = ({ children }) => {
   const signInUserContext = async (user: SigninUserType) => {
     console.log(user);
     try {
-        // const data = await createHttp("login", user);
-        dispatch({ type: SIGNIN, payload: user });
+      const data = await createHttp("/login", user);
+      console.log(data)
+      localStorage.setItem('techCheckPoint', JSON.stringify({...data}))
+      dispatch({ type: SIGNIN, payload: data });
     } catch (error) {
       console.log(error?.response);
-      if(!error?.response) {
+      if (!error?.response) {
         // eslint-disable-next-line
         throw "Network went wrong!!!";
       }
@@ -48,8 +50,8 @@ const AuthProvider: React.FC = ({ children }) => {
   const signUpUserContext = async (user: Partial<SignupUserType>) => {
     console.log(user);
     try {
-      // const data = await createHttp('/register', user)
-    //   dispatch({ type: SIGNUP, payload: data });
+      const data = await createHttp("/register", user);
+      dispatch({ type: SIGNUP, payload: data });
     } catch (error) {
       throw error;
     }
@@ -57,8 +59,8 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const forgotPasswordContext = async (email: string) => {
     try {
-    //   const data = await createHttp("/forgotpassword", email);
-    //   dispatch({ type: FORGOT_PASSWORD, payload: data });
+      //   const data = await createHttp("/forgotpassword", email);
+      //   dispatch({ type: FORGOT_PASSWORD, payload: data });
     } catch (error) {
       throw error;
     }

@@ -1,24 +1,22 @@
-import React, { useContext, useState } from "react";
+import React, { FC } from "react";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { Checkbox } from "pretty-checkbox-react";
 
 import CustomButton from "components/ui/CustomButton";
 import InputWithLabel from "components/ui/InputWithLabel";
-import { Container, Form } from "./style";
+import { Container, Form, UserAgent } from "./style";
 import AuthButton from "components/ui/AuthButton";
-import CustomSwitch from "components/ui/Switch";
-import { AuthContext } from "context/auth/AuthProvider";
 import { SignupUserType } from "types/authTypes";
 import { ErrorLabel } from "../common/style";
 
-const SignUpComponent = () => {
-  const history = useHistory();
-  const { signUpUserContext } = useContext(AuthContext);
+type Props = {
+  onSubmit: any;
+};
 
-  const [isAgent, setIsAgent] = useState(false);
-  const [role, setRole] = useState(2);
-  const [error, setError] = useState("");
+const SignUpComponent: FC<Props> = ({ onSubmit }) => {
+  const history = useHistory();
 
   const validate = (values: Partial<SignupUserType>) => {
     const errors: Partial<SignupUserType> = {};
@@ -36,7 +34,7 @@ const SignUpComponent = () => {
     return errors;
   };
 
-  const { handleSubmit, values, errors, handleChange, touched, handleBlur } =
+  const { handleSubmit, values, errors, handleChange, touched, handleBlur, isSubmitting } =
     useFormik<SignupUserType>({
       initialValues: {
         username: "",
@@ -47,26 +45,12 @@ const SignUpComponent = () => {
         ip_address: "",
         role_id: 2,
       },
-      onSubmit: async (values: SignupUserType) => {
-        const finalValues = {
-          ...values,
-          role_id: role,
-        };
-        try {
-          await signUpUserContext(finalValues);
-          history.push("/home");
-        } catch (error) {
-          setError(error);
-        }
-      },
-      onReset: (values: SignupUserType) => {
-        console.log(values);
-      },
+      onSubmit,
       validate,
       validationSchema: Yup.object({
         username: Yup.string()
           .trim()
-          .max(4, "Username should be more than 4 characters")
+          .min(4, "Username should be more than 4 characters")
           .required(),
         email: Yup.string().email("Email should be valid").required(),
         password: Yup.string()
@@ -79,7 +63,9 @@ const SignUpComponent = () => {
     <Container>
       <Form onSubmit={handleSubmit}>
         <h1>Sign Up</h1>
-        <ErrorLabel textAlign="center">{error}</ErrorLabel>
+        <ErrorLabel textAlign="center">
+          {typeof errors === "string" ? errors : null}
+        </ErrorLabel>
         <InputWithLabel
           placeholder="Enter Username"
           label="Username"
@@ -132,16 +118,32 @@ const SignUpComponent = () => {
             marginBottom: 30,
           }}
         />
-        <CustomSwitch
-          checked={isAgent}
-          onChange={(checked: boolean) => {
-            setRole(checked ? 3 : 2);
-            setIsAgent(checked);
-          }}
-          label={isAgent ? "Agent" : "User"}
-          style={{ marginBottom: 30 }}
+        <UserAgent>
+          <Checkbox
+            name="role_id"
+            onChange={handleChange}
+            value={2}
+            style={{ display: "flex", alignItems: "center", fontSize: 12 }}
+          >
+            <span style={{ marginLeft: 5 }}>User</span>
+          </Checkbox>
+          <Checkbox
+            name="role_id"
+            onChange={handleChange}
+            value={3}
+            style={{ display: "flex", alignItems: "center", fontSize: 12 }}
+          >
+            <span style={{ marginLeft: 5 }}>Agent</span>
+          </Checkbox>
+        </UserAgent>
+        <CustomButton
+          testId="signup"
+          label={"Submit"}
+          type={"submit"}
+          disabled={isSubmitting}
+          background={isSubmitting ? "#f1f1f7" : "#177BFF"}
+          loading={isSubmitting}
         />
-        <CustomButton label="Submit" type="submit" background={"#177BFF"} />
         <div className="flex">
           <p></p>
           <p className="forgot-password">

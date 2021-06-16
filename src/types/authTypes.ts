@@ -5,7 +5,7 @@ export type SignupUserType = {
     password_confirmation: string;
     referral_id: string;
     ip_address: string;
-    role_id: number;
+    role_id: any;
 }
 
 export type SigninUserType = Pick<SignupUserType, 'email' | 'password'>

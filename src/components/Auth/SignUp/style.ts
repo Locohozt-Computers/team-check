@@ -40,6 +40,16 @@ export const Form = styled.form`
     }
   }
 `;
-// export const Container = styled.div``
+export const UserAgent = styled.div`
+  display: flex;
+  max-width: 120px;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 30px;
+
+  input:nth-child(2) {
+    margin-left: 20px;
+  }
+`
 // export const Container = styled.div``
 // export const Container = styled.div``

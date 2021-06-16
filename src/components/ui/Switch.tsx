@@ -2,16 +2,17 @@ import React, { CSSProperties, FC } from 'react'
 import Switch, { ReactSwitchProps } from 'react-switch'
 import styled from 'styled-components'
 
-const CustomSwitch: FC<ReactSwitchProps & {style?: CSSProperties, label?: string}> = ({
+const CustomSwitch: FC<ReactSwitchProps & {style?: CSSProperties, label?: string, name?: string}> = ({
     onChange,
     checked,
     style,
-    label
+    label,
+    name
 }) => {
     return (
         <Container style={style}>
             <label htmlFor="">{label}</label>
-            <Switch onChange={onChange} checked={checked} />
+            <Switch name={name} onChange={onChange} checked={checked} />
         </Container>
     )
 }
