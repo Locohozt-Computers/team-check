@@ -7,20 +7,31 @@ import {
 import { createHttp } from "utils/api/createHttp";
 import authReducer from "./Authreducer";
 
+let user: any = localStorage.getItem("techCheckPoint")
+user = JSON.parse(user)
+
 export type InitialStateTypes<T> = {
   user: T;
 };
 
 const initialState = {
-  user: null,
+  user,
 };
 
 export const SIGNIN = "SIGNIN";
 export const SIGNUP = "SIGNUP";
 export const FORGOT_PASSWORD = "FORGOT_PASSWORD";
 
-export const AuthContext = createContext({
-  user: null,
+type ContextType = {
+  user: Partial<SignupUserType>;
+  signInUserContext: (user: SigninUserType) => void;
+  signUpUserContext: (user: Partial<SignupUserType>) => void;
+  forgotPasswordContext: (email: string) => void;
+  changePasswordContext: (passwords: ChangePasswordType) => void;
+};
+
+export const AuthContext = createContext<ContextType>({
+  user,
   signInUserContext: (user: SigninUserType) => {},
   signUpUserContext: (user: Partial<SignupUserType>) => {},
   forgotPasswordContext: (email: string) => {},
@@ -31,11 +42,9 @@ const AuthProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   const signInUserContext = async (user: SigninUserType) => {
-    console.log(user);
     try {
       const data = await createHttp("/login", user);
-      console.log(data)
-      localStorage.setItem('techCheckPoint', JSON.stringify({...data}))
+      localStorage.setItem("techCheckPoint", JSON.stringify({ ...data }));
       dispatch({ type: SIGNIN, payload: data });
     } catch (error) {
       console.log(error?.response);
@@ -48,7 +57,6 @@ const AuthProvider: React.FC = ({ children }) => {
   };
 
   const signUpUserContext = async (user: Partial<SignupUserType>) => {
-    console.log(user);
     try {
       const data = await createHttp("/register", user);
       dispatch({ type: SIGNUP, payload: data });

@@ -5,6 +5,7 @@ import { AuthContext } from "context/auth/AuthProvider";
 import { useHistory } from "react-router-dom";
 import { SignupUserType } from "types/authTypes";
 import { getRole } from "components/helpers/getRole";
+import { onSubmitActionType } from "components/Auth/SignIn";
 
 const SignUpPage = () => {
   const { signUpUserContext } = useContext(AuthContext);
@@ -12,7 +13,7 @@ const SignUpPage = () => {
 
   const onSubmit = async (
     values: SignupUserType,
-    { setSubmitting, setErrors }: any
+    { setSubmitting, setErrors }: onSubmitActionType
   ) => {
     const role = getRole(values.role_id);
 

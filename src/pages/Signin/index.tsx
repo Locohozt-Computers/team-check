@@ -1,14 +1,15 @@
-import SignInComponent from "components/Auth/SignIn";
-import { AuthContext } from "context/auth/AuthProvider";
 import { useContext } from "react";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
+
+import SignInComponent, { onSubmitActionType } from "components/Auth/SignIn";
+import { AuthContext } from "context/auth/AuthProvider";
 import { SigninUserType } from "types/authTypes";
 
 const SignInPage = () => {
   const { signInUserContext } = useContext(AuthContext);
   const history = useHistory();
 
-  const onSubmit = async (values: SigninUserType, { setSubmitting, setErrors }: any) => {
+  const onSubmit = async (values: SigninUserType, { setSubmitting, setErrors }: onSubmitActionType) => {
     try {
       setSubmitting(true);
       await signInUserContext(values);

@@ -11,8 +11,18 @@ import { Container, Form } from "./style";
 import { SigninUserType } from "types/authTypes";
 import { ErrorLabel } from "../common/style";
 
+export type onSubmitActionType = {
+  setSubmitting: (status: boolean) => void;
+  setErrors: (message: any) => void;
+}
+
+export type onSubmitType<T> = (
+  values: T,
+  actions: onSubmitActionType
+) => void;
+
 const SignInComponent: React.FC<{
-  onSubmit: any;
+  onSubmit: onSubmitType<SigninUserType>
 }> = ({ onSubmit }) => {
   // const { signInUserContext } = useContext(AuthContext);
   const history = useHistory();
@@ -44,7 +54,9 @@ const SignInComponent: React.FC<{
     <Container>
       <Form onSubmit={handleSubmit} data-testid="sign-in-form">
         <h1>Sign In</h1>
-        <ErrorLabel textAlign="center">{typeof errors === "string" ? errors : null}</ErrorLabel>
+        <ErrorLabel textAlign="center">
+          {typeof errors === "string" ? errors : null}
+        </ErrorLabel>
         <InputWithLabel
           placeholder="Enter Email"
           label="Email address"

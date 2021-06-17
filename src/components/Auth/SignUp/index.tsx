@@ -10,9 +10,10 @@ import { Container, Form, UserAgent } from "./style";
 import AuthButton from "components/ui/AuthButton";
 import { SignupUserType } from "types/authTypes";
 import { ErrorLabel } from "../common/style";
+import { onSubmitType } from "../SignIn";
 
 type Props = {
-  onSubmit: any;
+  onSubmit: onSubmitType<SignupUserType>;
 };
 
 const SignUpComponent: FC<Props> = ({ onSubmit }) => {
