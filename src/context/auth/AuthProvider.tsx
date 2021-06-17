@@ -1,3 +1,4 @@
+import { ResetType } from "components/Auth/ResetPassword";
 import React, { createContext, useReducer } from "react";
 import {
   ChangePasswordType,
@@ -30,7 +31,7 @@ type ContextType = {
   signUpUserContext: (user: Partial<SignupUserType>) => void;
   forgotPasswordContext: (email: string) => void;
   changePasswordContext: (passwords: ChangePasswordType) => void;
-  resetPasswordContext: (email: string) => void;
+  resetPasswordContext: (reset: ResetType) => void;
 };
 
 export const AuthContext = createContext<ContextType>({
@@ -39,7 +40,7 @@ export const AuthContext = createContext<ContextType>({
   signUpUserContext: (user: Partial<SignupUserType>) => {},
   forgotPasswordContext: (email: string) => {},
   changePasswordContext: (passwords: ChangePasswordType) => {},
-  resetPasswordContext: (email: string) => {},
+  resetPasswordContext: (reset: ResetType) => {},
 });
 
 const AuthProvider: React.FC = ({ children }) => {
@@ -72,9 +73,9 @@ const AuthProvider: React.FC = ({ children }) => {
     }
   };
 
-  const resetPasswordContext = async (email: string) => {
+  const resetPasswordContext = async (reset: ResetType) => {
     try {
-      const data = await createHttp("/password/reset", email);
+      const data = await createHttp("/password/reset", reset);
       dispatch({ type: RESET_PASSWORD, payload: data });
     } catch (error) {
       if (!error?.response) {

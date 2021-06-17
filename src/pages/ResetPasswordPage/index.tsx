@@ -1,21 +1,20 @@
+import ResetPassword, { ResetType } from "components/Auth/ResetPassword";
+import { onSubmitActionType } from "components/Auth/SignIn";
+import { AuthContext } from "context/auth/AuthProvider";
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
 
-import ForgotPassword from "components/Auth/ForgotPassword";
-import { onSubmitActionType } from "components/Auth/SignIn";
-import { AuthContext } from "context/auth/AuthProvider";
-
-const ForgotPasswordPage: React.FC = () => {
-  const { forgotPasswordContext } = useContext(AuthContext);
+const ResetPasswordPage = () => {
+  const { resetPasswordContext } = useContext(AuthContext);
   const history = useHistory();
 
   const onSubmit = async (
-    values: {email: string},
+    values: ResetType,
     { setSubmitting, setErrors }: onSubmitActionType
   ) => {
     try {
       setSubmitting(true);
-      await forgotPasswordContext(values.email);
+      await resetPasswordContext(values);
       history.push("/auth/signin");
       setSubmitting(false);
     } catch (error) {
@@ -26,9 +25,9 @@ const ForgotPasswordPage: React.FC = () => {
 
   return (
     <div>
-      <ForgotPassword onSubmit={onSubmit} />
+      <ResetPassword onSubmit={onSubmit} />
     </div>
   );
 };
 
-export default ForgotPasswordPage;
+export default ResetPasswordPage;

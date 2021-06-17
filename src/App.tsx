@@ -9,6 +9,7 @@ import SearchPage from "pages/SearchPage";
 import PrivateRoute from "route/PrivateRoute";
 import ForgotPasswordPage from "pages/ForgotPasswordPage";
 import EmailVerificationPage from "pages/EmailVerificationPage";
+import ResetPasswordPage from "pages/ResetPasswordPage";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -30,6 +31,7 @@ function App() {
         <Route exact path="/auth/signup" component={SignUpPage} />
         <Route exact path="/auth/forgotpassword" component={ForgotPasswordPage} />
         <Route exact path="/auth/emailverification" component={EmailVerificationPage} />
+        <Route exact path="/auth/reset" component={ResetPasswordPage} />
       </Switch>
     </Router>
   );
