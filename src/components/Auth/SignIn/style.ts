@@ -39,6 +39,10 @@ export const Form = styled.form`
       }
     }
   }
+
+  @media(max-width: 600px) {
+    padding: 15px;
+  }
 `;
 // export const Container = styled.div``
 // export const Container = styled.div``

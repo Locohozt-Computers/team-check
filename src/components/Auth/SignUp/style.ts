@@ -39,6 +39,10 @@ export const Form = styled.form`
       }
     }
   }
+
+  @media (max-width: 600px) {
+    padding: 15px;
+  }
 `;
 export const UserAgent = styled.div`
   display: flex;
@@ -50,6 +54,6 @@ export const UserAgent = styled.div`
   input:nth-child(2) {
     margin-left: 20px;
   }
-`
+`;
 // export const Container = styled.div``
 // export const Container = styled.div``

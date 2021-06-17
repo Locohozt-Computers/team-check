@@ -58,7 +58,7 @@ const ForgotPassword: React.FC<Props> = ({ onSubmit }) => {
         />
         <div className="flex">
           <p className="forgot-password">
-            Go back to ?{" "}
+            Go back to {" "}
             <span onClick={() => history.push("/auth/signin")}>Signin</span>
           </p>
         </div>
