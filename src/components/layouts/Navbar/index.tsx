@@ -1,22 +1,22 @@
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import HamBurger from "components/ui/HamBurger";
 import { useHistory } from "react-router";
 import { Container } from "./style";
-import { AuthContext } from "context/auth/AuthProvider";
+import { SignupUserType } from "types/authTypes";
 
 type Props = {
   isCollapse: boolean;
   setIsCollapse: Dispatch<SetStateAction<boolean>>;
+  isMobile: boolean;
+  user: Partial<SignupUserType>
 };
 
-const Navbar: React.FC<Props> = ({ isCollapse, setIsCollapse }) => {
+const Navbar: React.FC<Props> = ({ isCollapse, setIsCollapse, isMobile, user }) => {
   const history = useHistory();
-
-  const { user } = useContext(AuthContext);
 
   return (
     <Container>
-      <HamBurger isCollapse={isCollapse} setIsCollapse={setIsCollapse} />
+      {!isMobile ? <HamBurger isCollapse={isCollapse} setIsCollapse={setIsCollapse} /> : <div></div>}
       <div className="menu">
         <p>{user?.username}</p>
         <p

@@ -1,14 +1,21 @@
-import { InitialStateTypes, SIGNIN } from './AuthProvider'
+import { SigninUserType, SignupUserType } from "types/authTypes";
+import { InitialStateTypes, SIGNIN, SIGNUP } from "./AuthProvider";
 
-const authReducer = (state: InitialStateTypes<any>, action: any) => {
-    switch(action.type) {
-        case SIGNIN: 
-            return {
-                ...state
-            }
-        default:
-            return state
-    }
-}
+type State = InitialStateTypes<SigninUserType | SignupUserType>;
 
-export default authReducer
+const authReducer = (state: State, action: any) => {
+  switch (action.type) {
+    case SIGNIN:
+      return {
+        ...state,
+      };
+    case SIGNUP:
+      return {
+        ...state,
+      };
+    default:
+      return state;
+  }
+};
+
+export default authReducer;

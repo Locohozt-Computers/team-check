@@ -4,11 +4,14 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import AuthProvider from "./context/auth/AuthProvider";
+import LayoutProvider from "context/layout/LayoutProvider";
 
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
-      <App />
+      <LayoutProvider>
+        <App />
+      </LayoutProvider>
     </AuthProvider>
   </React.StrictMode>,
   document.getElementById("root")

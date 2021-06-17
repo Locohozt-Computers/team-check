@@ -5,7 +5,11 @@ export const Dashboard = styled.div<{ isCollapse?: boolean }>`
   background-color: #f1f1f7;
   display: grid;
   grid-template-columns: ${({ isCollapse }) =>
-    isCollapse ? "7% 93%" : "25% 75%"};
+    isCollapse ? "50px auto" : "200px auto"};
+
+  @media(width: 600px) {
+    grid-template-columns: 50px auto;
+  }
 `;
 
 export const Sidebar = styled.div`

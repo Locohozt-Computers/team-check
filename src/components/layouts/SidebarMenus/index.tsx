@@ -5,37 +5,96 @@ import { Menus, MenuName, MenuLists, MenuList } from "./style";
 
 type Props = {
   isCollapse?: boolean;
+  isMobile: boolean;
 };
 
-const SideMenus: FC<Props> = ({ isCollapse }) => {
+const ShowMenu = ({
+  isShowOrHideIconLabel,
+  text,
+  iconType,
+}: {
+  isShowOrHideIconLabel: boolean;
+  text: string;
+  iconType: string;
+}) => (
+  <>
+    <i className={`fas fa-${iconType}`}></i>{" "}
+    {!isShowOrHideIconLabel && <span>{text}</span>}
+  </>
+);
+
+const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
   const history = useHistory();
+
+  const desktopMenuName = () => (
+    <div>
+      <span className="blue" onClick={() => history.push("/")}>
+        Tech
+      </span>
+      <span className="red" onClick={() => history.push("/")}>
+        Check
+      </span>
+      <span className="yellow" onClick={() => history.push("/")}>
+        Point
+      </span>
+    </div>
+  );
+
+  const mobileMenuName = () => (
+    <div>
+      <span className="blue" onClick={() => history.push("/")}>
+        T
+      </span>
+      <span className="red" onClick={() => history.push("/")}>
+        C
+      </span>
+      <span className="yellow" onClick={() => history.push("/")}>
+        P
+      </span>
+    </div>
+  );
+
+  const isShowOrHideIconLabel = !!(isCollapse || isMobile);
 
   return (
     <Menus>
-      <MenuName>
-        <span className="blue" onClick={() => history.push("/")}>
-          Tech
-        </span>
-        <span className="red" onClick={() => history.push("/")}>
-          Check
-        </span>
-        <span className="yellow" onClick={() => history.push("/")}>
-          Point
-        </span>
-      </MenuName>
+      <MenuName>{isMobile ? mobileMenuName() : desktopMenuName()}</MenuName>
       <MenuLists>
         <MenuList isCollapse={isCollapse} to="/home" activeClassName="selected">
-          <i className="fas fa-home"></i> {!isCollapse && <span>Home</span>}
+          <ShowMenu
+            isShowOrHideIconLabel={isShowOrHideIconLabel}
+            text="Home"
+            iconType="home"
+          />
         </MenuList>
-        <MenuList isCollapse={isCollapse} to="/phones" activeClassName="selected">
-          <i className="fas fa-phone"></i>{" "}
-          {!isCollapse && <span>Register Phones</span>}
+        <MenuList
+          isCollapse={isCollapse}
+          to="/phones"
+          activeClassName="selected"
+        >
+          <ShowMenu
+            isShowOrHideIconLabel={isShowOrHideIconLabel}
+            text="Register Phones"
+            iconType="phone"
+          />
         </MenuList>
-        <MenuList isCollapse={isCollapse} to="/services" activeClassName="selected">
-          <i className="fas fa-wallet"></i> {!isCollapse && <span>Wallet</span>}
+        <MenuList
+          isCollapse={isCollapse}
+          to="/services"
+          activeClassName="selected"
+        >
+          <ShowMenu
+            isShowOrHideIconLabel={isShowOrHideIconLabel}
+            text="Wallet"
+            iconType="wallet"
+          />
         </MenuList>
         <MenuList isCollapse={isCollapse} to="/user" activeClassName="selected">
-          <i className="fas fa-user"></i> {!isCollapse && <span>Profile</span>}
+          <ShowMenu
+            isShowOrHideIconLabel={isShowOrHideIconLabel}
+            text="Profile"
+            iconType="user"
+          />
         </MenuList>
       </MenuLists>
     </Menus>
