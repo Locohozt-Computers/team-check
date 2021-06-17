@@ -7,24 +7,19 @@ import AuthButton from "components/ui/AuthButton";
 import CustomButton from "components/ui/CustomButton";
 import InputWithLabel from "components/ui/InputWithLabel";
 import { Container, Form } from "./style";
-// import { AuthContext } from "context/auth/AuthProvider";
 import { SigninUserType } from "types/authTypes";
 import { ErrorLabel } from "../common/style";
 
 export type onSubmitActionType = {
   setSubmitting: (status: boolean) => void;
   setErrors: (message: any) => void;
-}
+};
 
-export type onSubmitType<T> = (
-  values: T,
-  actions: onSubmitActionType
-) => void;
+export type onSubmitType<T> = (values: T, actions: onSubmitActionType) => void;
 
 const SignInComponent: React.FC<{
-  onSubmit: onSubmitType<SigninUserType>
+  onSubmit: onSubmitType<SigninUserType>;
 }> = ({ onSubmit }) => {
-  // const { signInUserContext } = useContext(AuthContext);
   const history = useHistory();
 
   const {
@@ -94,7 +89,7 @@ const SignInComponent: React.FC<{
           </p>
           <p className="forgot-password">
             Forgot{" "}
-            <span onClick={() => history.push("/auth/resetpassword")}>
+            <span onClick={() => history.push("/auth/forgotpassword")}>
               Password
             </span>
             ?

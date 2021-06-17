@@ -31,7 +31,7 @@ const SignUpPage = () => {
       setSubmitting(true);
       await signUpUserContext(finalValues);
       setSubmitting(false);
-      history.push("/home");
+      history.push("/auth/emailverification");
     } catch (error) {
       setSubmitting(false);
       setErrors(error);

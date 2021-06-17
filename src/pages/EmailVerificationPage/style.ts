@@ -9,7 +9,7 @@ export const Container = styled.div`
   background: #f1f1f7;
   padding: 10px;
 `;
-export const Form = styled.form`
+export const Card = styled.div`
   max-width: 500px;
   width: 100%;
   min-height: 300px;
@@ -20,23 +20,12 @@ export const Form = styled.form`
 
   h1 {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 
-  .flex {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .forgot-password {
-      text-align: end;
-      font-size: 14px;
-      margin-top: 10px;
-
-      span {
-        color: #177bff;
-        cursor: pointer;
-      }
-    }
+  p {
+    text-align: center;
+    font-size: 14px;
+    margin-bottom: 20px;
   }
 `;
