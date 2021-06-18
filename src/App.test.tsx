@@ -12,7 +12,7 @@ test('renders App', () => {
       <App />
     </Router>
   );
-  expect(container).not.toBeInTheDocument();
+  expect(container).toBeInTheDocument();
 
 });
 
