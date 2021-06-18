@@ -12,7 +12,18 @@ test('renders App', () => {
       <App />
     </Router>
   );
-  expect(container).not.toBeInTheDocument();
+  expect(container).toBeInTheDocument();
+
+});
+test('renders App', () => {
+  const history = createMemoryHistory();
+  const {container} = render(
+    <Router history={history}>
+      <App />
+    </Router>
+  );
+  expect(container).toBeInTheDocument();
+
 });
 
 test('renders App', () => {
