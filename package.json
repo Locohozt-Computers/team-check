@@ -37,20 +37,19 @@
     "build": "CI= react-scripts build",
     "test": "react-scripts test --coverage",
     "test:jest": "jest --runInBand",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "pre-commit": "lint-staged",
+    "prepare": "husky install"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged && yarn test",
-      "pre-push": "npm test"
+      "pre-push": "yarn test"
     }
   },
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "yarn test"
-    ],
-    "*.{json,md,html}": [
-      "prettier --write"
     ]
   },
   "eslintConfig": {
