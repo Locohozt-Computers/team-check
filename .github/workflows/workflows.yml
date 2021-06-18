@@ -1,0 +1,20 @@
+name: TechCheck CI
+
+on: 
+  push:
+    branches:
+    - "master"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      metrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn
+      - run: yarn build
+      - run: yarn test
