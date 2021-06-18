@@ -101,10 +101,14 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const changePasswordContext = async (passwords: ChangePasswordType) => {
     try {
-      const data = await createHttp("/password/changepassword", passwords);
+      const data = await createHttp("/changepassword", passwords);
       dispatch({ type: FORGOT_PASSWORD, payload: data });
     } catch (error) {
-      throw error;
+      if (!error?.response) {
+        // eslint-disable-next-line
+        throw "Network went wrong!!!";
+      }
+      throw error?.response?.data?.message;
     }
   };
 

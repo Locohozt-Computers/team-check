@@ -58,7 +58,7 @@ const ChangePassword: React.FC<Props> = ({ onSubmit }) => {
       <Form onSubmit={handleSubmit}>
         <h1>Change Password</h1>
         <ErrorLabel textAlign="center">
-          {typeof errors === "string" ? errors : null}
+          {typeof errors === "string" ? errors ? errors : "Something went wrong" : null}
         </ErrorLabel>
         <InputWithLabel
           placeholder="Current Password"
@@ -66,7 +66,7 @@ const ChangePassword: React.FC<Props> = ({ onSubmit }) => {
           type="password"
           onChange={handleChange}
           onBlur={handleBlur}
-          name="pld_password"
+          name="current_password"
           error={touched && errors.current_password}
           value={values.current_password}
           style={{
