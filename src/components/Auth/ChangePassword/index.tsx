@@ -61,8 +61,8 @@ const ChangePassword: React.FC<Props> = ({ onSubmit }) => {
           {typeof errors === "string" ? errors : null}
         </ErrorLabel>
         <InputWithLabel
-          placeholder="Old Password"
-          label="Old Password"
+          placeholder="Current Password"
+          label="Current Password"
           type="password"
           onChange={handleChange}
           onBlur={handleBlur}
