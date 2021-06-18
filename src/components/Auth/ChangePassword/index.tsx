@@ -43,14 +43,12 @@ const ChangePassword: React.FC<Props> = ({ onSubmit }) => {
   } = useFormik<ChangePasswordType>({
     initialValues: {
       new_password: "",
-      old_password: "",
+      current_password: "",
     },
     onSubmit,
     validationSchema: Yup.object({
-      email: Yup.string().email().required(),
-      password: Yup.string().min(4).required(),
-      password_confirmation: Yup.string().min(4).required(),
-      token: Yup.string().required(),
+      current_password: Yup.string().min(4).required(),
+      new_password: Yup.string().min(4).required(),
     }),
     validate
   });
@@ -69,8 +67,8 @@ const ChangePassword: React.FC<Props> = ({ onSubmit }) => {
           onChange={handleChange}
           onBlur={handleBlur}
           name="pld_password"
-          error={touched && errors.old_password}
-          value={values.old_password}
+          error={touched && errors.current_password}
+          value={values.current_password}
           style={{
             marginBottom: 30,
           }}

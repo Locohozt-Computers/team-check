@@ -12,5 +12,5 @@ export type SigninUserType = Pick<SignupUserType, 'email' | 'password'>
 
 export type ChangePasswordType = {
     new_password: string;
-    old_password: string;
+    current_password: string;
 }
