@@ -12,6 +12,7 @@ import EmailVerificationPage from "pages/EmailVerificationPage";
 import ResetPasswordPage from "pages/ResetPasswordPage";
 import RegisteredPhonesPage from "pages/RegisteredPhonesPage";
 import WalletPage from "pages/WalletPage";
+import ProfilePage from "pages/ProfilePage";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -33,7 +34,7 @@ function App() {
           path="/wallet"
           component={WalletPage}
         />
-        <PrivateRoute isAuth={true} exact path="/user" component={HomePage} />
+        <PrivateRoute isAuth={true} exact path="/user" component={ProfilePage} />
         <Route exact path="/auth/signin" component={SignInPage} />
         <Route exact path="/auth/signup" component={SignUpPage} />
         <Route

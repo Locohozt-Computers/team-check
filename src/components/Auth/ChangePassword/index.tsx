@@ -1,14 +1,13 @@
 import React from "react";
-import { useHistory, useLocation } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import queryString from "query-string";
 
 import CustomButton from "components/ui/CustomButton";
 import InputWithLabel from "components/ui/InputWithLabel";
 import { Container, Form } from "./style";
 import { ErrorLabel } from "../common/style";
 import { onSubmitType } from "../SignIn";
+import { ChangePasswordType } from "types/authTypes";
 
 export type ResetType = {
   password: string;
@@ -18,21 +17,17 @@ export type ResetType = {
 };
 
 type Props = {
-  onSubmit: onSubmitType<ResetType>;
+  onSubmit: onSubmitType<ChangePasswordType>;
 };
 
-const ResetPassword: React.FC<Props> = ({ onSubmit }) => {
-  const history = useHistory();
-  const location = useLocation();
+const ChangePassword: React.FC<Props> = ({ onSubmit }) => {
 
-  const queryParams: any = queryString.parse(location.search);
+  const validate = (values: Partial<ChangePasswordType>) => {
+    const errors: Partial<ChangePasswordType> = {};
 
-  const validate = (values: Partial<ResetType>) => {
-    const errors: Partial<ResetType> = {};
-
-    if (values.password !== values.password_confirmation) {
-      errors.password_confirmation = "Password does not match";
-    }
+    // if (values.new_password !== values.password_confirmation) {
+    //   errors.password_confirmation = "Password does not match";
+    // }
 
     return errors;
   };
@@ -45,12 +40,10 @@ const ResetPassword: React.FC<Props> = ({ onSubmit }) => {
     touched,
     handleBlur,
     isSubmitting,
-  } = useFormik<ResetType>({
+  } = useFormik<ChangePasswordType>({
     initialValues: {
-      password: "",
-      password_confirmation: "",
-      email: queryParams?.email,
-      token: queryParams?.token,
+      new_password: "",
+      old_password: "",
     },
     onSubmit,
     validationSchema: Yup.object({
@@ -65,53 +58,47 @@ const ResetPassword: React.FC<Props> = ({ onSubmit }) => {
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
-        <h1>Reset Password</h1>
+        <h1>Change Password</h1>
         <ErrorLabel textAlign="center">
           {typeof errors === "string" ? errors : null}
         </ErrorLabel>
         <InputWithLabel
-          placeholder="Password"
-          label="Password"
+          placeholder="Old Password"
+          label="Old Password"
           type="password"
           onChange={handleChange}
           onBlur={handleBlur}
-          name="password"
-          error={touched && errors.password}
-          value={values.password}
+          name="pld_password"
+          error={touched && errors.old_password}
+          value={values.old_password}
           style={{
             marginBottom: 30,
           }}
         />
         <InputWithLabel
-          placeholder="Confirm Password"
-          label="Confirm Password"
+          placeholder="New Password"
+          label="New Password"
           type="password"
           onChange={handleChange}
           onBlur={handleBlur}
-          name="password_confirmation"
-          error={touched && errors.password_confirmation}
-          value={values.password_confirmation}
+          name="new_password"
+          error={touched && errors.new_password}
+          value={values.new_password}
           style={{
             marginBottom: 30,
           }}
         />
         <CustomButton
-          testId="reset-password-btn"
-          label={"Submit Email"}
+          testId="change-password-btn"
+          label={"Change Password"}
           type={"submit"}
           disabled={isSubmitting}
           background={isSubmitting ? "#f1f1f7" : "#177BFF"}
           loading={isSubmitting}
         />
-        <div className="flex">
-          <p className="forgot-password">
-            Go back to{" "}
-            <span onClick={() => history.push("/auth/signin")}>Signin</span>
-          </p>
-        </div>
       </Form>
     </Container>
   );
 };
 
-export default ResetPassword;
+export default ChangePassword;
