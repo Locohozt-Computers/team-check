@@ -6,6 +6,7 @@ export const Dashboard = styled.div<{ isCollapse?: boolean }>`
   display: grid;
   grid-template-columns: ${({ isCollapse }) =>
     isCollapse ? "50px auto" : "200px auto"};
+  overflow-y: hidden;
 
   @media(width: 600px) {
     grid-template-columns: 50px auto;
@@ -18,4 +19,8 @@ export const Sidebar = styled.div`
 
 export const Content = styled.div`
   /* background-color: blue; */
+`;
+
+export const InnerContent = styled.div`
+  padding: 2% 4%;
 `;

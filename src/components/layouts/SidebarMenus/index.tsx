@@ -58,7 +58,7 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
 
   return (
     <Menus>
-      <MenuName>{isMobile ? mobileMenuName() : desktopMenuName()}</MenuName>
+      <MenuName>{isShowOrHideIconLabel ? mobileMenuName() : desktopMenuName()}</MenuName>
       <MenuLists>
         <MenuList isCollapse={isCollapse} to="/home" activeClassName="selected">
           <ShowMenu
@@ -80,7 +80,7 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
         </MenuList>
         <MenuList
           isCollapse={isCollapse}
-          to="/services"
+          to="/wallet"
           activeClassName="selected"
         >
           <ShowMenu

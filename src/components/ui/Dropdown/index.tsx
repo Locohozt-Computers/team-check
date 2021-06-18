@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import { LayoutContext } from "context/layout/LayoutProvider";
+import React, { FC, useContext } from "react";
 import { useHistory } from "react-router";
 import { DropdownContainer } from "./style";
 
@@ -11,6 +12,9 @@ type Props = {
 };
 
 const Dropdown: FC<Props> = ({ menus = [] }) => {
+  const { closeAvatarMenu } =
+    useContext(LayoutContext);
+
   const history = useHistory();
 
   return (
@@ -23,9 +27,11 @@ const Dropdown: FC<Props> = ({ menus = [] }) => {
             if (menu.name === "Logout") {
               localStorage.removeItem("techCheckPoint");
               history.push(menu.route);
+              closeAvatarMenu();
               return;
             }
             history.push(menu.route);
+            closeAvatarMenu();
           }}
         >
           {menu.name}

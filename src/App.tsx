@@ -10,6 +10,8 @@ import PrivateRoute from "route/PrivateRoute";
 import ForgotPasswordPage from "pages/ForgotPasswordPage";
 import EmailVerificationPage from "pages/EmailVerificationPage";
 import ResetPasswordPage from "pages/ResetPasswordPage";
+import RegisteredPhonesPage from "pages/RegisteredPhonesPage";
+import WalletPage from "pages/WalletPage";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -19,18 +21,31 @@ function App() {
       <Switch>
         <Route exact path="/" component={SearchPage} />
         <PrivateRoute isAuth={true} exact path="/home" component={HomePage} />
-        <PrivateRoute isAuth={true} exact path="/phones" component={HomePage} />
         <PrivateRoute
           isAuth={true}
           exact
-          path="/services"
-          component={HomePage}
+          path="/phones"
+          component={RegisteredPhonesPage}
+        />
+        <PrivateRoute
+          isAuth={true}
+          exact
+          path="/wallet"
+          component={WalletPage}
         />
         <PrivateRoute isAuth={true} exact path="/user" component={HomePage} />
         <Route exact path="/auth/signin" component={SignInPage} />
         <Route exact path="/auth/signup" component={SignUpPage} />
-        <Route exact path="/auth/forgotpassword" component={ForgotPasswordPage} />
-        <Route exact path="/auth/emailverification" component={EmailVerificationPage} />
+        <Route
+          exact
+          path="/auth/forgotpassword"
+          component={ForgotPasswordPage}
+        />
+        <Route
+          exact
+          path="/auth/emailverification"
+          component={EmailVerificationPage}
+        />
         <Route exact path="/auth/reset" component={ResetPasswordPage} />
       </Switch>
     </Router>

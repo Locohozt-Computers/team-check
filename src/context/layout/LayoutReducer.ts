@@ -1,4 +1,4 @@
-import { InitialStateTypes, MOBILE_LAYOUT } from "./LayoutProvider";
+import { AVATAR_LAYOUT, InitialStateTypes, MOBILE_LAYOUT } from "./LayoutProvider";
 
 type State = InitialStateTypes;
 
@@ -13,6 +13,11 @@ const layoutReducer = (state: State, action: ActionType<boolean>) => {
       return {
         ...state,
         isMobile: action.payload,
+      };
+    case AVATAR_LAYOUT:
+      return {
+        ...state,
+        avatarMenu: action.payload,
       };
 
     default:

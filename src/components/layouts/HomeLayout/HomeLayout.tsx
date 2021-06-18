@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import Navbar from "../Navbar";
 import SideMenus from "../SidebarMenus";
 
-import { Content, Dashboard, Sidebar } from "./style";
+import { Content, Dashboard, Sidebar, InnerContent } from "./style";
 
 const HomeLayout: React.FC = ({ children }) => {
   const [isCollapse, setIsCollapse] = useState(false);
@@ -26,7 +26,7 @@ const HomeLayout: React.FC = ({ children }) => {
           isMobile={isMobile}
           user={user}
         />
-        {children}
+        <InnerContent>{children}</InnerContent>
       </Content>
     </Dashboard>
   );

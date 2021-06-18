@@ -9,7 +9,7 @@ export const MenuName = styled.div`
   height: 10vh;
   display: flex;
   align-items: center;
-  font-size: 25px;
+  font-size: 20px;
   padding-left: 15%;
 
   span {

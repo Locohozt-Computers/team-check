@@ -1,32 +1,44 @@
 import React, { Dispatch, SetStateAction } from "react";
 import HamBurger from "components/ui/HamBurger";
-import { useHistory } from "react-router";
 import { Container } from "./style";
 import { SignupUserType } from "types/authTypes";
+import Avatar from "components/ui/Avatar";
+import { menus } from "utils/data/menus";
 
 type Props = {
   isCollapse: boolean;
   setIsCollapse: Dispatch<SetStateAction<boolean>>;
   isMobile: boolean;
-  user: Partial<SignupUserType>
+  user: Partial<SignupUserType>;
 };
 
-const Navbar: React.FC<Props> = ({ isCollapse, setIsCollapse, isMobile, user }) => {
-  const history = useHistory();
+const Navbar: React.FC<Props> = ({
+  isCollapse,
+  setIsCollapse,
+  isMobile,
+  user,
+}) => {
 
   return (
     <Container>
-      {!isMobile ? <HamBurger isCollapse={isCollapse} setIsCollapse={setIsCollapse} /> : <div></div>}
+      {!isMobile ? (
+        <HamBurger isCollapse={isCollapse} setIsCollapse={setIsCollapse} />
+      ) : (
+        <div></div>
+      )}
       <div className="menu">
-        <p>{user?.username}</p>
-        <p
+        <Avatar
+          user={user}
+          menus={menus}
+        />
+        {/* <p
           onClick={() => {
             localStorage.removeItem("techCheckPoint");
             history.push("/auth/signin");
           }}
         >
           Logout
-        </p>
+        </p> */}
       </div>
     </Container>
   );

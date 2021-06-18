@@ -1,28 +1,20 @@
-import Dropdown from "components/ui/Dropdown";
-import React, { useState } from "react";
-import { getInitialCharacter } from "utils/getInitialCharacter";
+import React from "react";
+
+import Avatar from "components/ui/Avatar";
+import { menus } from "utils/data/menus";
 import {
   MenuName,
   Menus,
   NavbarLink,
   NavbarMenu,
-  InitialCharacter,
 } from "./style";
 
-const menus = [
-  {id: 1, name: 'Dashboard', route: '/home'},
-  {id: 2, name: 'Logout', route: '/auth/signin'},
-]
-
 const AuthNavbar = () => {
-  const [collapse, setCollapse] = useState(false);
 
   let user: any = localStorage.getItem("techCheckPoint");
   user = JSON.parse(user);
 
   let token = user?.token;
-
-  const getInitials = getInitialCharacter(user);
 
   return (
     <NavbarMenu>
@@ -33,17 +25,10 @@ const AuthNavbar = () => {
       </MenuName>
       <div>
         {token ? (
-          <InitialCharacter
-            onMouseEnter={() => {
-              setCollapse(true);
-            }}
-            onMouseLeave={() => {
-              setCollapse(false);
-            }}
-          >
-            <span>{getInitials}</span>
-            {collapse && <Dropdown menus={menus} />}
-          </InitialCharacter>
+          <Avatar
+            user={user}
+            menus={menus}
+          />
         ) : (
           <Menus>
             <NavbarLink to="/auth/signin" activeClassName="selected">
