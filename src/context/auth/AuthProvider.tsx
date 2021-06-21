@@ -101,7 +101,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const changePasswordContext = async (passwords: ChangePasswordType) => {
     try {
-      const data = await createHttp("/changepassword", passwords);
+      const data = await createHttp("/change-password", passwords);
       dispatch({ type: FORGOT_PASSWORD, payload: data });
     } catch (error) {
       if (!error?.response) {
