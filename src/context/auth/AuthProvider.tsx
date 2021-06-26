@@ -68,9 +68,13 @@ const AuthProvider: React.FC = ({ children }) => {
     } catch (error) {
       if (!error?.response) {
         errorNotify("Network went wrong!!!");
+
+        // eslint-disable-next-line
         throw "";
       }
       authErrorHandler(error);
+
+      // eslint-disable-next-line
       throw "";
     }
   };

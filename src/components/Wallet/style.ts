@@ -59,6 +59,7 @@ export const TransactionStyle = styled.div`
 export const TransactionListStyle = styled.div`
   display: grid;
   grid-template-columns: 50px 100px repeat(auto-fit, minmax(10px, 1fr));
+  align-items: center;
   padding: 10px 0;
 
   .transaction_type {

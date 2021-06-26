@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
-import Transactions from './Transactions'
+import Transactions from "./Transactions";
 import { Container } from "./style";
 import WalletCard from "./WalletCard";
 import CustomButton from "components/ui/CustomButton";
 import CustomInput from "components/ui/CustomInput";
+import FundWallet from "./FundWallet";
 
 const WalletComponent = () => {
+  const [showFundWalletModal, setShowFundWalletModal] = useState(false);
   return (
     <HomeLayout>
       <Container>
@@ -28,8 +30,13 @@ const WalletComponent = () => {
             label="Fund Wallet"
             background="#177BFF"
             style={{ flex: 1, marginLeft: 30 }}
+            onClick={() => setShowFundWalletModal(true)}
           />
         </div>
+        <FundWallet
+          setShowFundWalletModal={setShowFundWalletModal}
+          showFundWalletModal={showFundWalletModal}
+        />
         <Transactions />
       </Container>
     </HomeLayout>

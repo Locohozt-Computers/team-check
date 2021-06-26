@@ -9,6 +9,7 @@ type Props = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   style?: CSSProperties;
+  inputStyle?: CSSProperties;
   showIcon?: boolean | undefined;
 };
 
@@ -20,15 +21,17 @@ const CustomInput: React.FC<Props> = ({
   onChange,
   onBlur,
   style,
+  inputStyle,
   showIcon,
 }) => {
   return (
     <InputDiv style={style}>
       {showIcon && <i className="fas fa-search"></i>}
       <Input
+        style={inputStyle}
         type={type}
         id={name}
-        value={value}
+        // value={value}
         name={name}
         placeholder={placeholder}
         onChange={onChange}

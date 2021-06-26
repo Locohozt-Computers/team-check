@@ -16,6 +16,7 @@ import WalletPage from "pages/WalletPage";
 import ProfilePage from "pages/ProfilePage";
 
 import "react-toastify/dist/ReactToastify.css";
+import "antd/dist/antd.css";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
