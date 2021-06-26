@@ -42,3 +42,40 @@ export const WalletCardStyle = styled.div`
     font-size: 35px;
   }
 `;
+
+export const TransactionStyle = styled.div`
+  padding-top: 20px;
+
+  h1 {
+    color: #454e6a;
+    margin-bottom: 20px;
+  }
+`;
+
+export const TransactionListStyle = styled.div`
+  display: grid;
+  grid-template-columns: 50px 100px repeat(auto-fit, minmax(10px, 1fr));
+  padding: 10px 0;
+
+  .transaction_type {
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    background-color: green;
+    color: white;
+    line-height: 25px;
+    text-align: center;
+  }
+
+  .transaction_amount {
+    color: #5e667f;
+  }
+
+  .transaction_description {
+    color: #3F4868;
+  }
+
+  .transaction_date {
+    color: #3F4868;
+  }
+`;

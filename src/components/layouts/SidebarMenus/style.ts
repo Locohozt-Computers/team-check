@@ -17,7 +17,7 @@ export const MenuName = styled.div`
   }
 
   .blue {
-    color: blue;
+    color: #177BFF;
   }
   .red {
     color: orangered;

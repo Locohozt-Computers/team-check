@@ -1,6 +1,7 @@
 import React from "react";
 
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
+import Transactions from './Transactions'
 import { Container } from "./style";
 import WalletCard from "./WalletCard";
 import CustomButton from "components/ui/CustomButton";
@@ -19,11 +20,17 @@ const WalletComponent = () => {
             style={{ width: "100%", padding: "10px", flex: 4 }}
           />
           <CustomButton
-            label="Fund Your Wallet"
+            label="Transfer"
             background="violet"
-            style={{ flex: 2, marginLeft: 30 }}
+            style={{ flex: 1, marginLeft: 30 }}
+          />
+          <CustomButton
+            label="Fund Wallet"
+            background="#177BFF"
+            style={{ flex: 1, marginLeft: 30 }}
           />
         </div>
+        <Transactions />
       </Container>
     </HomeLayout>
   );
