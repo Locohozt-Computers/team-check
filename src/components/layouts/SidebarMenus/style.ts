@@ -26,19 +26,22 @@ export const MenuName = styled.div`
     color: orchid;
   }
 `;
-export const MenuLists = styled.div`
+export const MenuLists = styled.div<{ isCollapse?: boolean }>`
   display: flex;
   flex-direction: column;
   margin-top: 10%;
+  padding-left: ${({ isCollapse }) => (isCollapse ? "5px" : "15px")};
 
   .selected {
     background-color: #f1f1f7;
     text-decoration: none;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
   }
 `;
-export const MenuList = styled(NavLink)<{isCollapse?: boolean}>`
+export const MenuList = styled(NavLink)<{ isCollapse?: boolean }>`
   padding: 15px 0;
-  padding-left: ${({isCollapse}) => isCollapse ? "30%" : "15%"};
+  padding-left: ${({ isCollapse }) => (isCollapse ? "30%" : "15%")};
   text-decoration: none;
   color: #555555;
 

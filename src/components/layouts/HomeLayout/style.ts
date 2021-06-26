@@ -5,7 +5,7 @@ export const Dashboard = styled.div<{ isCollapse?: boolean }>`
   background-color: #f1f1f7;
   display: grid;
   grid-template-columns: ${({ isCollapse }) =>
-    isCollapse ? "50px auto" : "200px auto"};
+    isCollapse ? "50px auto" : "300px auto"};
   overflow-y: hidden;
 
   @media(width: 600px) {
