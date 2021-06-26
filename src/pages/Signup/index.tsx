@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 import SignUpComponent from "components/Auth/SignUp";
 import { AuthContext } from "context/auth/AuthProvider";
-import { useHistory } from "react-router-dom";
 import { SignupUserType } from "types/authTypes";
 import { getRole } from "components/helpers/getRole";
 import { onSubmitActionType } from "components/Auth/SignIn";

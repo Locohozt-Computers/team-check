@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 
 import SignInPage from "pages/Signin";
 import SignUpPage from "pages/Signup";
@@ -13,6 +14,8 @@ import ResetPasswordPage from "pages/ResetPasswordPage";
 import RegisteredPhonesPage from "pages/RegisteredPhonesPage";
 import WalletPage from "pages/WalletPage";
 import ProfilePage from "pages/ProfilePage";
+
+import "react-toastify/dist/ReactToastify.css";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -34,7 +37,12 @@ function App() {
           path="/wallet"
           component={WalletPage}
         />
-        <PrivateRoute isAuth={true} exact path="/user" component={ProfilePage} />
+        <PrivateRoute
+          isAuth={true}
+          exact
+          path="/user"
+          component={ProfilePage}
+        />
         <Route exact path="/auth/signin" component={SignInPage} />
         <Route exact path="/auth/signup" component={SignUpPage} />
         <Route
@@ -49,6 +57,7 @@ function App() {
         />
         <Route exact path="/auth/reset" component={ResetPasswordPage} />
       </Switch>
+      <ToastContainer />
     </Router>
   );
 }

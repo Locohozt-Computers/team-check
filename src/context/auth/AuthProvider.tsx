@@ -6,6 +6,8 @@ import {
   SignupUserType,
 } from "types/authTypes";
 import { createHttp } from "utils/api/createHttp";
+import { authErrorHandler } from "utils/CatchErrors";
+import { errorNotify } from "utils/errorMessage";
 import authReducer from "./Authreducer";
 
 let user: any = localStorage.getItem("techCheckPoint");
@@ -53,10 +55,9 @@ const AuthProvider: React.FC = ({ children }) => {
       dispatch({ type: SIGNIN, payload: data });
     } catch (error) {
       if (!error?.response) {
-        // eslint-disable-next-line
-        throw "Network went wrong!!!";
+        errorNotify("Network went wrong!!!");
       }
-      throw error?.response?.data?.message;
+      authErrorHandler(error);
     }
   };
 
@@ -66,10 +67,11 @@ const AuthProvider: React.FC = ({ children }) => {
       dispatch({ type: SIGNUP, payload: data });
     } catch (error) {
       if (!error?.response) {
-        // eslint-disable-next-line
-        throw "Network went wrong!!!";
+        errorNotify("Network went wrong!!!");
+        throw "";
       }
-      throw error?.response?.data?.message;
+      authErrorHandler(error);
+      throw "";
     }
   };
 
