@@ -52,10 +52,19 @@ const Button = styled.button<{ background?: string; width?: string }>`
   background: ${({ background }) => (background ? background : "white")};
   outline: none;
   border: none;
-  padding: 10px;
+  padding: 10px 10px;
   width: ${({ width }) => (width ? width : "100%")};
   border-radius: 4px;
   color: ${({ background }) => (background ? "white" : "")};
+
+  @media(max-width: 768px){
+    font-size: 12px;
+  }
+
+  @media(max-width: 500px){
+    font-size: 10px;
+    padding: 10px 0;
+  }
 `;
 
 export default CustomButton;

@@ -7,11 +7,38 @@ export const Container = styled.div`
   overflow-y: auto;
   background-color: white;
 
-  h1 {
+  .hi {
+    color: #454e6a;
     margin-bottom: 40px;
   }
 
-  @media(max-width: 768px) {
+  .name {
+    color: #454e6a;
+  }
+
+  .fund_btn {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 768px) {
     height: 86vh;
+  }
+`;
+
+export const WalletCardStyle = styled.div`
+  height: 200px;
+  background-color: coral;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+
+  h1 {
+    margin: 0;
+    color: white;
+    font-size: 35px;
   }
 `;
