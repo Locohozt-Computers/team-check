@@ -24,6 +24,8 @@ const PaymentComponent: React.FC<Props> = ({
 
   async function confirm(obj: any) {
     console.log(obj);
+    setShowFundWalletModal(false);
+    setShowModal(false);
   }
 
   return (
@@ -72,12 +74,12 @@ const PaymentComponent: React.FC<Props> = ({
                 onChange={({
                   target: { value },
                 }: ChangeEvent<HTMLInputElement>) => setAmount(parseInt(value))}
-                inputStyle={{color: 'white'}}
+                inputStyle={{ color: "white" }}
               />
               <br />
               <ButtonStyle
                 disabled={!amount}
-                style={{padding: 10}}
+                style={{ padding: 10 }}
                 onClick={() => {
                   setAmount(amount);
                   setShowModal(true);
@@ -108,7 +110,7 @@ const PaymentComponent: React.FC<Props> = ({
                 style={{ marginRight: 10, padding: 0 }}
               /> */}
               <ButtonStyle
-              style={{padding: 2}}
+                style={{ padding: 2 }}
                 disabled={!amount}
                 onClick={() => {
                   setAmount(0);
@@ -142,7 +144,7 @@ const PaymentComponent: React.FC<Props> = ({
                   creator_id={0}
                   label={"Pay"}
                   showNumber={false}
-                  route="/user/wallet"
+                  route="/wallet"
                 />
               )}
             </div>
