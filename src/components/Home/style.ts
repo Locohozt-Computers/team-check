@@ -8,10 +8,15 @@ export const Container = styled.div`
   background-color: white;
 
   h1 {
-    margin-bottom: 40px;
+    margin-bottom: 5px;
+    color: #c5c7e2;
   }
 
-  @media(max-width: 768px) {
+  h2 {
+    color: #3f4868;
+  }
+
+  @media (max-width: 768px) {
     height: 86vh;
   }
 `;

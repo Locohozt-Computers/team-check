@@ -5,7 +5,7 @@ export const Container = styled.div`
   height: 84vh;
   padding: 2%;
   overflow-y: auto;
-  background-color: white;
+  background-color: #f1f1f7;
 
   .hi {
     color: #454e6a;
@@ -19,7 +19,7 @@ export const Container = styled.div`
   .fund_btn {
     display: flex;
     justify-content: space-between;
-    margin-top: 40px;
+    margin-top: 20px;
   }
 
   @media (max-width: 768px) {
@@ -29,7 +29,7 @@ export const Container = styled.div`
 
 export const WalletCardStyle = styled.div`
   height: 200px;
-  background-color: coral;
+  background-color: white;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -38,13 +38,17 @@ export const WalletCardStyle = styled.div`
 
   h1 {
     margin: 0;
-    color: white;
+    color: #454e6a;
     font-size: 35px;
   }
 `;
 
 export const TransactionStyle = styled.div`
   padding-top: 20px;
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 20px;
+  padding: 16px;
 
   h1 {
     color: #454e6a;
