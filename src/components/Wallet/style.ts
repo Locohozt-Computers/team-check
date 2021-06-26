@@ -22,8 +22,24 @@ export const Container = styled.div`
     margin-top: 20px;
   }
 
+  .fund_transfer_btn,
+  .fund_wallet_btn {
+    flex: 1;
+    margin-left: 30px;
+  }
+
   @media (max-width: 768px) {
     height: 86vh;
+
+    .fund_btn {
+      flex-direction: column;
+    }
+
+    .fund_transfer_btn,
+    .fund_wallet_btn {
+      margin-left: 0px;
+      margin-top: 10px;
+    }
   }
 `;
 
@@ -77,10 +93,10 @@ export const TransactionListStyle = styled.div`
   }
 
   .transaction_description {
-    color: #3F4868;
+    color: #3f4868;
   }
 
   .transaction_date {
-    color: #3F4868;
+    color: #3f4868;
   }
 `;

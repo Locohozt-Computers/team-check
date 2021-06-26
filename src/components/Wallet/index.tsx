@@ -24,13 +24,13 @@ const WalletComponent = () => {
           <CustomButton
             label="Transfer"
             background="violet"
-            style={{ flex: 1, marginLeft: 30 }}
+            className="fund_transfer_btn"
           />
           <CustomButton
-            label="Fund Wallet"
+            label="Fund"
             background="#177BFF"
-            style={{ flex: 1, marginLeft: 30 }}
             onClick={() => setShowFundWalletModal(true)}
+            className="fund_wallet_btn"
           />
         </div>
         <FundWallet

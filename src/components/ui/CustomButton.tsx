@@ -11,6 +11,7 @@ type Props = {
   testId?: string;
   disabled?: boolean;
   loading?: boolean;
+  className?: string;
 };
 
 const defaultStyle: CSSProperties = {
@@ -27,9 +28,10 @@ const CustomButton: FC<Props> = ({
   testId,
   disabled,
   loading = false,
+  className,
 }) => {
   return (
-    <ButtonDiv style={{ ...style }} onClick={onClick}>
+    <ButtonDiv style={{ ...style }} onClick={onClick} className={className}>
       <Button
         style={{ cursor: loading ? "not-allow" : "pointer" }}
         data-testid={testId}
@@ -57,11 +59,11 @@ const Button = styled.button<{ background?: string; width?: string }>`
   border-radius: 4px;
   color: ${({ background }) => (background ? "white" : "")};
 
-  @media(max-width: 768px){
+  @media (max-width: 768px) {
     font-size: 12px;
   }
 
-  @media(max-width: 500px){
+  @media (max-width: 500px) {
     font-size: 10px;
     padding: 10px 0;
   }
