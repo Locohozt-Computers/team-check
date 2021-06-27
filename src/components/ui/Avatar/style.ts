@@ -5,6 +5,7 @@ export const InitialCharacter = styled.div`
   height: 30px;
   border-radius: 50px;
   background-color: violet;
+  color: white;
   text-align: center;
   line-height: 30px;
   position: relative;

@@ -1,4 +1,6 @@
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
+import Avatar from "components/ui/Avatar";
+import { AuthContext } from "context/auth/AuthProvider";
 import { useHistory } from "react-router-dom";
 
 import { Menus, MenuName, MenuLists, MenuList } from "./style";
@@ -26,9 +28,11 @@ const ShowMenu = ({
 const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
   const history = useHistory();
 
+  const { user } = useContext(AuthContext);
+
   const desktopMenuName = () => (
-    <div>
-      <span className="blue" onClick={() => history.push("/")}>
+    <div className="profile" onClick={() => history.push("/")}>
+      {/* <span className="blue" onClick={() => history.push("/")}>
         Tech
       </span>
       <span className="red" onClick={() => history.push("/")}>
@@ -36,13 +40,15 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
       </span>
       <span className="yellow" onClick={() => history.push("/")}>
         Point
-      </span>
+      </span> */}
+      <Avatar user={{ username: "Bibi" }} />
+      <p className="username">{user.username}</p>
     </div>
   );
 
   const mobileMenuName = () => (
-    <div>
-      <span className="blue" onClick={() => history.push("/")}>
+    <div className="profile" onClick={() => history.push("/")}>
+      {/* <span className="blue" onClick={() => history.push("/")}>
         T
       </span>
       <span className="red" onClick={() => history.push("/")}>
@@ -50,7 +56,8 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
       </span>
       <span className="yellow" onClick={() => history.push("/")}>
         P
-      </span>
+      </span> */}
+      <Avatar user={{ username: "Bibi" }} />
     </div>
   );
 
@@ -58,7 +65,9 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
 
   return (
     <Menus>
-      <MenuName>{isShowOrHideIconLabel ? mobileMenuName() : desktopMenuName()}</MenuName>
+      <MenuName>
+        {isShowOrHideIconLabel ? mobileMenuName() : desktopMenuName()}
+      </MenuName>
       <MenuLists isCollapse={isCollapse}>
         <MenuList isCollapse={isCollapse} to="/home" activeClassName="selected">
           <ShowMenu

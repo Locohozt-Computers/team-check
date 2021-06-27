@@ -12,12 +12,24 @@ export const MenuName = styled.div`
   font-size: 20px;
   padding-left: 15%;
 
+  .profile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .username {
+    font-size: 14px;
+    margin: 0;
+    margin-left: 10px;
+  }
+
   span {
     cursor: pointer;
   }
 
   .blue {
-    color: #177BFF;
+    color: #177bff;
   }
   .red {
     color: orangered;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { usePaystackPayment } from "react-paystack";
 import { useHistory } from "react-router";
 import styled from "styled-components";
@@ -8,6 +8,7 @@ type PProps = {
   email: string;
   handleSuccess?: any;
   handleClose?: any;
+  setStateAmount?: Dispatch<SetStateAction<number | string>>;
   saveTransaction?: any;
   description?: string;
   background?: string;
@@ -28,6 +29,7 @@ const PayStack = ({
   email,
   handleSuccess,
   handleClose,
+  setStateAmount,
   saveTransaction,
   description,
   trans_type = 1,
@@ -49,7 +51,7 @@ const PayStack = ({
     amount: amount * 100,
     publicKey: PAYSTACK_PUB_KEY,
     metadata: {
-      user_id: '',
+      user_id: "",
       description,
       trans_type,
       creator_id,
@@ -67,6 +69,15 @@ const PayStack = ({
         amount: amount - charges,
         reference: response?.reference,
       });
+
+      if (setStateAmount) {
+        setStateAmount(amount - charges);
+      }
+
+      localStorage.setItem(
+        "techCheckPointAmount",
+        JSON.stringify({ ...response, amount: amount - charges })
+      );
     };
 
     fundWallet();

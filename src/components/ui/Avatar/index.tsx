@@ -6,22 +6,27 @@ import Dropdown from "../Dropdown";
 import { InitialCharacter } from "./style";
 
 type Props = {
-    user: Partial<SignupUserType>;
-    menus?: any;
-}
+  user: Partial<SignupUserType>;
+  menus?: any;
+};
 
 const Avatar: React.FC<Props> = ({ user, menus }) => {
-const {avatarMenu, openAvatarMenu, closeAvatarMenu} = useContext(LayoutContext);
+  const { avatarMenu, openAvatarMenu, closeAvatarMenu } =
+    useContext(LayoutContext);
 
   const getInitials = getInitialCharacter(user);
 
   return (
     <InitialCharacter
       onMouseEnter={() => {
-        openAvatarMenu();
+        if (menus?.length) {
+          openAvatarMenu();
+        }
       }}
       onMouseLeave={() => {
-        closeAvatarMenu();
+        if (menus?.length) {
+          closeAvatarMenu();
+        }
       }}
     >
       <span>{getInitials}</span>

@@ -7,14 +7,21 @@ import WalletCard from "./WalletCard";
 import CustomButton from "components/ui/CustomButton";
 import CustomInput from "components/ui/CustomInput";
 import FundWallet from "./FundWallet";
+import { formatPrice } from "utils/formatPrice";
 
 const WalletComponent = () => {
   const [showFundWalletModal, setShowFundWalletModal] = useState(false);
+
+  const payments: any = localStorage.getItem("techCheckPointAmount");
+  const walletObj = JSON.parse(payments);
+
+  const [amount, setAmount] = useState(walletObj?.amount ?? 0);
+
   return (
     <HomeLayout>
       <Container>
         <h1 className="hi">Wallet</h1>
-        <WalletCard amount="5,000" label="Wallet Balance" />
+        <WalletCard amount={formatPrice(amount)} label="Wallet Balance" />
         <div className="fund_btn">
           <CustomInput
             onChange={() => {}}
@@ -34,6 +41,7 @@ const WalletComponent = () => {
           />
         </div>
         <FundWallet
+          setAmount={setAmount}
           setShowFundWalletModal={setShowFundWalletModal}
           showFundWalletModal={showFundWalletModal}
         />

@@ -10,12 +10,14 @@ import CustomInput from "components/ui/CustomInput";
 
 type Props = {
   setShowFundWalletModal: Dispatch<SetStateAction<boolean>>;
+  setAmount: Dispatch<SetStateAction<number | string>>;
   showFundWalletModal: boolean;
 };
 
 const PaymentComponent: React.FC<Props> = ({
   setShowFundWalletModal,
   showFundWalletModal,
+  setAmount: setStateAmount
 }) => {
   const [amountCharges] = useState(0);
   const [amount, setAmount] = useState<number>(0);
@@ -101,14 +103,6 @@ const PaymentComponent: React.FC<Props> = ({
             <h1>Paystack Charge</h1>
             <p>Pay stack charges you {formatPrice(paystackCharge(amount))}</p>
             <div className="action_btns">
-              {/* <CustomButton
-                label="Cancel"
-                onClick={() => {
-                  setAmount(0);
-                  setShowModal(false);
-                }}
-                style={{ marginRight: 10, padding: 0 }}
-              /> */}
               <ButtonStyle
                 style={{ padding: 2 }}
                 disabled={!amount}
@@ -139,6 +133,7 @@ const PaymentComponent: React.FC<Props> = ({
                   charges={paystackCharge(amount)}
                   email={"test@example.com"}
                   handleClose={() => {}}
+                  setStateAmount={setStateAmount}
                   saveTransaction={confirm}
                   description={`Fund wallet with ${amount}`}
                   creator_id={0}
