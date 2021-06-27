@@ -25,7 +25,7 @@ export const createHttp = async <T>(path: string, payload: T) => {
     },
   });
 
-  return response?.data;
+  return response?.data?.data;
 };
 
 export const createResponseType = typeof createHttp;

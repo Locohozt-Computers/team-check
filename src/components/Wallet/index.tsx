@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
 import Transactions from "./Transactions";
@@ -8,14 +8,14 @@ import CustomButton from "components/ui/CustomButton";
 import CustomInput from "components/ui/CustomInput";
 import FundWallet from "./FundWallet";
 import { formatPrice } from "utils/formatPrice";
+import { AuthContext } from "context/auth/AuthProvider";
 
 const WalletComponent = () => {
   const [showFundWalletModal, setShowFundWalletModal] = useState(false);
 
-  const payments: any = localStorage.getItem("techCheckPointAmount");
-  const walletObj = JSON.parse(payments);
+  const { user } = useContext(AuthContext);
 
-  const [amount, setAmount] = useState(walletObj?.amount ?? 0);
+  const [amount, setAmount] = useState(user?.wallet_balance ?? 0);
 
   return (
     <HomeLayout>
@@ -42,6 +42,7 @@ const WalletComponent = () => {
         </div>
         <FundWallet
           setAmount={setAmount}
+          amount={amount}
           setShowFundWalletModal={setShowFundWalletModal}
           showFundWalletModal={showFundWalletModal}
         />

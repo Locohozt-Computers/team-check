@@ -77,9 +77,10 @@ export const TransactionStyle = styled.div`
   }
 `;
 
-export const TransactionListStyle = styled.div`
+export const TransactionListStyle = styled.div<{ status?: boolean }>`
   display: grid;
   grid-template-columns: 50px 100px repeat(auto-fit, minmax(10px, 1fr));
+  gap: 10px;
   align-items: center;
   padding: 10px 0;
 
@@ -87,7 +88,7 @@ export const TransactionListStyle = styled.div`
     width: 25px;
     height: 25px;
     border-radius: 4px;
-    background-color: green;
+    background-color: ${({ status }) => (status ? "green" : "red")};
     color: white;
     line-height: 25px;
     text-align: center;
@@ -103,5 +104,9 @@ export const TransactionListStyle = styled.div`
 
   .transaction_date {
     color: #3f4868;
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
   }
 `;

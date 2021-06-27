@@ -1,3 +1,4 @@
+import { AuthContext } from "context/auth/AuthProvider";
 import { WalletContext } from "context/wallet/WalletProvider";
 import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { usePaystackPayment } from "react-paystack";
@@ -10,12 +11,14 @@ type PProps = {
   email: string;
   handleSuccess?: any;
   handleClose?: any;
-  setStateAmount?: Dispatch<SetStateAction<number | string>>;
+  setStateAmount?: Dispatch<SetStateAction<number>>;
+  setShowFundWalletModal?: Dispatch<SetStateAction<boolean>>;
+  setShowModal?: Dispatch<SetStateAction<boolean>>;
+  stateAmount: number;
   saveTransaction?: any;
   description?: string;
   background?: string;
   trans_type?: number;
-  creator_id?: number;
   style?: any;
   onClick?: any;
   showNumber?: boolean;
@@ -32,10 +35,10 @@ const PayStack = ({
   handleSuccess,
   handleClose,
   setStateAmount,
+  stateAmount,
   saveTransaction,
-  description,
+  description = "Fund wallet",
   trans_type = 1,
-  creator_id,
   background = "transparent",
   style,
   showNumber,
@@ -43,11 +46,14 @@ const PayStack = ({
   onClick,
   charges,
   route = "/",
+  setShowFundWalletModal,
+  setShowModal,
 }: PProps) => {
   const [ref, setRef] = useState(new Date().getTime());
   const history = useHistory();
 
   const { fundWalletContext } = useContext(WalletContext);
+  const { user } = useContext(AuthContext);
 
   const config: any = {
     reference: ref,
@@ -55,10 +61,9 @@ const PayStack = ({
     amount: amount * 100,
     publicKey: PAYSTACK_PUB_KEY,
     metadata: {
-      user_id: "",
+      user_id: user.id,
       description,
       trans_type,
-      creator_id,
       charges,
     },
   };
@@ -68,7 +73,6 @@ const PayStack = ({
   // you can call this function anything
   const onSuccess = (response: any) => {
     const fundWallet = async () => {
-      console.log(response);
       try {
         await fundWalletContext({
           trxref: response?.trxref,
@@ -78,13 +82,15 @@ const PayStack = ({
 
         history.push(route);
         if (setStateAmount) {
-          setStateAmount(amount - charges);
+          setStateAmount(amount - charges + stateAmount);
+        }
+        if (setShowFundWalletModal) {
+          setShowFundWalletModal(false);
+        }
+        if (setShowModal) {
+          setShowModal(false);
         }
 
-        localStorage.setItem(
-          "techCheckPointAmount",
-          JSON.stringify({ ...response, amount: amount - charges })
-        );
         successNotify("Successfully funded your wallet");
       } catch (error) {}
     };

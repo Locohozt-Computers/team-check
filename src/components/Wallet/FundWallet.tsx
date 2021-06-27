@@ -1,4 +1,10 @@
-import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
 import styled from "styled-components";
 
 import PayStack from "utils/PayStack";
@@ -7,18 +13,23 @@ import CustomModalUI from "components/ui/CustomModal";
 import Loader from "components/ui/Loader";
 import { formatPrice } from "utils/formatPrice";
 import CustomInput from "components/ui/CustomInput";
+import { AuthContext } from "context/auth/AuthProvider";
 
 type Props = {
   setShowFundWalletModal: Dispatch<SetStateAction<boolean>>;
-  setAmount: Dispatch<SetStateAction<number | string>>;
+  setAmount: Dispatch<SetStateAction<number>>;
+  amount: number;
   showFundWalletModal: boolean;
 };
 
 const PaymentComponent: React.FC<Props> = ({
   setShowFundWalletModal,
   showFundWalletModal,
-  setAmount: setStateAmount
+  setAmount: setStateAmount,
+  amount: stateAmount,
 }) => {
+  const { user } = useContext(AuthContext);
+
   const [amountCharges] = useState(0);
   const [amount, setAmount] = useState<number>(0);
   const [index, setIndex] = useState<number>();
@@ -130,15 +141,17 @@ const PaymentComponent: React.FC<Props> = ({
                   style={{ height: 27, border: 0 }}
                   amount={amount ? paystackCharge(amount) + amount : 0}
                   charges={paystackCharge(amount)}
-                  email={"test@example.com"}
+                  email={user?.email ? user.email : ""}
                   handleClose={() => {}}
                   setStateAmount={setStateAmount}
+                  stateAmount={stateAmount}
                   saveTransaction={confirm}
                   description={`Fund wallet with ${amount}`}
-                  creator_id={0}
                   label={"Pay"}
                   showNumber={false}
                   route="/wallet"
+                  setShowFundWalletModal={setShowFundWalletModal}
+                  setShowModal={setShowModal}
                 />
               )}
             </div>

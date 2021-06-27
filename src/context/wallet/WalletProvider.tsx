@@ -14,13 +14,13 @@ export const FUND_WALLET = "FUND_WALLET";
 
 type ContextType = {
   transactions: Partial<WalletType>[];
-  fundWalletContext: (wallet: WalletType) => void;
+  fundWalletContext: (wallet: Partial<WalletType>) => void;
   getAllWalletTransactions: () => void;
 };
 
 export const WalletContext = createContext<ContextType>({
   transactions: [],
-  fundWalletContext: (wallet: WalletType) => {},
+  fundWalletContext: (wallet: Partial<WalletType>) => {},
   getAllWalletTransactions: () => {},
 });
 
@@ -39,7 +39,7 @@ const WalletProvider: React.FC = ({ children }) => {
     }
   };
 
-  const fundWalletContext = async (wallet: WalletType) => {
+  const fundWalletContext = async (wallet: Partial<WalletType>) => {
     try {
       const data = await createHttp("/wallet/fund", wallet);
       dispatch({ type: FUND_WALLET, payload: data });
