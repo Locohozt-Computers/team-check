@@ -1,7 +1,9 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import { WalletContext } from "context/wallet/WalletProvider";
+import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { usePaystackPayment } from "react-paystack";
 import { useHistory } from "react-router";
 import styled from "styled-components";
+import { successNotify } from "./errorMessage";
 
 type PProps = {
   amount: any;
@@ -45,6 +47,8 @@ const PayStack = ({
   const [ref, setRef] = useState(new Date().getTime());
   const history = useHistory();
 
+  const { fundWalletContext } = useContext(WalletContext);
+
   const config: any = {
     reference: ref,
     email,
@@ -64,25 +68,28 @@ const PayStack = ({
   // you can call this function anything
   const onSuccess = (response: any) => {
     const fundWallet = async () => {
-      await saveTransaction({
-        trxref: response?.trxref,
-        amount: amount - charges,
-        reference: response?.reference,
-      });
+      console.log(response);
+      try {
+        await fundWalletContext({
+          trxref: response?.trxref,
+          amount: amount - charges,
+          reference: response?.reference,
+        });
 
-      if (setStateAmount) {
-        setStateAmount(amount - charges);
-      }
+        history.push(route);
+        if (setStateAmount) {
+          setStateAmount(amount - charges);
+        }
 
-      localStorage.setItem(
-        "techCheckPointAmount",
-        JSON.stringify({ ...response, amount: amount - charges })
-      );
+        localStorage.setItem(
+          "techCheckPointAmount",
+          JSON.stringify({ ...response, amount: amount - charges })
+        );
+        successNotify("Successfully funded your wallet");
+      } catch (error) {}
     };
 
     fundWallet();
-
-    history.push(route);
 
     setRef(new Date().getTime());
   };

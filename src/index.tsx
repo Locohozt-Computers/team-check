@@ -5,13 +5,16 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import AuthProvider from "./context/auth/AuthProvider";
 import LayoutProvider from "context/layout/LayoutProvider";
+import WalletProvider from "context/wallet/WalletProvider";
 
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
-      <LayoutProvider>
-        <App />
-      </LayoutProvider>
+      <WalletProvider>
+        <LayoutProvider>
+          <App />
+        </LayoutProvider>
+      </WalletProvider>
     </AuthProvider>
   </React.StrictMode>,
   document.getElementById("root")

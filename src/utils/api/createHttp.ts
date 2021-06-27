@@ -1,17 +1,31 @@
-import axios from "axios"
+import axios from "axios";
 
-export const createHttp = async (path: string, payload: any) => {
-  const userObj: any = localStorage.getItem("techCheckPoint")
-  const token = JSON.parse(userObj)?.token
-  
+export const getHttp = async (path: string) => {
+  const userObj: any = localStorage.getItem("techCheckPoint");
+  const token = JSON.parse(userObj)?.token;
+
+  const response = await axios.get(path, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response?.data?.data;
+};
+
+export const createHttp = async <T>(path: string, payload: T) => {
+  const userObj: any = localStorage.getItem("techCheckPoint");
+  const token = JSON.parse(userObj)?.token;
+
   const response = await axios.post(path, payload, {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
-    }
-  })
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-  return response?.data?.data
-}
+  return response?.data;
+};
 
-export const createResponseType = typeof createHttp
+export const createResponseType = typeof createHttp;

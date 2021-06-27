@@ -25,7 +25,6 @@ const PaymentComponent: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
 
   async function confirm(obj: any) {
-    console.log(obj);
     setShowFundWalletModal(false);
     setShowModal(false);
   }

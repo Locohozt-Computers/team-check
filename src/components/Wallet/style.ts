@@ -70,6 +70,11 @@ export const TransactionStyle = styled.div`
     color: #454e6a;
     margin-bottom: 20px;
   }
+
+  .no_transaction {
+    text-align: center;
+    padding: 30px 0;
+  }
 `;
 
 export const TransactionListStyle = styled.div`
