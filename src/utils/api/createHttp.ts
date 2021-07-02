@@ -28,4 +28,18 @@ export const createHttp = async <T>(path: string, payload: T) => {
   return response?.data?.data;
 };
 
+export const createHttpWithMessage = async <T>(path: string, payload: T) => {
+  const userObj: any = localStorage.getItem("techCheckPoint");
+  const token = JSON.parse(userObj)?.token;
+
+  const response = await axios.post(path, payload, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response?.data?.message;
+};
+
 export const createResponseType = typeof createHttp;

@@ -15,6 +15,7 @@ import { formatPrice } from "utils/formatPrice";
 import CustomInput from "components/ui/CustomInput";
 import { AuthContext } from "context/auth/AuthProvider";
 import CustomButton from "components/ui/CustomButton";
+import { WalletContext } from "context/wallet/WalletProvider";
 
 type Props = {
   setShowTransferToBank: Dispatch<SetStateAction<boolean>>;
@@ -29,16 +30,20 @@ const TransferToBank: React.FC<Props> = ({
   setAmount: setStateAmount,
   amount: stateAmount,
 }) => {
-  const { profile } = useContext(AuthContext);
+  const { walletTransferToBank } = useContext(WalletContext);
 
   const [amount, setAmount] = useState<number>(0);
   const [index, setIndex] = useState<number>();
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function confirm() {
+    setLoading(true);
+    await walletTransferToBank(amount);
+    setLoading(false);
     setShowTransferToBank(false);
     setShowModal(false);
-    console.log(amount)
+    console.log(amount);
   }
 
   return (
@@ -131,7 +136,7 @@ const TransferToBank: React.FC<Props> = ({
                 </div>
               ) : (
                 <CustomButton
-                  label="Ok"
+                  label={loading ? "loading..." : "Ok"}
                   style={{ padding: "5px" }}
                   background="orangered"
                   onClick={confirm}

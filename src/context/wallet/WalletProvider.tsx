@@ -4,7 +4,7 @@ import {
   WalletTransferToBankType,
   WalletType,
 } from "types/walletTypes";
-import { createHttp, getHttp } from "utils/api/createHttp";
+import { createHttp, createHttpWithMessage, getHttp } from "utils/api/createHttp";
 import { authErrorHandler } from "utils/CatchErrors";
 import { errorNotify, successNotify } from "utils/errorMessage";
 import walletReducer from "./Walletreducer";
@@ -64,9 +64,9 @@ const WalletProvider: React.FC = ({ children }) => {
 
   const walletTransferToBank = async (amount: number) => {
     try {
-      const data = await createHttp("/wallet/transfer-to-bank", amount);
+      const data = await createHttpWithMessage("/wallet/transfer-to-bank", { amount });
       dispatch({ type: WALLET_TRANSFER_TO_BANK, payload: data });
-      successNotify("Bank added successfully!!");
+      successNotify(data);
     } catch (error) {
       if (!error?.response) {
         errorNotify("Network went wrong!!!");
