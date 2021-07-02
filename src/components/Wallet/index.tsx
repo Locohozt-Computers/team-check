@@ -22,8 +22,6 @@ const WalletComponent: React.FC<{
 
   const [amount, setAmount] = useState(profile?.walletBalance ?? 0);
 
-  console.log("profile === ", profile);
-
   return (
     <HomeLayout>
       <Container>
@@ -70,14 +68,18 @@ const WalletComponent: React.FC<{
                 <h1>Select Transfer Option</h1>
                 <p>Please select your mode of transfer</p>
                 <SelectActions>
-                  <SelectCard onClick={() => {}}>Wallet</SelectCard>
                   <SelectCard
                     onClick={() => {
                       setShowTransferToBank(true);
                       setShowModal(false);
                     }}
                   >
-                    Bank
+                    <i className="fas fa-university"></i>
+                    <span>Bank</span>
+                  </SelectCard>
+                  <SelectCard onClick={() => {}}>
+                    <i className="fas fa-wallet"></i>
+                    <span>Wallet</span>
                   </SelectCard>
                 </SelectActions>
               </SelectCards>
@@ -125,6 +127,14 @@ const SelectCard = styled.div`
   border-radius: 4px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   cursor: pointer;
+
+  i {
+    font-size: 16px;
+  }
+
+  span {
+    margin-left: 10px;
+  }
 `;
 
 export default WalletComponent;

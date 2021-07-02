@@ -31,14 +31,14 @@ const TransferToBank: React.FC<Props> = ({
 }) => {
   const { profile } = useContext(AuthContext);
 
-  const [amountCharges] = useState(0);
   const [amount, setAmount] = useState<number>(0);
   const [index, setIndex] = useState<number>();
   const [showModal, setShowModal] = useState(false);
 
-  async function confirm(obj: any) {
+  async function confirm() {
     setShowTransferToBank(false);
     setShowModal(false);
+    console.log(amount)
   }
 
   return (
@@ -50,7 +50,7 @@ const TransferToBank: React.FC<Props> = ({
             <MakePayment>
               <ParagraphOne>Transfer To Bank</ParagraphOne>
 
-              <span className="label">Quick Pay</span>
+              <span className="label">Quick Transfer</span>
               <AmountToFundWallet>
                 {[5000, 10000, 20000, 25000]?.map(
                   (amount: number, i: number) => (
@@ -70,10 +70,10 @@ const TransferToBank: React.FC<Props> = ({
                   )
                 )}
               </AmountToFundWallet>
-              <p style={{ color: "white" }}>
+              {/* <p style={{ color: "white" }}>
                 Paystack charges{" "}
                 {formatPrice(paystackCharge(amount ? amount : amountCharges))}
-              </p>
+              </p> */}
               <br />
               <span className="label">Large Amount</span>
               <CustomInput
