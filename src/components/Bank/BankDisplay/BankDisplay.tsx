@@ -1,15 +1,27 @@
-import React from "react";
+import { AuthContext } from "context/auth/AuthProvider";
+import React, { useContext } from "react";
+import { GetEdBankType, UserType } from "types/authTypes";
 import { Container, Detail } from "./style";
 
-const BankDisplay = () => {
+const BankDisplay: React.FC<{
+  profile: (UserType & { bank: GetEdBankType }) | null;
+}> = ({ profile }) => {
+  const bank = profile?.bank;
+
+  const getDate = (date: any) => {
+    return date ? new Date(date).toDateString() : "";
+  };
+
   return (
     <Container>
       <Detail>
         <h1>Bank Details</h1>
 
-        <h2>Access Bank</h2>
-        <p>John Doe</p>
-        <p>1234567890</p>
+        <h2>Bank Name: {bank?.bank_name}</h2>
+        <p>Account Name: {bank?.account_name}</p>
+        <p>Account Number: {bank?.account_number}</p>
+        <p>Account created {getDate(bank?.created_at)}</p>
+        <p>Account updated {getDate(bank?.updated_at)}</p>
       </Detail>
     </Container>
   );

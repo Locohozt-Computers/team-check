@@ -30,7 +30,6 @@ export const Detail = styled.div`
   padding: 40px;
 
   h1 {
-    text-align: center;
     margin-bottom: 30px;
   }
 

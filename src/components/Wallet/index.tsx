@@ -9,13 +9,16 @@ import CustomInput from "components/ui/CustomInput";
 import FundWallet from "./FundWallet";
 import { formatPrice } from "utils/formatPrice";
 import { AuthContext } from "context/auth/AuthProvider";
+import { GetEdBankType, UserType } from "types/authTypes";
 
-const WalletComponent = () => {
+const WalletComponent: React.FC<{
+  profile: (UserType & { bank: GetEdBankType }) | null;
+}> = ({ profile }) => {
   const [showFundWalletModal, setShowFundWalletModal] = useState(false);
 
-  const { profile } = useContext(AuthContext);
+  const [amount, setAmount] = useState(profile?.walletBalance ?? 0);
 
-  const [amount, setAmount] = useState(profile?.walletBalance ? profile.walletBalance : 0);
+  console.log("profile === ", profile);
 
   return (
     <HomeLayout>

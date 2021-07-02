@@ -1,6 +1,6 @@
 import { AuthContext } from "context/auth/AuthProvider";
 import { LayoutContext } from "context/layout/LayoutProvider";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import SideMenus from "../SidebarMenus";
 
@@ -9,10 +9,14 @@ import { Content, Dashboard, Sidebar, InnerContent } from "./style";
 const HomeLayout: React.FC = ({ children }) => {
   const [isCollapse, setIsCollapse] = useState(false);
 
-  const { user } = useContext(AuthContext);
+  const { user, getProfile } = useContext(AuthContext);
   const { isMobile } = useContext(LayoutContext);
 
   const isShowOrHideIconLabel = !!(isCollapse || isMobile);
+
+  useEffect(() => {
+    getProfile(user?.profile_id ?? "");
+  }, []);
 
   return (
     <Dashboard isCollapse={isShowOrHideIconLabel}>

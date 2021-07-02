@@ -96,12 +96,6 @@ const BankForm: React.FC<Props> = ({ onSubmit, form }) => {
       >
         <h1>Add Bank Details</h1>
         <ErrorLabel textAlign="center"></ErrorLabel>
-        {/* <CustomSelect
-          options={banks}
-          defaultValue="*Select Banks"
-          style={{ marginBottom: 30 }}
-          onChange={onchangeBank}
-        /> */}
         <CustomDropdown
           data={banks}
           onChange={onchangeBank}

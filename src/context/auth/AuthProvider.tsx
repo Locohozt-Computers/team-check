@@ -2,6 +2,7 @@ import { ResetType } from "components/Auth/ResetPassword";
 import React, { createContext, useEffect, useReducer } from "react";
 import {
   ChangePasswordType,
+  GetEdBankType,
   SigninUserType,
   SignupUserType,
   UserType,
@@ -33,7 +34,7 @@ export const GET_PROFILE = "GET_PROFILE";
 
 type ContextType = {
   user: Partial<SignupUserType>;
-  profile: UserType | null;
+  profile: (UserType & { bank: GetEdBankType }) | null;
   signInUserContext: (user: SigninUserType) => void;
   signUpUserContext: (user: Partial<SignupUserType>) => void;
   forgotPasswordContext: (email: string) => void;

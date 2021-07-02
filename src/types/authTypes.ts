@@ -45,3 +45,15 @@ export type ChangePasswordType = {
   new_password: string;
   current_password: string;
 };
+
+export type GetEdBankType = {
+  account_name: string;
+  account_number: string;
+  bank_code: string;
+  bank_name: string;
+  bvn: any;
+  created_at?: string | any;
+  id: number;
+  profile_id: string;
+  updated_at?: string | any;
+};

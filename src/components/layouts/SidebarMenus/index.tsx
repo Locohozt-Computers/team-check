@@ -32,7 +32,7 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
 
   const desktopMenuName = () => (
     <div className="profile" onClick={() => history.push("/")}>
-      {/* <span className="blue" onClick={() => history.push("/")}>
+      <span className="blue" onClick={() => history.push("/")}>
         Tech
       </span>
       <span className="red" onClick={() => history.push("/")}>
@@ -40,15 +40,13 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
       </span>
       <span className="yellow" onClick={() => history.push("/")}>
         Point
-      </span> */}
-      <Avatar user={{ username: "Bibi" }} />
-      <p className="username">{user?.username}</p>
+      </span>
     </div>
   );
 
   const mobileMenuName = () => (
     <div className="profile" onClick={() => history.push("/")}>
-      {/* <span className="blue" onClick={() => history.push("/")}>
+      <span className="blue" onClick={() => history.push("/")}>
         T
       </span>
       <span className="red" onClick={() => history.push("/")}>
@@ -56,8 +54,7 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
       </span>
       <span className="yellow" onClick={() => history.push("/")}>
         P
-      </span> */}
-      <Avatar user={{ username: "Bibi" }} />
+      </span>
     </div>
   );
 

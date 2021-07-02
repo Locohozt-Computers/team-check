@@ -54,12 +54,12 @@ const WalletProvider: React.FC = ({ children }) => {
       authErrorHandler(error);
     }
   };
-  
+
   const addBank = async (bank: Partial<BankType>) => {
     try {
       const data = await createHttp("/bank-details", bank);
       dispatch({ type: ADD_BANK, payload: data });
-      successNotify("Bank added successfully!!")
+      successNotify("Bank added successfully!!");
     } catch (error) {
       if (!error?.response) {
         errorNotify("Network went wrong!!!");
