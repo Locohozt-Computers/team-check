@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  height: 84vh;
   padding: 16px;
   overflow-y: auto;
   background-color: white;
@@ -17,7 +16,7 @@ export const Container = styled.div`
   }
 
   @media (max-width: 768px) {
-    height: 86vh;
+    height: 66vh;
   }
 `;
 

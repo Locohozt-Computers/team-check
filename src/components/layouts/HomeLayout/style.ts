@@ -8,7 +8,7 @@ export const Dashboard = styled.div<{ isCollapse?: boolean }>`
     isCollapse ? "50px auto" : "300px auto"};
   overflow-y: hidden;
 
-  @media(width: 600px) {
+  @media (width: 600px) {
     grid-template-columns: 50px auto;
   }
 `;
@@ -23,4 +23,5 @@ export const Content = styled.div`
 
 export const InnerContent = styled.div`
   padding: 2% 4%;
+  min-height: 60vh;
 `;

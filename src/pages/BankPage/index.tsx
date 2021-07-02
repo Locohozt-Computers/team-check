@@ -38,7 +38,7 @@ const BankPage = () => {
 
   useEffect(() => {
     getProfile(profile?.id ?? "");
-  }, [profile]);
+  }, []);
 
   return (
     <HomeLayout>
