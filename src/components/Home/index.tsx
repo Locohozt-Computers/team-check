@@ -8,6 +8,7 @@ type Props = {
 };
 
 const HomeComponent: React.FC<Props> = ({ user }) => {
+
   return (
     <HomeLayout>
       <Container>

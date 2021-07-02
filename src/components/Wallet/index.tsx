@@ -13,9 +13,9 @@ import { AuthContext } from "context/auth/AuthProvider";
 const WalletComponent = () => {
   const [showFundWalletModal, setShowFundWalletModal] = useState(false);
 
-  const { user } = useContext(AuthContext);
+  const { profile } = useContext(AuthContext);
 
-  const [amount, setAmount] = useState(user?.wallet_balance ?? 0);
+  const [amount, setAmount] = useState(profile?.walletBalance ? profile.walletBalance : 0);
 
   return (
     <HomeLayout>

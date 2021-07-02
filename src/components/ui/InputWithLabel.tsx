@@ -6,7 +6,7 @@ type Props = {
   type?: string;
   name?: string;
   value?: string;
-  error?: string;
+  error?: string | any;
   placeholder: string;
   label?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -15,6 +15,7 @@ type Props = {
   inputStyle?: CSSProperties;
   noLabel?: boolean | undefined;
   showIcon?: boolean | undefined;
+  disabled?: boolean;
 };
 
 const InputWithLabel: React.FC<Props> = ({
@@ -30,6 +31,7 @@ const InputWithLabel: React.FC<Props> = ({
   inputStyle,
   noLabel,
   showIcon,
+  disabled,
 }) => {
   return (
     <InputDiv style={style}>
@@ -45,6 +47,7 @@ const InputWithLabel: React.FC<Props> = ({
           onChange={onChange}
           onBlur={onBlur}
           data-testid="input"
+          disabled={disabled}
         />
       </div>
       <ErrorLabel htmlFor="input">{error}</ErrorLabel>
@@ -60,7 +63,7 @@ const InputDiv = styled.div`
     border-radius: 8px;
     overflow: hidden;
     width: 100%;
-    padding: 0 15px;
+    padding: 0 10px;
 
     .fa-search {
       color: #aaaaaa;

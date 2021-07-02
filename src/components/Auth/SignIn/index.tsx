@@ -47,7 +47,13 @@ const SignInComponent: React.FC<{
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit} data-testid="sign-in-form">
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+        data-testid="sign-in-form"
+      >
         <h1>Sign In</h1>
         <ErrorLabel textAlign="center">
           {typeof errors === "string" ? errors : null}

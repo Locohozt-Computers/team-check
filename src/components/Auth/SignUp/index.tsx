@@ -35,34 +35,46 @@ const SignUpComponent: FC<Props> = ({ onSubmit }) => {
     return errors;
   };
 
-  const { handleSubmit, values, errors, handleChange, touched, handleBlur, isSubmitting } =
-    useFormik<SignupUserType>({
-      initialValues: {
-        username: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-        referral_id: "",
-        ip_address: "",
-        role_id: 2,
-      },
-      onSubmit,
-      validate,
-      validationSchema: Yup.object({
-        username: Yup.string()
-          .trim()
-          .min(4, "Username should be more than 4 characters")
-          .required(),
-        email: Yup.string().email("Email should be valid").required(),
-        password: Yup.string()
-          .min(4, "Password must be more than 4 characters")
-          .required(),
-      }),
-    });
+  const {
+    handleSubmit,
+    values,
+    errors,
+    handleChange,
+    touched,
+    handleBlur,
+    isSubmitting,
+  } = useFormik<SignupUserType>({
+    initialValues: {
+      username: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+      referral_id: "",
+      ip_address: "",
+      role_id: 2,
+    },
+    onSubmit,
+    validate,
+    validationSchema: Yup.object({
+      username: Yup.string()
+        .trim()
+        .min(4, "Username should be more than 4 characters")
+        .required(),
+      email: Yup.string().email("Email should be valid").required(),
+      password: Yup.string()
+        .min(4, "Password must be more than 4 characters")
+        .required(),
+    }),
+  });
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
+      <Form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit();
+        }}
+      >
         <h1>Sign Up</h1>
         <ErrorLabel textAlign="center">
           {typeof errors === "string" ? errors : null}

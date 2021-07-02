@@ -17,6 +17,7 @@ import ProfilePage from "pages/ProfilePage";
 
 import "react-toastify/dist/ReactToastify.css";
 import "antd/dist/antd.css";
+import BankPage from "pages/BankPage";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -37,6 +38,12 @@ function App() {
           exact
           path="/wallet"
           component={WalletPage}
+        />
+        <PrivateRoute
+          isAuth={true}
+          exact
+          path="/bank"
+          component={BankPage}
         />
         <PrivateRoute
           isAuth={true}

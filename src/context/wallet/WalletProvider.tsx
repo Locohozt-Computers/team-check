@@ -1,8 +1,8 @@
 import React, { createContext, useEffect, useReducer } from "react";
-import { WalletType } from "types/walletTypes";
+import { BankType, WalletType } from "types/walletTypes";
 import { createHttp, getHttp } from "utils/api/createHttp";
 import { authErrorHandler } from "utils/CatchErrors";
-import { errorNotify } from "utils/errorMessage";
+import { errorNotify, successNotify } from "utils/errorMessage";
 import walletReducer from "./Walletreducer";
 
 const initialState = {
@@ -11,17 +11,21 @@ const initialState = {
 
 export const GET_ALL_WALLET = "GET_ALL_WALLET";
 export const FUND_WALLET = "FUND_WALLET";
+export const ADD_BANK = "ADD_BANK";
+export const GET_BANKS = "GET_BANKS";
 
 type ContextType = {
   transactions: Partial<WalletType>[];
   fundWalletContext: (wallet: Partial<WalletType>) => void;
   getAllWalletTransactions: () => void;
+  addBank: (bank: Partial<BankType>) => void;
 };
 
 export const WalletContext = createContext<ContextType>({
   transactions: [],
   fundWalletContext: (wallet: Partial<WalletType>) => {},
   getAllWalletTransactions: () => {},
+  addBank: (bank: Partial<BankType>) => {},
 });
 
 const WalletProvider: React.FC = ({ children }) => {
@@ -50,6 +54,19 @@ const WalletProvider: React.FC = ({ children }) => {
       authErrorHandler(error);
     }
   };
+  
+  const addBank = async (bank: Partial<BankType>) => {
+    try {
+      const data = await createHttp("/bank-details", bank);
+      dispatch({ type: ADD_BANK, payload: data });
+      successNotify("Bank added successfully!!")
+    } catch (error) {
+      if (!error?.response) {
+        errorNotify("Network went wrong!!!");
+      }
+      authErrorHandler(error);
+    }
+  };
 
   useEffect(() => {
     getAllWalletTransactions();
@@ -59,6 +76,7 @@ const WalletProvider: React.FC = ({ children }) => {
     transactions: state?.transactions,
     getAllWalletTransactions,
     fundWalletContext,
+    addBank,
   };
   return (
     <WalletContext.Provider value={values}>{children}</WalletContext.Provider>

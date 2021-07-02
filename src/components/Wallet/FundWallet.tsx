@@ -28,7 +28,7 @@ const PaymentComponent: React.FC<Props> = ({
   setAmount: setStateAmount,
   amount: stateAmount,
 }) => {
-  const { user } = useContext(AuthContext);
+  const { profile } = useContext(AuthContext);
 
   const [amountCharges] = useState(0);
   const [amount, setAmount] = useState<number>(0);
@@ -141,7 +141,7 @@ const PaymentComponent: React.FC<Props> = ({
                   style={{ height: 27, border: 0 }}
                   amount={amount ? paystackCharge(amount) + amount : 0}
                   charges={paystackCharge(amount)}
-                  email={user?.email ? user.email : ""}
+                  email={profile?.user?.email ? profile.user.email : ""}
                   handleClose={() => {}}
                   setStateAmount={setStateAmount}
                   stateAmount={stateAmount}

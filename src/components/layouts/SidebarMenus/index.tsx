@@ -42,7 +42,7 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
         Point
       </span> */}
       <Avatar user={{ username: "Bibi" }} />
-      <p className="username">{user.username}</p>
+      <p className="username">{user?.username}</p>
     </div>
   );
 
@@ -85,6 +85,13 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
             isShowOrHideIconLabel={isShowOrHideIconLabel}
             text="Register Phones"
             iconType="phone"
+          />
+        </MenuList>
+        <MenuList isCollapse={isCollapse} to="/bank" activeClassName="selected">
+          <ShowMenu
+            isShowOrHideIconLabel={isShowOrHideIconLabel}
+            text="Bank"
+            iconType="university"
           />
         </MenuList>
         <MenuList
