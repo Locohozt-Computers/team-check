@@ -103,21 +103,21 @@ const BankForm: React.FC<Props> = ({ onSubmit, form }) => {
           style={{ marginBottom: 30 }}
         />
         <InputWithLabel
-          placeholder="Enter Account Name"
-          label="Account Name"
-          disabled={true}
-          onChange={() => {}}
-          value={name}
-          style={{
-            marginBottom: 30,
-          }}
-        />
-        <InputWithLabel
           placeholder="Enter Account Number"
           label="Account Number"
           type="number"
           onChange={getAccountName}
           value={values.account_number}
+          style={{
+            marginBottom: 30,
+          }}
+        />
+        <InputWithLabel
+          placeholder="Enter Account Name"
+          label="Account Name"
+          disabled={true}
+          onChange={() => {}}
+          value={name}
           style={{
             marginBottom: 30,
           }}

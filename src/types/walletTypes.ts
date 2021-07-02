@@ -25,3 +25,9 @@ export type BankType = {
   account_number: string;
   account_name: string;
 };
+
+export type WalletTransferToBankType = {
+  trxref: string;
+  amount: number;
+  reference: string;
+};

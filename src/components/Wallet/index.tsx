@@ -10,11 +10,13 @@ import FundWallet from "./FundWallet";
 import { formatPrice } from "utils/formatPrice";
 import { AuthContext } from "context/auth/AuthProvider";
 import { GetEdBankType, UserType } from "types/authTypes";
+import TransferToBank from "./TransferToBank";
 
 const WalletComponent: React.FC<{
   profile: (UserType & { bank: GetEdBankType }) | null;
 }> = ({ profile }) => {
   const [showFundWalletModal, setShowFundWalletModal] = useState(false);
+  const [showTransferToBank, setShowTransferToBank] = useState(false);
 
   const [amount, setAmount] = useState(profile?.walletBalance ?? 0);
 
@@ -34,6 +36,7 @@ const WalletComponent: React.FC<{
           <CustomButton
             label="Transfer"
             background="violet"
+            onClick={() => setShowTransferToBank(true)}
             className="fund_transfer_btn"
           />
           <CustomButton
@@ -48,6 +51,12 @@ const WalletComponent: React.FC<{
           amount={amount}
           setShowFundWalletModal={setShowFundWalletModal}
           showFundWalletModal={showFundWalletModal}
+        />
+        <TransferToBank
+          setAmount={setAmount}
+          amount={amount}
+          setShowTransferToBank={setShowTransferToBank}
+          showTransferToBank={showTransferToBank}
         />
         <Transactions />
       </Container>

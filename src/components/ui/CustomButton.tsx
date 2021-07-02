@@ -31,12 +31,16 @@ const CustomButton: FC<Props> = ({
   className,
 }) => {
   return (
-    <ButtonDiv style={{ ...style }} onClick={onClick} className={className}>
+    <ButtonDiv
+      background={background}
+      style={{ ...style }}
+      onClick={onClick}
+      className={className}
+    >
       <Button
         style={{ cursor: loading ? "not-allow" : "pointer" }}
         data-testid={testId}
         width={width}
-        background={background}
         type={type}
         disabled={disabled}
       >
@@ -46,18 +50,19 @@ const CustomButton: FC<Props> = ({
   );
 };
 
-const ButtonDiv = styled.div`
+const ButtonDiv = styled.div<{ background?: string; width?: string }>`
   width: 100%;
+  padding: 10px 10px;
+  background: ${({ background }) => (background ? background : "white")};
+  border-radius: 4px;
+  color: ${({ background }) => (background ? "white" : "")};
 `;
 
 const Button = styled.button<{ background?: string; width?: string }>`
-  background: ${({ background }) => (background ? background : "white")};
   outline: none;
   border: none;
-  padding: 10px 10px;
   width: ${({ width }) => (width ? width : "100%")};
-  border-radius: 4px;
-  color: ${({ background }) => (background ? "white" : "")};
+  background-color: transparent;
 
   @media (max-width: 768px) {
     font-size: 12px;
