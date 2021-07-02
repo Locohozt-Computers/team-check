@@ -68,6 +68,7 @@ const WalletComponent: React.FC<{
             return (
               <SelectCards>
                 <h1>Select Transfer Option</h1>
+                <p>Please select your mode of transfer</p>
                 <SelectActions>
                   <SelectCard onClick={() => {}}>Wallet</SelectCard>
                   <SelectCard
@@ -97,6 +98,16 @@ const SelectCards = styled.div`
 
   h1 {
     font-size: 25px;
+    text-align: center;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 10px;
+  }
+
+  p {
+    text-align: center;
+    color: #555555;
+    margin-bottom: 40px;
   }
 `;
 
@@ -106,11 +117,13 @@ const SelectActions = styled.div`
   align-items: center;
 `;
 const SelectCard = styled.div`
-  padding: 30px 0;
   width: 100px;
-  border: 1px solid #dddddd;
+  height: 50px;
+  border: 1px solid #eeeeee;
   text-align: center;
+  line-height: 50px;
   border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   cursor: pointer;
 `;
 
