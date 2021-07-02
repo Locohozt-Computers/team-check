@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
 import Transactions from "./Transactions";
@@ -8,15 +8,17 @@ import CustomButton from "components/ui/CustomButton";
 import CustomInput from "components/ui/CustomInput";
 import FundWallet from "./FundWallet";
 import { formatPrice } from "utils/formatPrice";
-import { AuthContext } from "context/auth/AuthProvider";
 import { GetEdBankType, UserType } from "types/authTypes";
 import TransferToBank from "./TransferToBank";
+import CustomModalUI from "components/ui/CustomModal";
+import styled from "styled-components";
 
 const WalletComponent: React.FC<{
   profile: (UserType & { bank: GetEdBankType }) | null;
 }> = ({ profile }) => {
   const [showFundWalletModal, setShowFundWalletModal] = useState(false);
   const [showTransferToBank, setShowTransferToBank] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const [amount, setAmount] = useState(profile?.walletBalance ?? 0);
 
@@ -36,7 +38,7 @@ const WalletComponent: React.FC<{
           <CustomButton
             label="Transfer"
             background="violet"
-            onClick={() => setShowTransferToBank(true)}
+            onClick={() => setShowModal(true)}
             className="fund_transfer_btn"
           />
           <CustomButton
@@ -59,9 +61,57 @@ const WalletComponent: React.FC<{
           showTransferToBank={showTransferToBank}
         />
         <Transactions />
+
+        <CustomModalUI
+          visible={showModal}
+          component={() => {
+            return (
+              <SelectCards>
+                <h1>Select Transfer Option</h1>
+                <SelectActions>
+                  <SelectCard onClick={() => {}}>Wallet</SelectCard>
+                  <SelectCard
+                    onClick={() => {
+                      setShowTransferToBank(true);
+                      setShowModal(false);
+                    }}
+                  >
+                    Bank
+                  </SelectCard>
+                </SelectActions>
+              </SelectCards>
+            );
+          }}
+          handleCancel={() => setShowModal(false)}
+          width={350}
+          closable={false}
+        />
       </Container>
     </HomeLayout>
   );
 };
+
+const SelectCards = styled.div`
+  background-color: white;
+  padding: 20px;
+
+  h1 {
+    font-size: 25px;
+  }
+`;
+
+const SelectActions = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`;
+const SelectCard = styled.div`
+  padding: 30px 0;
+  width: 100px;
+  border: 1px solid #dddddd;
+  text-align: center;
+  border-radius: 4px;
+  cursor: pointer;
+`;
 
 export default WalletComponent;

@@ -24,7 +24,7 @@ type ContextType = {
   fundWalletContext: (wallet: Partial<WalletType>) => void;
   getAllWalletTransactions: () => void;
   addBank: (bank: Partial<BankType>) => void;
-  walletTransferToBank: (bank: Partial<WalletTransferToBankType>) => void;
+  walletTransferToBank: (amount: number) => void;
 };
 
 export const WalletContext = createContext<ContextType>({
@@ -32,7 +32,7 @@ export const WalletContext = createContext<ContextType>({
   fundWalletContext: (wallet: Partial<WalletType>) => {},
   getAllWalletTransactions: () => {},
   addBank: (bank: Partial<BankType>) => {},
-  walletTransferToBank: (bank: Partial<WalletTransferToBankType>) => {},
+  walletTransferToBank: (amount: number) => {},
 });
 
 const WalletProvider: React.FC = ({ children }) => {
@@ -62,11 +62,9 @@ const WalletProvider: React.FC = ({ children }) => {
     }
   };
 
-  const walletTransferToBank = async (
-    transfer: Partial<WalletTransferToBankType>
-  ) => {
+  const walletTransferToBank = async (amount: number) => {
     try {
-      const data = await createHttp("/wallet/transfer-to-bank", transfer);
+      const data = await createHttp("/wallet/transfer-to-bank", amount);
       dispatch({ type: WALLET_TRANSFER_TO_BANK, payload: data });
       successNotify("Bank added successfully!!");
     } catch (error) {
