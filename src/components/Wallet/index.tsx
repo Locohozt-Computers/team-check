@@ -7,7 +7,6 @@ import WalletCard from "./WalletCard";
 import CustomButton from "components/ui/CustomButton";
 import CustomInput from "components/ui/CustomInput";
 import FundWallet from "./FundWallet";
-import { formatPrice } from "utils/formatPrice";
 import { GetEdBankType, UserType } from "types/authTypes";
 import TransferToBank from "./TransferToBank";
 import CustomModalUI from "components/ui/CustomModal";
@@ -28,7 +27,7 @@ const WalletComponent: React.FC<{
     <HomeLayout>
       <Container>
         <h1 className="hi">Wallet</h1>
-        <WalletCard amount={formatPrice(amount)} label="Wallet Balance" />
+        <WalletCard amount={amount} label="Wallet Balance" profile={profile} />
         <div className="fund_btn">
           <CustomInput
             onChange={() => {}}
