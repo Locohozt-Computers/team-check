@@ -38,6 +38,8 @@ const BankPage = () => {
 
   useEffect(() => {
     getProfile(profile?.id ?? "");
+
+    // eslint-disable-next-line
   }, []);
 
   return (

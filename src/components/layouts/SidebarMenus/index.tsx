@@ -1,6 +1,4 @@
-import React, { FC, useContext } from "react";
-import Avatar from "components/ui/Avatar";
-import { AuthContext } from "context/auth/AuthProvider";
+import React, { FC } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Menus, MenuName, MenuLists, MenuList } from "./style";
@@ -27,8 +25,6 @@ const ShowMenu = ({
 
 const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
   const history = useHistory();
-
-  const { user } = useContext(AuthContext);
 
   const desktopMenuName = () => (
     <div className="profile" onClick={() => history.push("/")}>

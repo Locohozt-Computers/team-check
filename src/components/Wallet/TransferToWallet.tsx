@@ -15,41 +15,57 @@ import CustomButton from "components/ui/CustomButton";
 import { WalletContext } from "context/wallet/WalletProvider";
 
 type Props = {
-  setShowTransferToBank: Dispatch<SetStateAction<boolean>>;
+  setShowTransferToWallet: Dispatch<SetStateAction<boolean>>;
   setAmount: Dispatch<SetStateAction<number>>;
   amount: number;
-  showTransferToBank: boolean;
+  showTransferToWallet: boolean;
 };
 
-const TransferToBank: React.FC<Props> = ({
-  setShowTransferToBank,
-  showTransferToBank,
+const TransferToWallet: React.FC<Props> = ({
+  setShowTransferToWallet,
+  showTransferToWallet,
   setAmount: setStateAmount,
   amount: stateAmount,
 }) => {
-  const { walletTransferToBank } = useContext(WalletContext);
+  const { walletTransferToWallet } = useContext(WalletContext);
 
   const [amount, setAmount] = useState<number>(0);
+  const [email, setEmail] = useState("");
   const [index, setIndex] = useState<number>();
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function confirm() {
     setLoading(true);
-    await walletTransferToBank(amount);
+    const obj = {
+      email,
+      amount,
+    };
+    await walletTransferToWallet(obj);
     setLoading(false);
-    setShowTransferToBank(false);
+    setShowTransferToWallet(false);
     setShowModal(false);
   }
 
   return (
     <Container>
       <CustomModalUI
-        visible={showTransferToBank}
+        visible={showTransferToWallet}
         component={() => {
           return (
             <MakePayment>
-              <ParagraphOne>Transfer To Bank</ParagraphOne>
+              <ParagraphOne>Transfer To Wallet</ParagraphOne>
+
+              <span className="label">Enter Email</span>
+              <CustomInput
+                placeholder="Enter Email"
+                type="text"
+                onChange={({
+                  target: { value },
+                }: ChangeEvent<HTMLInputElement>) => setEmail(value)}
+                inputStyle={{ color: "white" }}
+                style={{ marginBottom: 20 }}
+              />
 
               <span className="label">Quick Transfer</span>
               <AmountToFundWallet>
@@ -71,10 +87,6 @@ const TransferToBank: React.FC<Props> = ({
                   )
                 )}
               </AmountToFundWallet>
-              {/* <p style={{ color: "white" }}>
-                Paystack charges{" "}
-                {formatPrice(paystackCharge(amount ? amount : amountCharges))}
-              </p> */}
               <br />
               <span className="label">Large Amount</span>
               <CustomInput
@@ -100,7 +112,7 @@ const TransferToBank: React.FC<Props> = ({
           );
         }}
         closable
-        handleCancel={() => setShowTransferToBank(false)}
+        handleCancel={() => setShowTransferToWallet(false)}
         width={400}
       />
 
@@ -220,4 +232,4 @@ const AlertModal = styled.div`
   }
 `;
 
-export default TransferToBank;
+export default TransferToWallet;

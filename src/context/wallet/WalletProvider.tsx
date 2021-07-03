@@ -1,10 +1,13 @@
 import React, { createContext, useEffect, useReducer } from "react";
 import {
   BankType,
-  WalletTransferToBankType,
   WalletType,
 } from "types/walletTypes";
-import { createHttp, createHttpWithMessage, getHttp } from "utils/api/createHttp";
+import {
+  createHttp,
+  createHttpWithMessage,
+  getHttp,
+} from "utils/api/createHttp";
 import { authErrorHandler } from "utils/CatchErrors";
 import { errorNotify, successNotify } from "utils/errorMessage";
 import walletReducer from "./Walletreducer";
@@ -18,6 +21,7 @@ export const FUND_WALLET = "FUND_WALLET";
 export const ADD_BANK = "ADD_BANK";
 export const GET_BANKS = "GET_BANKS";
 export const WALLET_TRANSFER_TO_BANK = "WALLET_TRANSFER_TO_BANK";
+export const WALLET_TRANSFER_TO_WALLET = "WALLET_TRANSFER_TO_WALLET";
 
 type ContextType = {
   transactions: Partial<WalletType>[];
@@ -25,6 +29,7 @@ type ContextType = {
   getAllWalletTransactions: () => void;
   addBank: (bank: Partial<BankType>) => void;
   walletTransferToBank: (amount: number) => void;
+  walletTransferToWallet: (wallet: { email: string; amount: number }) => void;
 };
 
 export const WalletContext = createContext<ContextType>({
@@ -33,6 +38,7 @@ export const WalletContext = createContext<ContextType>({
   getAllWalletTransactions: () => {},
   addBank: (bank: Partial<BankType>) => {},
   walletTransferToBank: (amount: number) => {},
+  walletTransferToWallet: (wallet: { email: string; amount: number }) => {},
 });
 
 const WalletProvider: React.FC = ({ children }) => {
@@ -64,8 +70,29 @@ const WalletProvider: React.FC = ({ children }) => {
 
   const walletTransferToBank = async (amount: number) => {
     try {
-      const data = await createHttpWithMessage("/wallet/transfer-to-bank", { amount });
+      const data = await createHttpWithMessage("/wallet/transfer-to-bank", {
+        amount,
+      });
       dispatch({ type: WALLET_TRANSFER_TO_BANK, payload: data });
+      successNotify(data);
+    } catch (error) {
+      if (!error?.response) {
+        errorNotify("Network went wrong!!!");
+      }
+      authErrorHandler(error);
+    }
+  };
+
+  const walletTransferToWallet = async (wallet: {
+    email: string;
+    amount: number;
+  }) => {
+    try {
+      const data = await createHttpWithMessage(
+        "/wallet/transfer-to-wallet",
+        wallet
+      );
+      dispatch({ type: WALLET_TRANSFER_TO_WALLET, payload: data });
       successNotify(data);
     } catch (error) {
       if (!error?.response) {
@@ -98,6 +125,7 @@ const WalletProvider: React.FC = ({ children }) => {
     fundWalletContext,
     addBank,
     walletTransferToBank,
+    walletTransferToWallet,
   };
   return (
     <WalletContext.Provider value={values}>{children}</WalletContext.Provider>

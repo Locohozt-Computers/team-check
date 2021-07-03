@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 
 import { ErrorLabel } from "components/Auth/common/style";
 import { Container, Form } from "./style";
 import CustomButton from "components/ui/CustomButton";
 import InputWithLabel from "components/ui/InputWithLabel";
-import CustomSelect from "components/ui/CustomSelect";
 import { createHttp, getHttp } from "utils/api/createHttp";
-import { authErrorHandler } from "utils/CatchErrors";
 import CustomDropdown from "components/ui/CustomDropdown";
 
 type Props = {
@@ -22,7 +18,7 @@ type Props = {
 const BankForm: React.FC<Props> = ({ onSubmit, form }) => {
   const [banks, setBanks] = useState([]);
   const [name, setName] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
 
   const [values, setValues] = useState({
     bank_code: "",

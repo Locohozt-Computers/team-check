@@ -1,8 +1,7 @@
-import React, { Dispatch, useState, SetStateAction, useContext } from "react";
+import React, { useState, CSSProperties } from "react";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 
 import { DDWrapper, DDHeader, DDList, DDIcon } from "./style";
-import { CSSProperties, ThemeContext } from "styled-components";
 
 export type DType = {
   id: number;

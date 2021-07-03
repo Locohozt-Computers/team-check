@@ -1,5 +1,4 @@
-import { AuthContext } from "context/auth/AuthProvider";
-import React, { useContext } from "react";
+import React from "react";
 import { GetEdBankType, UserType } from "types/authTypes";
 import { Container, Detail } from "./style";
 

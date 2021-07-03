@@ -16,6 +16,8 @@ const HomeLayout: React.FC = ({ children }) => {
 
   useEffect(() => {
     getProfile(user?.profile_id ?? "");
+
+    // eslint-disable-next-line
   }, []);
 
   return (

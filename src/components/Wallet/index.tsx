@@ -12,12 +12,14 @@ import { GetEdBankType, UserType } from "types/authTypes";
 import TransferToBank from "./TransferToBank";
 import CustomModalUI from "components/ui/CustomModal";
 import styled from "styled-components";
+import TransferToWallet from "./TransferToWallet";
 
 const WalletComponent: React.FC<{
   profile: (UserType & { bank: GetEdBankType }) | null;
 }> = ({ profile }) => {
   const [showFundWalletModal, setShowFundWalletModal] = useState(false);
   const [showTransferToBank, setShowTransferToBank] = useState(false);
+  const [showTransferToWallet, setShowTransferToWallet] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const [amount, setAmount] = useState(profile?.walletBalance ?? 0);
@@ -58,6 +60,12 @@ const WalletComponent: React.FC<{
           setShowTransferToBank={setShowTransferToBank}
           showTransferToBank={showTransferToBank}
         />
+        <TransferToWallet
+          setAmount={setAmount}
+          amount={amount}
+          showTransferToWallet={showTransferToWallet}
+          setShowTransferToWallet={setShowTransferToWallet}
+        />
         <Transactions />
 
         <CustomModalUI
@@ -77,7 +85,12 @@ const WalletComponent: React.FC<{
                     <i className="fas fa-university"></i>
                     <span>Bank</span>
                   </SelectCard>
-                  <SelectCard onClick={() => {}}>
+                  <SelectCard
+                    onClick={() => {
+                      setShowTransferToWallet(true);
+                      setShowModal(false);
+                    }}
+                  >
                     <i className="fas fa-wallet"></i>
                     <span>Wallet</span>
                   </SelectCard>
