@@ -49,10 +49,10 @@ const WalletProvider: React.FC = ({ children }) => {
       const data = await getHttp("/wallet/transactions");
       dispatch({ type: GET_ALL_WALLET, payload: data?.data });
     } catch (error) {
-      if (!error?.response) {
-        errorNotify("Network went wrong!!!");
-      }
-      authErrorHandler(error);
+      // if (!error?.response) {
+      //   errorNotify("Network went wrong!!!");
+      // }
+      // authErrorHandler(error);
     }
   };
 

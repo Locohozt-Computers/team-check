@@ -10,10 +10,11 @@ const TransactionList: React.FC<Partial<WalletType>> = ({
   amount,
   description,
   status,
-  created_at
+  created_at,
 }) => {
+  const transType = trans_type?.name.toLowerCase() === "c" ? true : false;
   return (
-    <TransactionListStyle status={status}>
+    <TransactionListStyle status={transType}>
       <div className="transaction_type">{trans_type?.name.toUpperCase()}</div>
       <div className="transaction_amount">{formatPrice(amount)}</div>
       <div className="transaction_description">{description}</div>
