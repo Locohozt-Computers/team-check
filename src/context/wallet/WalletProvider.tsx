@@ -1,8 +1,5 @@
 import React, { createContext, useEffect, useReducer } from "react";
-import {
-  BankType,
-  WalletType,
-} from "types/walletTypes";
+import { BankType, WalletType } from "types/walletTypes";
 import {
   createHttp,
   createHttpWithMessage,
@@ -14,9 +11,11 @@ import walletReducer from "./Walletreducer";
 
 const initialState = {
   transactions: [],
+  nextUrl: null,
 };
 
 export const GET_ALL_WALLET = "GET_ALL_WALLET";
+export const LOAD_MORE_TRANSACTIONS = "LOAD_MORE_TRANSACTIONS";
 export const FUND_WALLET = "FUND_WALLET";
 export const ADD_BANK = "ADD_BANK";
 export const GET_BANKS = "GET_BANKS";
@@ -25,20 +24,24 @@ export const WALLET_TRANSFER_TO_WALLET = "WALLET_TRANSFER_TO_WALLET";
 
 type ContextType = {
   transactions: Partial<WalletType>[];
+  nextUrl: null | string;
   fundWalletContext: (wallet: Partial<WalletType>) => void;
   getAllWalletTransactions: () => void;
   addBank: (bank: Partial<BankType>) => void;
   walletTransferToBank: (amount: number) => void;
   walletTransferToWallet: (wallet: { email: string; amount: number }) => void;
+  loadMoreTransaction: (nextUrl: any) => void;
 };
 
 export const WalletContext = createContext<ContextType>({
   transactions: [],
+  nextUrl: null,
   fundWalletContext: (wallet: Partial<WalletType>) => {},
   getAllWalletTransactions: () => {},
   addBank: (bank: Partial<BankType>) => {},
   walletTransferToBank: (amount: number) => {},
   walletTransferToWallet: (wallet: { email: string; amount: number }) => {},
+  loadMoreTransaction: (nextUrl: any) => {},
 });
 
 const WalletProvider: React.FC = ({ children }) => {
@@ -47,12 +50,33 @@ const WalletProvider: React.FC = ({ children }) => {
   const getAllWalletTransactions = async () => {
     try {
       const data = await getHttp("/wallet/transactions");
-      dispatch({ type: GET_ALL_WALLET, payload: data?.data });
+      dispatch({
+        type: GET_ALL_WALLET,
+        payload: {
+          data: data?.data,
+          nextUrl: data?.next_page_url,
+        },
+      });
     } catch (error) {
-      // if (!error?.response) {
-      //   errorNotify("Network went wrong!!!");
-      // }
-      // authErrorHandler(error);
+      throw error;
+    }
+  };
+
+  const loadMoreTransaction = async (nextUrl: any) => {
+    const path = nextUrl?.split("?")[1];
+    try {
+      if (nextUrl) {
+        const data = await getHttp(`/wallet/transactions?${path}`);
+        dispatch({
+          type: LOAD_MORE_TRANSACTIONS,
+          payload: {
+            data: data?.data,
+            nextUrl: data?.next_page_url,
+          },
+        });
+      }
+    } catch (error) {
+      throw error;
     }
   };
 
@@ -121,7 +145,9 @@ const WalletProvider: React.FC = ({ children }) => {
 
   const values = {
     transactions: state?.transactions,
+    nextUrl: state?.nextUrl,
     getAllWalletTransactions,
+    loadMoreTransaction,
     fundWalletContext,
     addBank,
     walletTransferToBank,

@@ -1,3 +1,4 @@
+import CustomButton from "components/ui/CustomButton";
 import { WalletContext } from "context/wallet/WalletProvider";
 import _ from "lodash";
 import React, { useContext } from "react";
@@ -6,9 +7,14 @@ import { TransactionStyle } from "./style";
 import TransactionList from "./TransactionList";
 
 const Transactions: React.FC = () => {
-  const { transactions } = useContext(WalletContext);
+  const { transactions, nextUrl, loadMoreTransaction } =
+    useContext(WalletContext);
 
   const sortedTransactions = _.orderBy(transactions, "created_at", "desc");
+
+  const handleLoadMore = async () => {
+    await loadMoreTransaction(nextUrl);
+  };
 
   return (
     <TransactionStyle>
@@ -20,6 +26,15 @@ const Transactions: React.FC = () => {
           <TransactionList {...list} />
         ))
       )}
+      {nextUrl && <div className="load_more_center">
+        <CustomButton
+          label="Load More..."
+          background="violet"
+          width="150px"
+          style={{ padding: "5px" }}
+          onClick={handleLoadMore}
+        />
+      </div>}
     </TransactionStyle>
   );
 };

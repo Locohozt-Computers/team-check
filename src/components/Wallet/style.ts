@@ -75,6 +75,12 @@ export const TransactionStyle = styled.div`
     text-align: center;
     padding: 30px 0;
   }
+
+  .load_more_center {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
 `;
 
 export const TransactionListStyle = styled.div<{ status?: boolean }>`

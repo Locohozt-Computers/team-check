@@ -1,5 +1,10 @@
 import { InitialStateTypes, WalletType } from "types/walletTypes";
-import { GET_ALL_WALLET, FUND_WALLET, WALLET_TRANSFER_TO_BANK } from "./WalletProvider";
+import {
+  GET_ALL_WALLET,
+  FUND_WALLET,
+  WALLET_TRANSFER_TO_BANK,
+  LOAD_MORE_TRANSACTIONS,
+} from "./WalletProvider";
 
 type State = InitialStateTypes<WalletType>;
 
@@ -8,7 +13,14 @@ const walletReducer = (state: State, action: any) => {
     case GET_ALL_WALLET:
       return {
         ...state,
-        transactions: action.payload,
+        transactions: action.payload?.data,
+        nextUrl: action.payload?.nextUrl,
+      };
+    case LOAD_MORE_TRANSACTIONS:
+      return {
+        ...state,
+        transactions: [...action.payload?.data, ...state.transactions],
+        nextUrl: action.payload?.nextUrl,
       };
     case FUND_WALLET:
       return {

@@ -35,12 +35,12 @@ const CustomButton: FC<Props> = ({
       background={background}
       style={{ ...style }}
       onClick={onClick}
+      width={width}
       className={className}
     >
       <Button
         style={{ cursor: loading ? "not-allow" : "pointer" }}
         data-testid={testId}
-        width={width}
         type={type}
         disabled={disabled}
       >
@@ -55,14 +55,16 @@ const ButtonDiv = styled.div<{ background?: string; width?: string }>`
   padding: 10px 10px;
   background: ${({ background }) => (background ? background : "white")};
   border-radius: 4px;
+  width: ${({ width }) => (width ? width : "100%")};
   color: ${({ background }) => (background ? "white" : "")};
 `;
 
 const Button = styled.button<{ background?: string; width?: string }>`
   outline: none;
   border: none;
-  width: ${({ width }) => (width ? width : "100%")};
   background-color: transparent;
+  width: 100%;
+  text-align: center;
 
   @media (max-width: 768px) {
     font-size: 12px;
