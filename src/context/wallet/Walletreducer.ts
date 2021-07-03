@@ -4,6 +4,9 @@ import {
   FUND_WALLET,
   WALLET_TRANSFER_TO_BANK,
   LOAD_MORE_TRANSACTIONS,
+  ADD_TO_WALLET,
+  REMOVE_FROM_WALLET,
+  WALLET,
 } from "./WalletProvider";
 
 type State = InitialStateTypes<WalletType>;
@@ -29,6 +32,21 @@ const walletReducer = (state: State, action: any) => {
     case WALLET_TRANSFER_TO_BANK:
       return {
         ...state,
+      };
+    case WALLET:
+      return {
+        ...state,
+        walletBalance: action.payload,
+      };
+    case ADD_TO_WALLET:
+      return {
+        ...state,
+        walletBalance: action.payload,
+      };
+    case REMOVE_FROM_WALLET:
+      return {
+        ...state,
+        walletBalance: action.payload,
       };
     default:
       return state;

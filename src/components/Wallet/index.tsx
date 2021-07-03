@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
 import Transactions from "./Transactions";
@@ -12,14 +12,20 @@ import TransferToBank from "./TransferToBank";
 import CustomModalUI from "components/ui/CustomModal";
 import styled from "styled-components";
 import TransferToWallet from "./TransferToWallet";
+import { WalletContext } from "context/wallet/WalletProvider";
 
 const WalletComponent: React.FC<{
   profile: (UserType & { bank: GetEdBankType }) | null;
 }> = ({ profile }) => {
+  const { walletBalance } = useContext(WalletContext);
+
   const [showFundWalletModal, setShowFundWalletModal] = useState(false);
   const [showTransferToBank, setShowTransferToBank] = useState(false);
   const [showTransferToWallet, setShowTransferToWallet] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  const [amw, setAmw] = useState(0);
+  const [amb, setAmb] = useState(0);
 
   const [amount, setAmount] = useState(profile?.walletBalance ?? 0);
 
@@ -27,7 +33,11 @@ const WalletComponent: React.FC<{
     <HomeLayout>
       <Container>
         <h1 className="hi">Wallet</h1>
-        <WalletCard amount={amount} label="Wallet Balance" profile={profile} />
+        <WalletCard
+          amount={walletBalance}
+          label="Wallet Balance"
+          profile={profile}
+        />
         <div className="fund_btn">
           <CustomInput
             onChange={() => {}}
@@ -54,14 +64,14 @@ const WalletComponent: React.FC<{
           showFundWalletModal={showFundWalletModal}
         />
         <TransferToBank
-          setAmount={setAmount}
-          amount={amount}
+          setAmount={setAmb}
+          amount={amb}
           setShowTransferToBank={setShowTransferToBank}
           showTransferToBank={showTransferToBank}
         />
         <TransferToWallet
-          setAmount={setAmount}
-          amount={amount}
+          setAmount={setAmw}
+          amount={amw}
           showTransferToWallet={showTransferToWallet}
           setShowTransferToWallet={setShowTransferToWallet}
         />

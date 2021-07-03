@@ -13,6 +13,7 @@ import { formatPrice } from "utils/formatPrice";
 import CustomInput from "components/ui/CustomInput";
 import CustomButton from "components/ui/CustomButton";
 import { WalletContext } from "context/wallet/WalletProvider";
+import { AuthContext } from "context/auth/AuthProvider";
 
 type Props = {
   setShowTransferToWallet: Dispatch<SetStateAction<boolean>>;
@@ -27,13 +28,17 @@ const TransferToWallet: React.FC<Props> = ({
   setAmount: setStateAmount,
   amount: stateAmount,
 }) => {
-  const { walletTransferToWallet } = useContext(WalletContext);
+  const { walletTransferToWallet, removeFromWalletBalance } =
+    useContext(WalletContext);
+  const { profile } = useContext(AuthContext);
 
   const [amount, setAmount] = useState<number>(0);
   const [email, setEmail] = useState("");
   const [index, setIndex] = useState<number>();
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // console.log("")
 
   async function confirm() {
     setLoading(true);
@@ -42,6 +47,8 @@ const TransferToWallet: React.FC<Props> = ({
       amount,
     };
     await walletTransferToWallet(obj);
+    setStateAmount(amount ? (profile?.walletBalance ?? 0) - amount : 0);
+    removeFromWalletBalance(amount);
     setLoading(false);
     setShowTransferToWallet(false);
     setShowModal(false);

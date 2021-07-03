@@ -12,9 +12,13 @@ import walletReducer from "./Walletreducer";
 const initialState = {
   transactions: [],
   nextUrl: null,
+  walletBalance: 0,
 };
 
 export const GET_ALL_WALLET = "GET_ALL_WALLET";
+export const WALLET = "WALLET";
+export const ADD_TO_WALLET = "ADD_TO_WALLET";
+export const REMOVE_FROM_WALLET = "REMOVE_FROM_WALLET";
 export const LOAD_MORE_TRANSACTIONS = "LOAD_MORE_TRANSACTIONS";
 export const FUND_WALLET = "FUND_WALLET";
 export const ADD_BANK = "ADD_BANK";
@@ -25,23 +29,31 @@ export const WALLET_TRANSFER_TO_WALLET = "WALLET_TRANSFER_TO_WALLET";
 type ContextType = {
   transactions: Partial<WalletType>[];
   nextUrl: null | string;
+  walletBalance: number;
   fundWalletContext: (wallet: Partial<WalletType>) => void;
   getAllWalletTransactions: () => void;
   addBank: (bank: Partial<BankType>) => void;
   walletTransferToBank: (amount: number) => void;
   walletTransferToWallet: (wallet: { email: string; amount: number }) => void;
   loadMoreTransaction: (nextUrl: any) => void;
+  getWalletBalance: (amount: number) => void;
+  addToWalletBalance: (amount: number) => void;
+  removeFromWalletBalance: (amount: number) => void;
 };
 
 export const WalletContext = createContext<ContextType>({
   transactions: [],
   nextUrl: null,
+  walletBalance: 0,
   fundWalletContext: (wallet: Partial<WalletType>) => {},
   getAllWalletTransactions: () => {},
   addBank: (bank: Partial<BankType>) => {},
   walletTransferToBank: (amount: number) => {},
   walletTransferToWallet: (wallet: { email: string; amount: number }) => {},
   loadMoreTransaction: (nextUrl: any) => {},
+  getWalletBalance: (amount: number) => {},
+  addToWalletBalance: (amount: number) => {},
+  removeFromWalletBalance: (amount: number) => {},
 });
 
 const WalletProvider: React.FC = ({ children }) => {
@@ -139,6 +151,20 @@ const WalletProvider: React.FC = ({ children }) => {
     }
   };
 
+  const getWalletBalance = (amount: number) => {
+    dispatch({ type: WALLET, payload: amount });
+  };
+
+  const addToWalletBalance = (amount: number) => {
+    const balance = state?.walletBalance + amount;
+    dispatch({ type: ADD_TO_WALLET, payload: balance });
+  };
+
+  const removeFromWalletBalance = (amount: number) => {
+    const balance = state?.walletBalance - amount;
+    dispatch({ type: REMOVE_FROM_WALLET, payload: balance });
+  };
+
   useEffect(() => {
     getAllWalletTransactions();
   }, []);
@@ -146,12 +172,16 @@ const WalletProvider: React.FC = ({ children }) => {
   const values = {
     transactions: state?.transactions,
     nextUrl: state?.nextUrl,
+    walletBalance: state.walletBalance,
     getAllWalletTransactions,
     loadMoreTransaction,
     fundWalletContext,
     addBank,
     walletTransferToBank,
     walletTransferToWallet,
+    addToWalletBalance,
+    removeFromWalletBalance,
+    getWalletBalance,
   };
   return (
     <WalletContext.Provider value={values}>{children}</WalletContext.Provider>

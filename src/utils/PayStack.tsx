@@ -52,7 +52,7 @@ const PayStack = ({
   const [ref, setRef] = useState(new Date().getTime());
   const history = useHistory();
 
-  const { fundWalletContext } = useContext(WalletContext);
+  const { fundWalletContext, addToWalletBalance } = useContext(WalletContext);
   const { user } = useContext(AuthContext);
 
   const config: any = {
@@ -79,6 +79,8 @@ const PayStack = ({
           amount: amount - charges,
           reference: response?.reference,
         });
+
+        addToWalletBalance(amount - charges);
 
         history.push(route);
         if (setStateAmount) {

@@ -27,7 +27,8 @@ const TransferToBank: React.FC<Props> = ({
   setAmount: setStateAmount,
   amount: stateAmount,
 }) => {
-  const { walletTransferToBank } = useContext(WalletContext);
+  const { walletTransferToBank, removeFromWalletBalance } =
+    useContext(WalletContext);
 
   const [amount, setAmount] = useState<number>(0);
   const [index, setIndex] = useState<number>();
@@ -37,6 +38,7 @@ const TransferToBank: React.FC<Props> = ({
   async function confirm() {
     setLoading(true);
     await walletTransferToBank(amount);
+    removeFromWalletBalance(amount);
     setLoading(false);
     setShowTransferToBank(false);
     setShowModal(false);
