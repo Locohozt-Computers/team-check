@@ -13,6 +13,7 @@ import { formatPrice } from "utils/formatPrice";
 import CustomInput from "components/ui/CustomInput";
 import CustomButton from "components/ui/CustomButton";
 import { WalletContext } from "context/wallet/WalletProvider";
+import { successNotify } from "utils/errorMessage";
 
 type Props = {
   setShowTransferToBank: Dispatch<SetStateAction<boolean>>;
@@ -37,11 +38,14 @@ const TransferToBank: React.FC<Props> = ({
 
   async function confirm() {
     setLoading(true);
-    await walletTransferToBank(amount);
-    removeFromWalletBalance(amount);
-    setLoading(false);
-    setShowTransferToBank(false);
-    setShowModal(false);
+    try {
+      await walletTransferToBank(amount);
+      successNotify("Your bank transfer was successful");
+      removeFromWalletBalance(amount);
+      setLoading(false);
+      setShowTransferToBank(false);
+      setShowModal(false);
+    } catch (error) {}
   }
 
   return (

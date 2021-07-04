@@ -14,6 +14,7 @@ import CustomInput from "components/ui/CustomInput";
 import CustomButton from "components/ui/CustomButton";
 import { WalletContext } from "context/wallet/WalletProvider";
 import { AuthContext } from "context/auth/AuthProvider";
+import { successNotify } from "utils/errorMessage";
 
 type Props = {
   setShowTransferToWallet: Dispatch<SetStateAction<boolean>>;
@@ -47,12 +48,15 @@ const TransferToWallet: React.FC<Props> = ({
       email,
       amount,
     };
-    await walletTransferToWallet(obj);
-    setStateAmount(amount ? (profile?.walletBalance ?? 0) - amount : 0);
-    removeFromWalletBalance(amount);
-    setLoading(false);
-    setShowTransferToWallet(false);
-    setShowModal(false);
+    try {
+      await walletTransferToWallet(obj);
+      successNotify("Your wallet transfer was successful");
+      setStateAmount(amount ? (profile?.walletBalance ?? 0) - amount : 0);
+      removeFromWalletBalance(amount);
+      setLoading(false);
+      setShowTransferToWallet(false);
+      setShowModal(false);
+    } catch (error) {}
   }
 
   return (
@@ -179,7 +183,9 @@ const TransferToWallet: React.FC<Props> = ({
         component={() => (
           <AlertModal>
             <h1>Error Message</h1>
-            <p>Please type in the email or amount you want to transfer money to</p>
+            <p>
+              Please type in the email or amount you want to transfer money to
+            </p>
             <CustomButton
               label="Cancel"
               style={{ padding: "5px", marginRight: 10 }}
