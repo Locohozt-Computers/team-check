@@ -9,7 +9,6 @@ import { Content, Dashboard, Sidebar, InnerContent } from "./style";
 
 const HomeLayout: React.FC = ({ children }) => {
   const [isCollapse, setIsCollapse] = useState(false);
-  const [col, setCol] = useState(0);
 
   const { user, getProfile, profile } = useContext(AuthContext);
   const { getWalletBalance } = useContext(WalletContext);
@@ -19,13 +18,8 @@ const HomeLayout: React.FC = ({ children }) => {
 
   useEffect(() => {
     getProfile(user?.profile_id ?? "");
-    getWalletBalance(profile?.walletBalance ?? 500);
+    getWalletBalance(profile?.walletBalance ?? 0);
 
-    setCol(profile?.walletBalance ? profile?.walletBalance : 0);
-
-    return () => {
-      console.log(1500);
-    };
     // eslint-disable-next-line
   }, [profile?.walletBalance]);
 

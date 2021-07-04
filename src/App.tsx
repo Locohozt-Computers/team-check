@@ -18,6 +18,7 @@ import ProfilePage from "pages/ProfilePage";
 import "react-toastify/dist/ReactToastify.css";
 import "antd/dist/antd.css";
 import BankPage from "pages/BankPage";
+import NotFound from "components/NotFound";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -39,12 +40,7 @@ function App() {
           path="/wallet"
           component={WalletPage}
         />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/bank"
-          component={BankPage}
-        />
+        <PrivateRoute isAuth={true} exact path="/bank" component={BankPage} />
         <PrivateRoute
           isAuth={true}
           exact
@@ -64,6 +60,9 @@ function App() {
           component={EmailVerificationPage}
         />
         <Route exact path="/auth/reset" component={ResetPasswordPage} />
+        <Route>
+          <NotFound status={404} />
+        </Route>
       </Switch>
       <ToastContainer />
     </Router>

@@ -1,19 +1,14 @@
-import React, { useContext, useEffect } from "react";
-import { WalletContext } from "context/wallet/WalletProvider";
+import React from "react";
 import { formatPrice } from "utils/formatPrice";
 import { WalletCardStyle } from "./style";
 
 type Props = {
   amount?: any;
   label: string;
-  profile: any;
+  profile?: any;
 };
 
-const WalletCard: React.FC<Props> = ({ amount, label, profile }) => {
-  const { walletBalance } = useContext(WalletContext);
-
-  console.log("walletBalance === ", walletBalance);
-
+const WalletCard: React.FC<Props> = ({ amount, label }) => {
   return (
     <WalletCardStyle>
       <h1>{label}</h1>
