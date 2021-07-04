@@ -117,7 +117,6 @@ const WalletProvider: React.FC = ({ children }) => {
         amount,
       });
       dispatch({ type: WALLET_TRANSFER_TO_BANK, payload: data });
-      successNotify(data);
     } catch (error) {
       if (!error?.response) {
         errorNotify("Network went wrong!!!");
@@ -133,7 +132,6 @@ const WalletProvider: React.FC = ({ children }) => {
     try {
       const data = await createHttp("/wallet/transfer-to-wallet", wallet);
       dispatch({ type: WALLET_TRANSFER_TO_WALLET, payload: data });
-      successNotify(data);
     } catch (error) {
       if (!error?.response) {
         errorNotify("Network went wrong!!!");
