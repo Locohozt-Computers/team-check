@@ -3,7 +3,6 @@ import React, { createContext, useEffect, useReducer } from "react";
 import { BankType, WalletType } from "types/walletTypes";
 import {
   createHttp,
-  createHttpWithMessage,
   getHttp,
 } from "utils/api/createHttp";
 import { authErrorHandler } from "utils/CatchErrors";
@@ -102,6 +101,7 @@ const WalletProvider: React.FC = ({ children }) => {
   const fundWalletContext = async (wallet: Partial<WalletType>) => {
     try {
       const data = await createHttp("/wallet/fund", wallet);
+      successNotify("Your wallet transfer was successful");
       dispatch({ type: FUND_WALLET, payload: data });
     } catch (error) {
       if (!error?.response) {
@@ -116,6 +116,7 @@ const WalletProvider: React.FC = ({ children }) => {
       const data = await createHttp("/wallet/transfer-to-bank", {
         amount,
       });
+      successNotify("Your bank transfer was successful");
       dispatch({ type: WALLET_TRANSFER_TO_BANK, payload: data });
     } catch (error) {
       if (!error?.response) {

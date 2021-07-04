@@ -10,11 +10,9 @@ import styled from "styled-components";
 import CustomModalUI from "components/ui/CustomModal";
 import Loader from "components/ui/Loader";
 import { formatPrice } from "utils/formatPrice";
-import CustomInput from "components/ui/CustomInput";
 import CustomButton from "components/ui/CustomButton";
 import { WalletContext } from "context/wallet/WalletProvider";
 import { AuthContext } from "context/auth/AuthProvider";
-import { successNotify } from "utils/errorMessage";
 
 type Props = {
   setShowTransferToWallet: Dispatch<SetStateAction<boolean>>;
@@ -50,7 +48,9 @@ const TransferToWallet: React.FC<Props> = ({
     };
     try {
       await walletTransferToWallet(obj);
-      successNotify("Your wallet transfer was successful");
+      setAmount(0);
+      setEmail("");
+      setIndex(-1);
       setStateAmount(amount ? (profile?.walletBalance ?? 0) - amount : 0);
       removeFromWalletBalance(amount);
       setLoading(false);
@@ -69,15 +69,16 @@ const TransferToWallet: React.FC<Props> = ({
               <ParagraphOne>Transfer To Wallet</ParagraphOne>
 
               <span className="label">Enter Email</span>
-              <CustomInput
-                placeholder="Enter Email"
-                type="text"
-                onChange={({
-                  target: { value },
-                }: ChangeEvent<HTMLInputElement>) => setEmail(value)}
-                inputStyle={{ color: "white" }}
-                style={{ marginBottom: 20 }}
-              />
+              <InputDiv style={{ marginBottom: 20 }}>
+                <Input
+                  placeholder="Enter Email"
+                  type="text"
+                  value={email}
+                  onChange={({
+                    target: { value },
+                  }: ChangeEvent<HTMLInputElement>) => setEmail(value)}
+                />
+              </InputDiv>
 
               <span className="label">Quick Transfer</span>
               <AmountToFundWallet>
@@ -106,14 +107,18 @@ const TransferToWallet: React.FC<Props> = ({
               </AmountToFundWallet>
               <br />
               <span className="label">Large Amount</span>
-              <CustomInput
-                placeholder="Enter Amount"
-                type="number"
-                onChange={({
-                  target: { value },
-                }: ChangeEvent<HTMLInputElement>) => setAmount(parseInt(value))}
-                inputStyle={{ color: "white" }}
-              />
+              <InputDiv>
+                <Input
+                  placeholder="Enter Amount"
+                  type="number"
+                  value={amount}
+                  onChange={({
+                    target: { value },
+                  }: ChangeEvent<HTMLInputElement>) =>
+                    setAmount(parseInt(value))
+                  }
+                />
+              </InputDiv>
               <br />
               <ButtonStyle
                 // disabled={!amount}
@@ -211,6 +216,29 @@ const Container = styled.div`
     width: 100%;
     padding: 0 10px;
   }
+`;
+
+const InputDiv = styled.div`
+  border: 1px solid #dddddd;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  padding: 10px;
+
+  .fa-search {
+    color: #aaaaaa;
+    margin-right: 10px;
+  }
+`;
+
+const Input = styled.input`
+  outline: none;
+  border: none;
+  width: 100%;
+  background-color: transparent;
+  color: white;
 `;
 
 const ButtonStyle = styled.button`

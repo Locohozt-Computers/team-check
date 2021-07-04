@@ -4,7 +4,7 @@ import styled from "styled-components";
 type Props = {
   type?: string;
   name?: string;
-  value?: string;
+  value?: string | number;
   placeholder: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -31,7 +31,7 @@ const CustomInput: React.FC<Props> = ({
         style={inputStyle}
         type={type}
         id={name}
-        // value={value}
+        value={value ?? ""}
         name={name}
         placeholder={placeholder}
         onChange={onChange}

@@ -57,6 +57,8 @@ const ProfilePage = () => {
       gender: profile?.gender ? profile?.gender : "",
       telephone: profile?.telephone ? profile?.telephone : "",
     });
+
+    // eslint-disable-next-line
   }, [
     profile?.user?.username,
     profile?.user?.email,
@@ -81,6 +83,8 @@ const ProfilePage = () => {
     await updateProfile(values, profileId);
     setLoading(false);
     setEnable(false);
+
+    // eslint-disable-next-line
   }, [profile?.provider_id, values]);
 
   return (

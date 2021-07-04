@@ -9,7 +9,6 @@ import {
 } from "types/authTypes";
 import {
   createHttp,
-  createHttpWithMessage,
   getHttp,
   updateHttp,
 } from "utils/api/createHttp";
@@ -151,7 +150,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const updateProfile = async (profile: any, profile_id: string) => {
     try {
-      const data = await updateHttp(`/profile/${profile_id}`, profile);
+      await updateHttp(`/profile/${profile_id}`, profile);
       // dispatch({ type: GET_PROFILE, payload: data });
     } catch (error) {
       if (!error?.response) {

@@ -10,10 +10,8 @@ import styled from "styled-components";
 import CustomModalUI from "components/ui/CustomModal";
 import Loader from "components/ui/Loader";
 import { formatPrice } from "utils/formatPrice";
-import CustomInput from "components/ui/CustomInput";
 import CustomButton from "components/ui/CustomButton";
 import { WalletContext } from "context/wallet/WalletProvider";
-import { successNotify } from "utils/errorMessage";
 
 type Props = {
   setShowTransferToBank: Dispatch<SetStateAction<boolean>>;
@@ -40,7 +38,8 @@ const TransferToBank: React.FC<Props> = ({
     setLoading(true);
     try {
       await walletTransferToBank(amount);
-      successNotify("Your bank transfer was successful");
+      setAmount(0);
+      setIndex(-1);
       removeFromWalletBalance(amount);
       setLoading(false);
       setShowTransferToBank(false);
@@ -83,14 +82,18 @@ const TransferToBank: React.FC<Props> = ({
               </p> */}
               <br />
               <span className="label">Large Amount</span>
-              <CustomInput
-                placeholder="Enter Amount"
-                type="number"
-                onChange={({
-                  target: { value },
-                }: ChangeEvent<HTMLInputElement>) => setAmount(parseInt(value))}
-                inputStyle={{ color: "white" }}
-              />
+              <InputDiv>
+                <Input
+                  placeholder="Enter Amount"
+                  type="number"
+                  value={amount}
+                  onChange={({
+                    target: { value },
+                  }: ChangeEvent<HTMLInputElement>) =>
+                    setAmount(parseInt(value))
+                  }
+                />
+              </InputDiv>
               <br />
               <ButtonStyle
                 disabled={!amount}
@@ -163,6 +166,29 @@ const Container = styled.div`
     width: 100%;
     padding: 0 10px;
   }
+`;
+
+const InputDiv = styled.div`
+  border: 1px solid #dddddd;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  padding: 10px;
+
+  .fa-search {
+    color: #aaaaaa;
+    margin-right: 10px;
+  }
+`;
+
+const Input = styled.input`
+  outline: none;
+  border: none;
+  width: 100%;
+  background-color: transparent;
+  color: white;
 `;
 
 const ButtonStyle = styled.button`
