@@ -37,6 +37,7 @@ const TransferToWallet: React.FC<Props> = ({
   const [index, setIndex] = useState<number>();
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [alertModal, setAlertModal] = useState(false);
 
   // console.log("")
 
@@ -80,10 +81,15 @@ const TransferToWallet: React.FC<Props> = ({
                   (amount: number, i: number) => (
                     <ButtonStyle
                       key={i}
+                      // disabled={!email}
                       style={{
                         background: index === i ? "#FF2A5F" : "transparent",
                       }}
                       onClick={async () => {
+                        if (!email) {
+                          setAlertModal(true);
+                          return;
+                        }
                         setAmount(amount);
                         setIndex(i);
                         setShowModal(true);
@@ -106,9 +112,13 @@ const TransferToWallet: React.FC<Props> = ({
               />
               <br />
               <ButtonStyle
-                disabled={!amount}
+                // disabled={!amount}
                 style={{ padding: 10 }}
                 onClick={() => {
+                  if (!email) {
+                    setAlertModal(true);
+                    return;
+                  }
                   setAmount(amount);
                   setShowModal(true);
                 }}
@@ -126,8 +136,8 @@ const TransferToWallet: React.FC<Props> = ({
       <CustomModalUI
         component={() => (
           <AlertModal>
-            <h1>Paystack Charge</h1>
-            <p>Are you sure you want to transfer to your bank</p>
+            <h1>Wallet Transfer</h1>
+            <p>You are abount to transfer to a wallet</p>
             <div className="action_btns">
               <CustomButton
                 label="Cancel"
@@ -161,6 +171,25 @@ const TransferToWallet: React.FC<Props> = ({
           </AlertModal>
         )}
         visible={showModal}
+        handleCancel={() => {}}
+        width={300}
+        closable={false}
+      />
+      <CustomModalUI
+        component={() => (
+          <AlertModal>
+            <h1>Error Message</h1>
+            <p>Please type in the email or amount you want to transfer money to</p>
+            <CustomButton
+              label="Cancel"
+              style={{ padding: "5px", marginRight: 10 }}
+              onClick={() => {
+                setAlertModal(false);
+              }}
+            />
+          </AlertModal>
+        )}
+        visible={alertModal}
         handleCancel={() => {}}
         width={300}
         closable={false}

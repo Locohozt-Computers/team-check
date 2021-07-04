@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { createContext, useEffect, useReducer } from "react";
 import { BankType, WalletType } from "types/walletTypes";
 import {
@@ -13,12 +14,14 @@ const initialState = {
   transactions: [],
   nextUrl: null,
   walletBalance: 0,
+  bankDetails: null,
 };
 
 export const GET_ALL_WALLET = "GET_ALL_WALLET";
 export const WALLET = "WALLET";
 export const ADD_TO_WALLET = "ADD_TO_WALLET";
 export const REMOVE_FROM_WALLET = "REMOVE_FROM_WALLET";
+export const DISPLAY_BANK_DETAILS = "DISPLAY_BANK_DETAILS";
 export const LOAD_MORE_TRANSACTIONS = "LOAD_MORE_TRANSACTIONS";
 export const FUND_WALLET = "FUND_WALLET";
 export const ADD_BANK = "ADD_BANK";
@@ -30,6 +33,7 @@ type ContextType = {
   transactions: Partial<WalletType>[];
   nextUrl: null | string;
   walletBalance: number;
+  bankDetails: any;
   fundWalletContext: (wallet: Partial<WalletType>) => void;
   getAllWalletTransactions: () => void;
   addBank: (bank: Partial<BankType>) => void;
@@ -39,10 +43,12 @@ type ContextType = {
   getWalletBalance: (amount: number) => void;
   addToWalletBalance: (amount: number) => void;
   removeFromWalletBalance: (amount: number) => void;
+  displayBankDetails: (bank: any) => void;
 };
 
 export const WalletContext = createContext<ContextType>({
   transactions: [],
+  bankDetails: null,
   nextUrl: null,
   walletBalance: 0,
   fundWalletContext: (wallet: Partial<WalletType>) => {},
@@ -54,6 +60,7 @@ export const WalletContext = createContext<ContextType>({
   getWalletBalance: (amount: number) => {},
   addToWalletBalance: (amount: number) => {},
   removeFromWalletBalance: (amount: number) => {},
+  displayBankDetails: (bank: any) => {},
 });
 
 const WalletProvider: React.FC = ({ children }) => {
@@ -106,7 +113,7 @@ const WalletProvider: React.FC = ({ children }) => {
 
   const walletTransferToBank = async (amount: number) => {
     try {
-      const data = await createHttpWithMessage("/wallet/transfer-to-bank", {
+      const data = await createHttp("/wallet/transfer-to-bank", {
         amount,
       });
       dispatch({ type: WALLET_TRANSFER_TO_BANK, payload: data });
@@ -124,10 +131,7 @@ const WalletProvider: React.FC = ({ children }) => {
     amount: number;
   }) => {
     try {
-      const data = await createHttpWithMessage(
-        "/wallet/transfer-to-wallet",
-        wallet
-      );
+      const data = await createHttp("/wallet/transfer-to-wallet", wallet);
       dispatch({ type: WALLET_TRANSFER_TO_WALLET, payload: data });
       successNotify(data);
     } catch (error) {
@@ -140,9 +144,18 @@ const WalletProvider: React.FC = ({ children }) => {
 
   const addBank = async (bank: Partial<BankType>) => {
     try {
-      const data = await createHttp("/bank-details", bank);
-      dispatch({ type: ADD_BANK, payload: data });
+      const userObj: any = localStorage.getItem("techCheckPoint");
+      const token = JSON.parse(userObj)?.token;
+      // const data = await createHttp("/bank-details", bank);
+      const response = await axios.post("/bank-details", bank, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      dispatch({ type: ADD_BANK, payload: response?.data?.data });
       successNotify("Bank added successfully!!");
+      return response?.data?.data;
     } catch (error) {
       if (!error?.response) {
         errorNotify("Network went wrong!!!");
@@ -165,6 +178,10 @@ const WalletProvider: React.FC = ({ children }) => {
     dispatch({ type: REMOVE_FROM_WALLET, payload: balance });
   };
 
+  const displayBankDetails = (bank: any) => {
+    dispatch({ type: DISPLAY_BANK_DETAILS, payload: bank });
+  };
+
   useEffect(() => {
     getAllWalletTransactions();
   }, []);
@@ -173,6 +190,7 @@ const WalletProvider: React.FC = ({ children }) => {
     transactions: state?.transactions,
     nextUrl: state?.nextUrl,
     walletBalance: state.walletBalance,
+    bankDetails: state?.bankDetails,
     getAllWalletTransactions,
     loadMoreTransaction,
     fundWalletContext,
@@ -182,6 +200,7 @@ const WalletProvider: React.FC = ({ children }) => {
     addToWalletBalance,
     removeFromWalletBalance,
     getWalletBalance,
+    displayBankDetails,
   };
   return (
     <WalletContext.Provider value={values}>{children}</WalletContext.Provider>

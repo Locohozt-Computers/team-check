@@ -6,7 +6,7 @@ export const Container = styled.div`
   gap: 30px;
   height: 84vh;
 
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
     height: 88vh;
     overflow-y: auto;
@@ -20,7 +20,7 @@ export const Left = styled.div`
   height: 83vh;
   overflow-y: auto;
 
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
     height: 70vh;
     overflow-y: hidden;
@@ -33,13 +33,13 @@ export const Right = styled.div`
   height: 84vh;
   overflow-y: auto;
 
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     grid-template-columns: 1fr;
     height: 80vh;
     overflow-y: hidden;
   }
 
-  @media(max-width: 400px) {
+  @media (max-width: 400px) {
     grid-template-columns: 1fr;
     height: 100vh;
     overflow-y: hidden;
@@ -57,11 +57,26 @@ export const Image = styled.div`
 export const Profile = styled.div`
   padding: 40px;
 
-  h1 {
-    margin-bottom: 30px;
+  input {
+    border: 1px solid #cccccc;
+    width: 100%;
+    padding: 5px 10px;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 10px;
   }
 
-  p{
-    padding: 10px 0;
+  input.btn {
+    background-color: dodgerblue;
+    color: white;
+    cursor: pointer;
+  }
+
+  h1 {
+    margin-bottom: 5px;
+  }
+
+  p {
+    padding: 2px 0;
   }
 `;

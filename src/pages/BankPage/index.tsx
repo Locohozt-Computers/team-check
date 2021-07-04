@@ -9,12 +9,24 @@ import { AuthContext } from "context/auth/AuthProvider";
 
 const BankPage = () => {
   const { profile, getProfile } = useContext(AuthContext);
-  const { addBank } = useContext(WalletContext);
+  const { addBank, displayBankDetails } = useContext(WalletContext);
+
+  const [name, setName] = useState("");
+
+  const [values, setValues] = useState({
+    bank_code: "",
+    bank_name: "",
+    account_number: "",
+    account_name: name,
+  });
 
   const [form, setForm] = useState({
     error: null,
     loading: false,
   });
+
+  // "2388081978"
+  // 1470698720
 
   const onSubmit = async (values: BankType) => {
     try {
@@ -22,11 +34,19 @@ const BankPage = () => {
         ...form,
         loading: true,
       });
-      await addBank(values);
+      const response = await addBank(values);
+      displayBankDetails(response);
       setForm({
         ...form,
         loading: false,
       });
+      setValues({
+        bank_code: "",
+        bank_name: "",
+        account_number: "",
+        account_name: "",
+      });
+      setName("");
     } catch (error) {
       setForm({
         ...form,
@@ -45,7 +65,14 @@ const BankPage = () => {
   return (
     <HomeLayout>
       <Container>
-        <BankForm onSubmit={onSubmit} form={form} />
+        <BankForm
+          onSubmit={onSubmit}
+          form={form}
+          name={name}
+          values={values}
+          setName={setName}
+          setValues={setValues}
+        />
         <BankDisplay profile={profile} />
       </Container>
     </HomeLayout>

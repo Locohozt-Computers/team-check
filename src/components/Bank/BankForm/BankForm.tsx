@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import { ErrorLabel } from "components/Auth/common/style";
 import { Container, Form } from "./style";
@@ -9,23 +9,27 @@ import CustomDropdown from "components/ui/CustomDropdown";
 
 type Props = {
   onSubmit?: any;
+  setValues: Dispatch<SetStateAction<any>>;
+  values: any;
+  name: string;
+  setName: Dispatch<SetStateAction<string>>;
   form: {
     loading: boolean;
     error: any;
   };
 };
 
-const BankForm: React.FC<Props> = ({ onSubmit, form }) => {
+const BankForm: React.FC<Props> = ({
+  onSubmit,
+  form,
+  values,
+  setValues,
+  name,
+  setName,
+}) => {
   const [banks, setBanks] = useState([]);
-  const [name, setName] = useState("");
   const [, setLoading] = useState(false);
-
-  const [values, setValues] = useState({
-    bank_code: "",
-    bank_name: "",
-    account_number: "",
-    account_name: name,
-  });
+  const [error, setError] = useState(null);
 
   const getBanks = async () => {
     try {
@@ -63,12 +67,24 @@ const BankForm: React.FC<Props> = ({ onSubmit, form }) => {
       account_number: value,
     });
     setLoading(true);
-    const res = await createHttp("/account-details", {
-      account_number: value,
-      bank_code: values.bank_code,
-    });
-    setName(res?.account_name);
-    setLoading(false);
+    try {
+      const res = await createHttp("/account-details", {
+        account_number: value,
+        bank_code: values.bank_code,
+      });
+      setName(res?.account_name);
+      setLoading(false);
+    } catch (error) {
+      console.log(error?.response);
+      if(name && error) {
+        setName("")
+      }
+      setError(
+        error?.response?.data?.errors?.account_number[0]
+          ? error?.response?.data?.errors?.account_number[0]
+          : error?.response?.data?.message
+      );
+    }
   };
 
   useEffect(() => {
@@ -105,9 +121,18 @@ const BankForm: React.FC<Props> = ({ onSubmit, form }) => {
           onChange={getAccountName}
           value={values.account_number}
           style={{
-            marginBottom: 30,
+            marginBottom: error ? 5 : 30,
           }}
         />
+        <span
+          style={{
+            marginBottom: 30,
+            color: "orangered",
+            fontSize: 12,
+          }}
+        >
+          {error && error}
+        </span>
         <InputWithLabel
           placeholder="Enter Account Name"
           label="Account Name"

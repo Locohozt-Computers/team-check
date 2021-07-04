@@ -7,7 +7,12 @@ import {
   SignupUserType,
   UserType,
 } from "types/authTypes";
-import { createHttp, getHttp } from "utils/api/createHttp";
+import {
+  createHttp,
+  createHttpWithMessage,
+  getHttp,
+  updateHttp,
+} from "utils/api/createHttp";
 import { authErrorHandler } from "utils/CatchErrors";
 import { errorNotify } from "utils/errorMessage";
 import authReducer from "./Authreducer";
@@ -31,6 +36,7 @@ export const FORGOT_PASSWORD = "FORGOT_PASSWORD";
 export const CHANGE_PASSWORD = "CHANGE_PASSWORD";
 export const RESET_PASSWORD = "RESET_PASSWORD";
 export const GET_PROFILE = "GET_PROFILE";
+export const UPDATE_PROFILE = "UPDATE_PROFILE";
 
 type ContextType = {
   user: Partial<SignupUserType>;
@@ -41,6 +47,7 @@ type ContextType = {
   changePasswordContext: (passwords: ChangePasswordType) => void;
   resetPasswordContext: (reset: ResetType) => void;
   getProfile: (profile_id: string) => void;
+  updateProfile: (profile: any, id: string) => void;
 };
 
 export const AuthContext = createContext<ContextType>({
@@ -52,6 +59,7 @@ export const AuthContext = createContext<ContextType>({
   changePasswordContext: (passwords: ChangePasswordType) => {},
   resetPasswordContext: (reset: ResetType) => {},
   getProfile: (profile_id: string) => {},
+  updateProfile: (profile: any, id: string) => {},
 });
 
 const AuthProvider: React.FC = ({ children }) => {
@@ -132,6 +140,20 @@ const AuthProvider: React.FC = ({ children }) => {
       const data = await getHttp(`/profile/${profile_id}`);
       dispatch({ type: GET_PROFILE, payload: data });
     } catch (error) {
+      // if (!error?.response) {
+      //   // eslint-disable-next-line
+      //   throw "Network went wrong!!!";
+      // }
+      // throw error?.response?.data?.message;
+      throw error;
+    }
+  };
+
+  const updateProfile = async (profile: any, profile_id: string) => {
+    try {
+      const data = await updateHttp(`/profile/${profile_id}`, profile);
+      // dispatch({ type: GET_PROFILE, payload: data });
+    } catch (error) {
       if (!error?.response) {
         // eslint-disable-next-line
         throw "Network went wrong!!!";
@@ -155,6 +177,7 @@ const AuthProvider: React.FC = ({ children }) => {
     changePasswordContext,
     resetPasswordContext,
     getProfile,
+    updateProfile,
   };
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };

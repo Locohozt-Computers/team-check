@@ -19,6 +19,7 @@ export type InitialStateTypes<T> = {
   transactions: T[];
   nextUrl: string;
   walletBalance: number;
+  bankDetails: any;
 };
 
 export type BankType = {

@@ -109,7 +109,7 @@ const TransferToBank: React.FC<Props> = ({
       <CustomModalUI
         component={() => (
           <AlertModal>
-            <h1>Paystack Charge</h1>
+            <h1>Bank Transfer</h1>
             <p>Are you sure you want to transfer to your bank</p>
             <div className="action_btns">
               <CustomButton

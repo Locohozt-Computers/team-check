@@ -1,4 +1,9 @@
-import React, { useContext } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 import ChangePassword from "components/Auth/ChangePassword";
 import { onSubmitActionType } from "components/Auth/SignIn";
@@ -10,8 +15,23 @@ import { Container, First, Left, Profile, Right, Second, Image } from "./style";
 import avatar from "assets/images/unisex.jpeg";
 
 const ProfilePage = () => {
-  const { changePasswordContext } = useContext(AuthContext);
+  const { changePasswordContext, profile, updateProfile } =
+    useContext(AuthContext);
   const history = useHistory();
+
+  const user: any = localStorage.getItem("techCheckPoint");
+  const profileId = JSON.parse(user).profile_id;
+
+  const [values, setValues] = useState({
+    username: "",
+    email: "",
+    bio: "",
+    location: "",
+    gender: "",
+    telephone: "",
+  });
+
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (
     values: ChangePasswordType,
@@ -28,6 +48,37 @@ const ProfilePage = () => {
     }
   };
 
+  useEffect(() => {
+    setValues({
+      username: profile?.user?.username ?? "",
+      email: profile?.user?.email ?? "",
+      bio: profile?.bio ? profile?.bio : "",
+      location: profile?.location ? profile.location : "",
+      gender: profile?.gender ? profile?.gender : "",
+      telephone: profile?.telephone ? profile?.telephone : "",
+    });
+  }, [
+    profile?.user?.username,
+    profile?.user?.email,
+    profile?.bio,
+    profile?.gender,
+    profile?.location,
+    profile?.telephone,
+  ]);
+
+  const handleInput = ({
+    target: { value, name },
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+
+  const handleUpdate = useCallback(async () => {
+    await updateProfile(values, profileId);
+  }, [profile?.provider_id, values]);
+
   return (
     <HomeLayout>
       <Container>
@@ -37,9 +88,57 @@ const ProfilePage = () => {
           </Image>
           <Profile>
             <h1>My Profile</h1>
-            <p>John Doe</p>
-            <p>johnd@example.com</p>
-            <p>+234 010 234 1234</p>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username..."
+              value={values.username}
+              onChange={handleInput}
+            />
+            <input
+              type="text"
+              name="email"
+              placeholder="Email Address"
+              value={values?.email}
+              onChange={handleInput}
+            />
+            <input
+              type="text"
+              name="telephone"
+              placeholder="Phone Number..."
+              value={values?.telephone}
+              onChange={handleInput}
+            />
+            <input
+              type="text"
+              placeholder="Bio..."
+              name="bio"
+              value={values?.bio}
+              onChange={handleInput}
+            />
+            <input
+              type="text"
+              name="location"
+              placeholder="Your Location"
+              value={values?.location ?? ""}
+              onChange={handleInput}
+            />
+            <input
+              type="text"
+              name="gender"
+              placeholder="Your Gender"
+              value={values?.gender ?? ""}
+              onChange={handleInput}
+            />
+            {
+              <input
+                type="button"
+                className="btn"
+                value={loading ? "loading..." : "Update"}
+                onChange={handleInput}
+                onClick={handleUpdate}
+              />
+            }
           </Profile>
         </Left>
         <Right>

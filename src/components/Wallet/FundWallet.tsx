@@ -2,7 +2,6 @@ import React, {
   ChangeEvent,
   Dispatch,
   SetStateAction,
-  useContext,
   useState,
 } from "react";
 import styled from "styled-components";
@@ -13,7 +12,6 @@ import CustomModalUI from "components/ui/CustomModal";
 import Loader from "components/ui/Loader";
 import { formatPrice } from "utils/formatPrice";
 import CustomInput from "components/ui/CustomInput";
-import { AuthContext } from "context/auth/AuthProvider";
 
 type Props = {
   setShowFundWalletModal: Dispatch<SetStateAction<boolean>>;
@@ -28,7 +26,9 @@ const PaymentComponent: React.FC<Props> = ({
   setAmount: setStateAmount,
   amount: stateAmount,
 }) => {
-  const { profile } = useContext(AuthContext);
+
+  const userFromLocalStorage: any = localStorage.getItem("techCheckPoint");
+  const user = JSON.parse(userFromLocalStorage);
 
   const [amountCharges] = useState(0);
   const [amount, setAmount] = useState<number>(0);
@@ -141,7 +141,7 @@ const PaymentComponent: React.FC<Props> = ({
                   style={{ height: 27, border: 0 }}
                   amount={amount ? paystackCharge(amount) + amount : 0}
                   charges={paystackCharge(amount)}
-                  email={profile?.user?.email ? profile.user.email : ""}
+                  email={user?.email ? user.email : ""}
                   handleClose={() => {}}
                   setStateAmount={setStateAmount}
                   stateAmount={stateAmount}
