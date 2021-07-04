@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import ChangePassword from "components/Auth/ChangePassword";
 import { onSubmitActionType } from "components/Auth/SignIn";
@@ -32,6 +27,7 @@ const ProfilePage = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [enable, setEnable] = useState(false);
 
   const onSubmit = async (
     values: ChangePasswordType,
@@ -47,6 +43,10 @@ const ProfilePage = () => {
       setErrors(error);
     }
   };
+
+  // useEffect(() => {
+  //   setEnable(false)
+  // }, [])
 
   useEffect(() => {
     setValues({
@@ -73,10 +73,14 @@ const ProfilePage = () => {
       ...values,
       [name]: value,
     });
+    setEnable(true);
   };
 
   const handleUpdate = useCallback(async () => {
+    setLoading(true);
     await updateProfile(values, profileId);
+    setLoading(false);
+    setEnable(false);
   }, [profile?.provider_id, values]);
 
   return (
@@ -133,6 +137,10 @@ const ProfilePage = () => {
             {
               <input
                 type="button"
+                disabled={!enable}
+                style={{
+                  backgroundColor: enable ? "dodgerblue" : "#bbbbbb",
+                }}
                 className="btn"
                 value={loading ? "loading..." : "Update"}
                 onChange={handleInput}

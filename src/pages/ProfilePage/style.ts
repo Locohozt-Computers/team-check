@@ -22,8 +22,8 @@ export const Left = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    height: 70vh;
-    overflow-y: hidden;
+    height: 65vh;
+    overflow-y: auto;
   }
 `;
 export const Right = styled.div`
