@@ -30,7 +30,6 @@ const CustomDropdown: React.FC<Props> = ({
     <DDWrapper style={style}>
       <DDHeader onClick={() => setVisible(!visible)}>
         <div className="dd-header-title">
-          {!value && "*"}
           {value ? value : defaultSelect}
         </div>
         {visible ? (
