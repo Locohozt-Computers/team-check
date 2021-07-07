@@ -7,6 +7,7 @@ import CustomInput from "components/ui/CustomInput";
 import { CSSProperties } from "styled-components";
 import CustomDropdown from "components/ui/CustomDropdown";
 import { useHistory } from "react-router-dom";
+import Title from "components/ui/Title";
 
 const pr: CSSProperties = {
   paddingRight: 10,
@@ -36,13 +37,13 @@ const RegisterPhoneForm: React.FC<Props> = ({ setValues, values }) => {
   return (
     <HomeLayout>
       <Container>
-        <h1>
+        <h1 className="register_title">
           <i
             className="fas fa-arrow-left"
-            style={{ marginRight: 20, cursor: "pointer" }}
+            style={{ marginRight: 20, cursor: "pointer", color: "#c5c7e2" }}
             onClick={() => history.goBack()}
           ></i>{" "}
-          Register A Phone
+          <Title title="Register A Phone" />
         </h1>
         <br />
         <br />

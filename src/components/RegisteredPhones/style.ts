@@ -7,6 +7,11 @@ export const Container = styled.div`
   overflow-y: auto;
   background-color: white;
 
+  .register_title {
+    display: flex;
+    align-items: center;
+  }
+
   .pr {
     padding-right: 10px;
   }
