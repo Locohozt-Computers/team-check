@@ -7,8 +7,25 @@ export const Container = styled.div`
   overflow-y: auto;
   background-color: white;
 
+  .pr {
+    padding-right: 10px;
+  }
+
+  .pl {
+    padding-left: 10px;
+  }
+
   @media (max-width: 768px) {
     height: 86vh;
+
+    .pr {
+      padding-right: 0;
+      margin-bottom: 20px;
+    }
+
+    .pl {
+      padding-left: 0;
+    }
   }
 `;
 
@@ -31,12 +48,20 @@ export const Header = styled.div`
     span {
       margin-left: 10px;
     }
+
+    @media (max-width: 768px) {
+      padding: 5px 10px;
+
+      span {
+        display: none;
+      }
+    }
   }
 `;
 
 export const Content = styled.div`
   width: 100%;
-  
+
   h2 {
     text-align: center;
     padding-top: 15%;

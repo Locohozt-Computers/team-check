@@ -1,9 +1,5 @@
 import React, { CSSProperties } from "react";
-
-const style: CSSProperties = {
-  margin: 0,
-  color: "#c5c7e2",
-};
+import styled from "styled-components";
 
 type Props = {
   title: string;
@@ -12,9 +8,18 @@ type Props = {
 const Title: React.FC<Props> = ({ title }) => {
   return (
     <div>
-      <h1 style={style}>{title}</h1>
+      <H1>{title}</H1>
     </div>
   );
 };
+
+const H1 = styled.div`
+  margin: 0;
+  color: #c5c7e2;
+
+  @media (max-width: 768px) {
+    font-size: 25px;
+  }
+`;
 
 export default Title;

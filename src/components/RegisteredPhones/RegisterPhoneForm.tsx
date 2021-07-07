@@ -39,7 +39,7 @@ const RegisterPhoneForm: React.FC<Props> = ({ setValues, values }) => {
         <h1>
           <i
             className="fas fa-arrow-left"
-            style={{ marginRight: 20, cursor: 'pointer' }}
+            style={{ marginRight: 20, cursor: "pointer" }}
             onClick={() => history.goBack()}
           ></i>{" "}
           Register A Phone
@@ -53,73 +53,73 @@ const RegisterPhoneForm: React.FC<Props> = ({ setValues, values }) => {
         </Row>
         <br />
         <Row>
-          <Col span={12} style={pr}>
+          <Col xs={24} md={12} className="pr">
             <CustomDropdown data={[]} defaultSelect="Brand" />
           </Col>
-          <Col span={12} style={pl}>
+          <Col xs={24} md={12} className="pl">
             <CustomDropdown data={[]} defaultSelect="Model" />
           </Col>
         </Row>
         <br />
         <Row>
-          <Col span={12} style={pr}>
+          <Col xs={24} md={12} className="pr">
             <CustomDropdown data={[]} defaultSelect="Condition" />
           </Col>
-          <Col span={12} style={pl}>
+          <Col xs={24} md={12} className="pl">
             <CustomDropdown data={[]} defaultSelect="Second Condition" />
           </Col>
         </Row>
         <br />
         <Row>
-          <Col span={12} style={pr}>
+          <Col xs={24} md={12} className="pr">
             <CustomDropdown data={[]} defaultSelect="Ram" />
           </Col>
-          <Col span={12} style={pl}>
+          <Col xs={24} md={12} className="pl">
             <CustomDropdown data={[]} defaultSelect="Internal Storage" />
           </Col>
         </Row>
         <br />
         <Row>
-          <Col span={12} style={pr}>
+          <Col xs={24} md={12} className="pr">
             <CustomDropdown data={[]} defaultSelect="Screen Size" />
           </Col>
-          <Col span={12} style={pl}>
+          <Col xs={24} md={12} className="pl">
             <CustomDropdown data={[]} defaultSelect="Colour" />
           </Col>
         </Row>
         <br />
         <Row>
-          <Col span={12} style={pr}>
+          <Col xs={24} md={12} className="pr">
             <CustomDropdown data={[]} defaultSelect="Operating System" />
           </Col>
-          <Col span={12} style={pl}>
+          <Col xs={24} md={12} className="pl">
             <CustomDropdown data={[]} defaultSelect="Display Type" />
           </Col>
         </Row>
         <br />
         <Row>
-          <Col span={12} style={pr}>
+          <Col xs={24} md={12} className="pr">
             <CustomDropdown data={[]} defaultSelect="Resolution" />
           </Col>
-          <Col span={12} style={pl}>
+          <Col xs={24} md={12} className="pl">
             <CustomDropdown data={[]} defaultSelect="SIM" />
           </Col>
         </Row>
         <br />
         <Row>
-          <Col span={12} style={pr}>
+          <Col xs={24} md={12} className="pr">
             <CustomDropdown data={[]} defaultSelect="Card Slot" />
           </Col>
-          <Col span={12} style={pl}>
+          <Col xs={24} md={12} className="pl">
             <CustomDropdown data={[]} defaultSelect="Main Camera" />
           </Col>
         </Row>
         <br />
         <Row>
-          <Col span={12} style={pr}>
+          <Col xs={24} md={12} className="pr">
             <CustomDropdown data={[]} defaultSelect="Selfie Camera" />
           </Col>
-          <Col span={12} style={pl}>
+          <Col xs={24} md={12} className="pl">
             <CustomDropdown data={[]} defaultSelect="Battery (mAh)" />
           </Col>
         </Row>
@@ -144,7 +144,7 @@ const RegisterPhoneForm: React.FC<Props> = ({ setValues, values }) => {
         </Row>
         <br />
         <Row>
-          <Col span={12} style={pr}>
+          <Col xs={24} md={12} className="pr">
             <CustomInput
               placeholder="Your Phone"
               name="your_price"
@@ -152,7 +152,7 @@ const RegisterPhoneForm: React.FC<Props> = ({ setValues, values }) => {
               onChange={inputOnChange}
             />
           </Col>
-          <Col span={12} style={pl}>
+          <Col xs={24} md={12} className="pl">
             <CustomInput
               placeholder="Name"
               name="name"
