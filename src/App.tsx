@@ -14,11 +14,12 @@ import ResetPasswordPage from "pages/ResetPasswordPage";
 import RegisteredPhonesPage from "pages/RegisteredPhonesPage";
 import WalletPage from "pages/WalletPage";
 import ProfilePage from "pages/ProfilePage";
+import BankPage from "pages/BankPage";
+import NotFound from "components/NotFound";
+import RegisterPhoneFormPage from "pages/RegisteredPhonesPage/RegisterPhoneFormPage";
 
 import "react-toastify/dist/ReactToastify.css";
 import "antd/dist/antd.css";
-import BankPage from "pages/BankPage";
-import NotFound from "components/NotFound";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -33,6 +34,12 @@ function App() {
           exact
           path="/phones"
           component={RegisteredPhonesPage}
+        />
+        <PrivateRoute
+          isAuth={true}
+          exact
+          path="/phones/registerphoneform"
+          component={RegisterPhoneFormPage}
         />
         <PrivateRoute
           isAuth={true}

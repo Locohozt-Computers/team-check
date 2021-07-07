@@ -34,7 +34,7 @@ const BankForm: React.FC<Props> = ({
   const getBanks = async () => {
     try {
       const res = await getHttp("/all-banks");
-      console.log(res)
+      console.log(res);
       const banks = res?.map((bank: any) => {
         return {
           id: bank?.BankSortCode,
@@ -62,7 +62,6 @@ const BankForm: React.FC<Props> = ({
   const getAccountName = async ({
     target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(value.length);
     setValues({
       ...values,
       account_number: value,
@@ -77,8 +76,8 @@ const BankForm: React.FC<Props> = ({
       setLoading(false);
     } catch (error) {
       console.log(error?.response);
-      if(name && error) {
-        setName("")
+      if (name && error) {
+        setName("");
       }
       setError(
         error?.response?.data?.errors?.account_number[0]

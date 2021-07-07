@@ -1,16 +1,29 @@
-import HomeLayout from 'components/layouts/HomeLayout/HomeLayout'
-import React from 'react'
-import { Container } from './style'
+import React from "react";
+import { useHistory } from "react-router-dom";
+
+import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
+import { Container, Header,Content } from "./style";
+import Title from "components/ui/Title";
 
 const RegisteredPhones = () => {
-    return (
-        <HomeLayout>
-            <Container>
-                <h1>Registered Phones</h1>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non, cumque? Delectus nihil esse debitis officia, ducimus quisquam corporis earum incidunt, velit tenetur nostrum possimus tempore perferendis et neque a natus architecto magnam facere sint, repellat cupiditate laudantium autem commodi. Neque odio alias ducimus dolorum, atque nam ex eius unde possimus! Similique placeat ipsam voluptatem! In voluptatem modi reiciendis libero quis dolor exercitationem ex nulla iure, temporibus numquam cumque consectetur fugit nobis et quaerat? Libero debitis provident quod ratione labore obcaecati aliquam, esse fuga consectetur harum! Deserunt, excepturi! Voluptatum pariatur rem, at natus expedita accusamus necessitatibus enim facere. Quae, quis consequuntur.</p>
-            </Container>
-        </HomeLayout>
-    )
-}
+  const history = useHistory();
+  return (
+    <HomeLayout>
+      <Container>
+        <Header>
+          <Title title="Register Phone" />
+          <button onClick={() => history.push("/phones/registerphoneform")}>
+            <i className="fas fa-plus"></i>
+            <span>Add Phone</span>
+          </button>
+        </Header>
 
-export default RegisteredPhones
+        <Content>
+          <h2>No Phone Register Yet</h2>
+        </Content>
+      </Container>
+    </HomeLayout>
+  );
+};
+
+export default RegisteredPhones;

@@ -4,12 +4,13 @@ export const Container = styled.div`
   width: 100%;
   height: 84vh;
   padding: 2%;
+  padding-top: 0;
   overflow-y: auto;
   background-color: #f1f1f7;
 
   .hi {
     color: #454e6a;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 
   .name {

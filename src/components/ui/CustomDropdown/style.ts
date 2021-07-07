@@ -15,6 +15,10 @@ export const DDHeader = styled.div`
   color: #161616;
   cursor: pointer;
 
+  .defaultSelect {
+    color: #a0b9ca;
+  }
+
   .dd-header-title {
     font-style: normal;
     font-weight: normal;
