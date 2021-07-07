@@ -83,6 +83,7 @@ const PaymentComponent: React.FC<Props> = ({
               <CustomInput
                 placeholder="Enter Amount"
                 type="number"
+                value={amount}
                 onChange={({
                   target: { value },
                 }: ChangeEvent<HTMLInputElement>) => setAmount(parseInt(value))}
