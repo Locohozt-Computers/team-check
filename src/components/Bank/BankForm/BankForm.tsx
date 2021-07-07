@@ -34,11 +34,12 @@ const BankForm: React.FC<Props> = ({
   const getBanks = async () => {
     try {
       const res = await getHttp("/all-banks");
+      console.log(res)
       const banks = res?.map((bank: any) => {
         return {
           id: bank?.BankSortCode,
-          label: bank?.BankName,
-          value: bank?.BankCode,
+          label: bank?.bankName,
+          value: bank?.bankCode,
         };
       });
       setBanks(banks);
