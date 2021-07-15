@@ -1,5 +1,6 @@
 import { AuthContext } from "context/auth/AuthProvider";
 import { LayoutContext } from "context/layout/LayoutProvider";
+import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvider";
 import { WalletContext } from "context/wallet/WalletProvider";
 import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../Navbar";
@@ -13,12 +14,26 @@ const HomeLayout: React.FC = ({ children }) => {
   const { user, getProfile, profile } = useContext(AuthContext);
   const { getWalletBalance } = useContext(WalletContext);
   const { isMobile } = useContext(LayoutContext);
+  const {
+    getBrands,
+    getCategories,
+    getStates,
+    getColors,
+    getCondition,
+    getScreenSize,
+  } = useContext(RegisterPhoneContext);
 
   const isShowOrHideIconLabel = !!(isCollapse || isMobile);
 
   useEffect(() => {
     getProfile(user?.profile_id ?? "");
     getWalletBalance(profile?.walletBalance ?? 0);
+    getBrands();
+    getCategories();
+    getStates();
+    getColors();
+    getCondition();
+    getScreenSize();
 
     // eslint-disable-next-line
   }, [profile?.walletBalance]);

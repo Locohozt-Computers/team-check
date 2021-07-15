@@ -34,6 +34,8 @@ export const Container = styled.div`
   }
 `;
 
+export const FormStyle = styled.form``;
+
 export const Header = styled.div`
   width: 100%;
   display: flex;

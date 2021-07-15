@@ -6,13 +6,16 @@ import reportWebVitals from "./reportWebVitals";
 import AuthProvider from "./context/auth/AuthProvider";
 import LayoutProvider from "context/layout/LayoutProvider";
 import WalletProvider from "context/wallet/WalletProvider";
+import RegisterPhoneProvider from "context/registerPhone/RegisterPhoneProvider";
 
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
       <WalletProvider>
         <LayoutProvider>
-          <App />
+          <RegisterPhoneProvider>
+            <App />
+          </RegisterPhoneProvider>
         </LayoutProvider>
       </WalletProvider>
     </AuthProvider>

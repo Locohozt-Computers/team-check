@@ -50,7 +50,7 @@ const BankForm: React.FC<Props> = ({
 
   const onchangeBank = ({ target }: any) => {
     const value = target?.value?.split("**")[0];
-    const label = target?.name;
+    const label = target?.label;
 
     setValues({
       ...values,

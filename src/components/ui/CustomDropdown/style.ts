@@ -4,14 +4,14 @@ export const DDWrapper = styled.div`
   position: relative;
 `;
 
-export const DDHeader = styled.div`
+export const DDHeader = styled.div<{ disabled?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
   border: 1px solid #ebeaeb;
   border-radius: 4px;
-  background-color: white;
+  background-color: ${({ disabled }) => (disabled ? "#eeeeee" : "white")};
   color: #161616;
   cursor: pointer;
 
@@ -66,11 +66,15 @@ export const DDList = styled.div`
   &.show {
     opacity: 1;
     pointer-events: visible;
-    height: 100%;
   }
   &.hide {
     opacity: 0;
     pointer-events: none;
     height: 0px;
   }
+`;
+
+export const ErrorMessage = styled.div`
+  color: orangered;
+  font-size: 12px;
 `;

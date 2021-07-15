@@ -1,10 +1,10 @@
 import React, { useState, CSSProperties } from "react";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
 
-import { DDWrapper, DDHeader, DDList, DDIcon } from "./style";
+import { DDWrapper, DDHeader, DDList, DDIcon, ErrorMessage } from "./style";
 
 export type DType = {
-  id: number;
+  id: number | string;
   label: string;
   value: string;
 };
@@ -12,15 +12,21 @@ export type DType = {
 type Props = {
   data: DType[];
   defaultSelect?: string;
+  name?: string;
+  error?: string;
   onChange?: any;
   style?: CSSProperties;
+  disabled?: boolean;
 };
 
 const CustomDropdown: React.FC<Props> = ({
   defaultSelect,
   data,
+  name,
+  error,
   onChange,
   style,
+  disabled,
 }) => {
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState("");
@@ -28,7 +34,14 @@ const CustomDropdown: React.FC<Props> = ({
   const showOrHideClassname = visible ? "show" : "hide";
   return (
     <DDWrapper style={style}>
-      <DDHeader onClick={() => setVisible(!visible)}>
+      <DDHeader
+        disabled={disabled}
+        onClick={() => {
+          if (!disabled) {
+            setVisible(!visible);
+          }
+        }}
+      >
         <div className="dd-header-title">
           {value ? (
             <span className="value">{value}</span>
@@ -57,8 +70,10 @@ const CustomDropdown: React.FC<Props> = ({
               if (onChange) {
                 onChange({
                   target: {
+                    id: list.id,
                     value: list.value,
-                    name: list.label,
+                    label: list.label,
+                    name: name ? name : null,
                   },
                 });
               }
@@ -68,6 +83,7 @@ const CustomDropdown: React.FC<Props> = ({
           </div>
         ))}
       </DDList>
+      <ErrorMessage>{error}</ErrorMessage>
     </DDWrapper>
   );
 };
