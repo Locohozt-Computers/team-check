@@ -59,6 +59,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
     });
   };
 
+  // const resolution = models?.resolution?.map((res: any) => ({
+  //   id: 1,
+  //   label: res,
+  //   value: res,
+  // })) || [];
+
+  console.log(models)
+
   return (
     <HomeLayout>
       <Container>
@@ -228,7 +236,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
           <Row>
             <Col xs={24} md={12} className="pr">
               <CustomDropdown
-                data={registerData.model}
+                data={[]}
                 name="resolution"
                 onChange={selectOnChange}
                 defaultSelect="Resolution"

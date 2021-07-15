@@ -48,7 +48,7 @@ export const DDList = styled.div`
   background-color: white;
   z-index: 20;
   max-height: 400px;
-  min-height: 100px;
+  min-height: 30px;
   overflow-y: auto;
   z-index: 10;
 

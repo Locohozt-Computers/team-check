@@ -93,8 +93,8 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
 
   const getModels = async (id: number) => {
     try {
-      const results = await getHttp(`/phone-models/${id}`);
-      const models = results?.data?.map((model: any) => ({
+      const results = await getHttp(`/phone-brands/${id}`);
+      const models = results?.map((model: any) => ({
         id: model?.id,
         value: model?.name,
         label: model?.name,
