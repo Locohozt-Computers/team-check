@@ -91,3 +91,64 @@ export const Content = styled.div`
     color: #777777;
   }
 `;
+
+export const Images = styled.div`
+  display: flex;
+`;
+
+export const PhotoLists = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  overflow-x: auto;
+
+  .img_div {
+    position: relative;
+
+    .fa-times {
+      position: absolute;
+      right: 10px;
+      top: 0px;
+      font-size: 23px;
+      z-index: 10;
+      color: white;
+      cursor: pointer;
+    }
+  }
+
+  .img_loading {
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+    background-color: #888888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  img {
+    width: 80px;
+    height: 80px;
+    border-radius: 4px;
+    margin-right: 8px;
+  }
+`;
+
+export const AddPhoto = styled.label`
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+  border: 3px solid #ebeaeb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  i {
+    font-size: 30px;
+    color: #aaaaaa;
+  }
+
+  input {
+    display: none;
+  }
+`;

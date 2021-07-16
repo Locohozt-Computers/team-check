@@ -1,9 +1,10 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
 import { Row, Col, Form, Input, Checkbox } from "antd";
 import Select from "react-select";
+import Spinner from "react-loader-spinner";
 
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
-import { Container, FormStyle } from "./style";
+import { Container, FormStyle, AddPhoto, Images, PhotoLists } from "./style";
 import CustomInput from "components/ui/CustomInput";
 import CustomDropdown from "components/ui/CustomDropdown";
 import { useHistory } from "react-router-dom";
@@ -15,6 +16,8 @@ import registerFormValidation from "utils/validations/registerFormValidation";
 import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvider";
 import { getDropdown } from "utils/getDropdown";
 import { useEffect } from "react";
+import { multiUploadImage } from "utils/cloudinary/multiupload";
+import { useState } from "react";
 
 type Props = {
   values: RegisterValueType;
@@ -48,6 +51,8 @@ const RegisterPhoneForm: React.FC<Props> = ({
     getOperatingSystem,
   } = useContext(RegisterPhoneContext);
 
+  const [loading, setLoading] = useState(false);
+
   const inputOnChange = ({
     target: { value, name },
   }: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,6 +83,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
       resolution: resolution?.length <= 1 ? resolution[0]?.value : "",
       sim: sim?.length <= 1 ? sim[0]?.value : "",
       internal_storage: storage?.length <= 1 ? storage[0]?.value : "",
+      category_id: others?.category_id ? others?.category_id : 0,
     });
   }, [
     others?.battery,
@@ -89,8 +95,6 @@ const RegisterPhoneForm: React.FC<Props> = ({
     others?.sim,
     others?.internal_storage,
   ]);
-
-  console.log(operating_system?.name);
 
   return (
     <HomeLayout>
@@ -106,6 +110,57 @@ const RegisterPhoneForm: React.FC<Props> = ({
         <br />
         <br />
         <FormStyle onSubmit={onSubmit}>
+          <Row gutter={16}>
+            <h2 style={{ color: "#bbbbbb" }}>Add Photos</h2>
+            <Col span={24}>
+              <Images>
+                <AddPhoto htmlFor="upload">
+                  <i className="fas fa-plus"></i>
+                  <input
+                    type="file"
+                    multiple={true}
+                    accept="image/*"
+                    onChange={async ({ target: { files } }) => {
+                      setLoading(true);
+                      const result: any = await multiUploadImage(files);
+                      setLoading(false);
+
+                      setValues({
+                        ...values,
+                        images: [...values.images, ...result],
+                      });
+                    }}
+                    id="upload"
+                  />
+                </AddPhoto>
+                <PhotoLists>
+                  {values.images?.map((image: string, index: number) => (
+                    <div key={index} className="img_div">
+                      <img src={image} alt="image" />
+                      <i
+                        className="fas fa-times"
+                        onClick={() => {
+                          setValues({
+                            ...values,
+                            images: values.images?.filter(
+                              (image: string, ind: number) => ind !== index
+                            ),
+                          });
+                          console.log(index);
+                        }}
+                      ></i>
+                    </div>
+                  ))}
+                  {loading && (
+                    <div className="img_loading">
+                      <Spinner type="Oval" width={40} color="white" />
+                    </div>
+                  )}
+                </PhotoLists>
+              </Images>
+            </Col>
+          </Row>
+          <br />
           <Row gutter={16}>
             <Col span={24}>
               <Select
@@ -283,7 +338,9 @@ const RegisterPhoneForm: React.FC<Props> = ({
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
-                className={displayType?.length <= 1 ? "select active" : "select"}
+                className={
+                  displayType?.length <= 1 ? "select active" : "select"
+                }
                 options={displayType}
                 placeholder={
                   displayType?.length <= 1
@@ -368,7 +425,9 @@ const RegisterPhoneForm: React.FC<Props> = ({
           <Row>
             <Col xs={24} md={12} className="pr">
               <Select
-                className={selfieCamera?.length <= 1 ? "select active" : "select"}
+                className={
+                  selfieCamera?.length <= 1 ? "select active" : "select"
+                }
                 options={selfieCamera}
                 placeholder={
                   selfieCamera?.length <= 1

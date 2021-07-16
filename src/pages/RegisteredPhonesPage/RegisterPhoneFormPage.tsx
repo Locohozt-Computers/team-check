@@ -2,8 +2,13 @@ import React, { useState } from "react";
 
 import RegisterPhoneForm from "components/RegisteredPhones/RegisterPhoneForm";
 import registerFormValidation from "utils/validations/registerFormValidation";
+import { useContext } from "react";
+import { AuthContext } from "context/auth/AuthProvider";
 
 export type RegisterValueType = {
+  agent_id?: number | any;
+  images: string[];
+  category_id: number;
   state_id: number;
   lga_id: number;
   brand_id: number;
@@ -30,7 +35,11 @@ export type RegisterValueType = {
 };
 
 const RegisterPhoneFormPage = () => {
+  const { user } = useContext(AuthContext);
   const [values, setValues] = useState<RegisterValueType>({
+    agent_id: user.id,
+    images: [],
+    category_id: 0,
     state_id: 0,
     lga_id: 0,
     brand_id: 0,
@@ -56,35 +65,13 @@ const RegisterPhoneFormPage = () => {
     isNogetiable: false,
   });
 
-  // const [errors, setErrors] = useState<RegisterValueType>({
-  //   brand: "",
-  //   model: "",
-  //   condition_id: "",
-  //   second_condition: "",
-  //   ram: "",
-  //   internal_storage: "",
-  //   screen_size: "",
-  //   color: "",
-  //   operating_system: "",
-  //   display_type: "",
-  //   resolution: "",
-  //   sim: "",
-  //   card_slot: "",
-  //   main_camera: "",
-  //   selfie_camera: "",
-  //   battery: "",
-  //   description: "",
-  //   price: "",
-  //   name: "",
-  //   your_price: "",
-  // });
   const [errors, setErrors] = useState<Partial<RegisterValueType> | any>();
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errors = registerFormValidation(values);
 
-    console.log(values)
+    console.log(values);
 
     setErrors(errors);
   };
