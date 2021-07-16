@@ -13,6 +13,8 @@ import { RegisterValueType } from "pages/RegisteredPhonesPage/RegisterPhoneFormP
 import CustomButton from "components/ui/CustomButton";
 import registerFormValidation from "utils/validations/registerFormValidation";
 import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvider";
+import { getDropdown } from "utils/getDropdown";
+import { useEffect } from "react";
 
 type Props = {
   values: RegisterValueType;
@@ -38,8 +40,12 @@ const RegisterPhoneForm: React.FC<Props> = ({
     colors,
     states,
     destrict,
+    operating_system,
+    others,
     getModels,
     getDestrict,
+    getOthers,
+    getOperatingSystem,
   } = useContext(RegisterPhoneContext);
 
   const inputOnChange = ({
@@ -50,6 +56,41 @@ const RegisterPhoneForm: React.FC<Props> = ({
       [name]: value,
     });
   };
+
+  console.log("others === ", others);
+  const battery = getDropdown(others?.battery);
+  const displayType = getDropdown(others?.display_type);
+  const cardSlot = getDropdown(others?.card_slot);
+  const mainCamera = getDropdown(others?.main_camera);
+  const selfieCamera = getDropdown(others?.selfie_camera);
+  const resolution = getDropdown(others?.resolution);
+  const sim = getDropdown(others?.sim);
+  const storage = getDropdown(others?.storage);
+
+  useEffect(() => {
+    setValues({
+      ...values,
+      battery: battery?.length <= 1 ? battery[0]?.value : "",
+      display_type: displayType?.length <= 1 ? displayType[0]?.value : "",
+      card_slot: cardSlot?.length <= 1 ? cardSlot[0]?.value : "",
+      main_camera: mainCamera?.length <= 1 ? mainCamera[0]?.value : "",
+      selfie_camera: selfieCamera?.length <= 1 ? selfieCamera[0]?.value : "",
+      resolution: resolution?.length <= 1 ? resolution[0]?.value : "",
+      sim: sim?.length <= 1 ? sim[0]?.value : "",
+      internal_storage: storage?.length <= 1 ? storage[0]?.value : "",
+    });
+  }, [
+    others?.battery,
+    others?.display_type,
+    others?.card_slot,
+    others?.main_camera,
+    others?.selfie_camera,
+    others?.resolution,
+    others?.sim,
+    others?.internal_storage,
+  ]);
+
+  console.log(operating_system?.name);
 
   return (
     <HomeLayout>
@@ -108,11 +149,13 @@ const RegisterPhoneForm: React.FC<Props> = ({
                 className="select"
                 options={brands}
                 placeholder="Brands"
-                onChange={({ id }: any) => {
+                onChange={({ id, osId, os }: any) => {
                   getModels(parseInt(id));
+                  getOperatingSystem(os);
                   setValues({
                     ...values,
                     brand_id: id,
+                    operating_system_id: osId,
                   });
                 }}
               />
@@ -124,6 +167,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
                 options={models}
                 placeholder="Models"
                 onChange={({ id }: any) => {
+                  getOthers(id);
                   setValues({
                     ...values,
                     phone_model_id: id,
@@ -178,9 +222,11 @@ const RegisterPhoneForm: React.FC<Props> = ({
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
-                className="select"
-                options={condition}
-                placeholder="Internal Storage"
+                className={storage?.length <= 1 ? "select active" : "select"}
+                options={storage}
+                placeholder={
+                  storage?.length <= 1 ? storage[0]?.value : "Internal Storage"
+                }
                 onChange={({ value }: any) => {
                   setValues({
                     ...values,
@@ -224,9 +270,9 @@ const RegisterPhoneForm: React.FC<Props> = ({
           <Row>
             <Col xs={24} md={12} className="pr">
               <Select
-                className="select"
-                options={[]}
-                placeholder="Operating System"
+                className={operating_system?.name ? "select active" : "select"}
+                options={[operating_system]}
+                placeholder={operating_system?.name}
                 onChange={({ id }: any) => {
                   setValues({
                     ...values,
@@ -237,9 +283,13 @@ const RegisterPhoneForm: React.FC<Props> = ({
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
-                className="select"
-                options={[]}
-                placeholder="Display Type"
+                className={displayType?.length <= 1 ? "select active" : "select"}
+                options={displayType}
+                placeholder={
+                  displayType?.length <= 1
+                    ? displayType[0]?.value
+                    : "Display Type"
+                }
                 onChange={({ value }: any) => {
                   setValues({
                     ...values,
@@ -253,9 +303,12 @@ const RegisterPhoneForm: React.FC<Props> = ({
           <Row>
             <Col xs={24} md={12} className="pr">
               <Select
-                className="select"
-                options={[]}
-                placeholder="Resolution"
+                className={resolution?.length <= 1 ? "select active" : "select"}
+                options={resolution}
+                placeholder={
+                  resolution?.length <= 1 ? resolution[0]?.value : "Resolution"
+                }
+                value={others?.resolution[0]}
                 onChange={({ value }: any) => {
                   setValues({
                     ...values,
@@ -266,9 +319,9 @@ const RegisterPhoneForm: React.FC<Props> = ({
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
-                className="select"
-                options={[]}
-                placeholder="SIM"
+                className={sim?.length <= 1 ? "select active" : "select"}
+                options={sim}
+                placeholder={sim?.length <= 1 ? sim[0]?.value : "SIM"}
                 onChange={({ value }: any) => {
                   setValues({
                     ...values,
@@ -282,9 +335,11 @@ const RegisterPhoneForm: React.FC<Props> = ({
           <Row>
             <Col xs={24} md={12} className="pr">
               <Select
-                className="select"
-                options={[]}
-                placeholder="Card Slot"
+                className={cardSlot?.length <= 1 ? "select active" : "select"}
+                options={cardSlot}
+                placeholder={
+                  cardSlot?.length <= 1 ? cardSlot[0]?.value : "Card Slot"
+                }
                 onChange={({ value }: any) => {
                   setValues({
                     ...values,
@@ -295,9 +350,11 @@ const RegisterPhoneForm: React.FC<Props> = ({
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
-                className="select"
-                options={[]}
-                placeholder="Main Camera"
+                className={mainCamera?.length <= 1 ? "select active" : "select"}
+                options={mainCamera}
+                placeholder={
+                  mainCamera?.length <= 1 ? mainCamera[0]?.value : "Main Camera"
+                }
                 onChange={({ value }: any) => {
                   setValues({
                     ...values,
@@ -311,9 +368,13 @@ const RegisterPhoneForm: React.FC<Props> = ({
           <Row>
             <Col xs={24} md={12} className="pr">
               <Select
-                className="select"
-                options={[]}
-                placeholder="Selfie Camera"
+                className={selfieCamera?.length <= 1 ? "select active" : "select"}
+                options={selfieCamera}
+                placeholder={
+                  selfieCamera?.length <= 1
+                    ? selfieCamera[0]?.value
+                    : "Selfie Camera"
+                }
                 onChange={({ value }: any) => {
                   setValues({
                     ...values,
@@ -324,9 +385,13 @@ const RegisterPhoneForm: React.FC<Props> = ({
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
-                className="select"
-                options={[]}
-                placeholder="Battery (MAH)"
+                className={battery?.length <= 1 ? "select active" : "select"}
+                isDisabled={battery?.length > 1 ? false : true}
+                options={battery}
+                defaultInputValue={battery?.value}
+                placeholder={
+                  battery?.length <= 1 ? battery[0]?.value : "Battery (MAH)"
+                }
                 onChange={({ value }: any) => {
                   setValues({
                     ...values,

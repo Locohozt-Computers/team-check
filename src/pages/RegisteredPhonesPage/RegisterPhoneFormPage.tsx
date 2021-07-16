@@ -83,6 +83,7 @@ const RegisterPhoneFormPage = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errors = registerFormValidation(values);
+
     console.log(values)
 
     setErrors(errors);

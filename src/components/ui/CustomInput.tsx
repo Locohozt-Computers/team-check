@@ -11,6 +11,7 @@ type Props = {
   style?: CSSProperties;
   inputStyle?: CSSProperties;
   showIcon?: boolean | undefined;
+  disabled?: boolean;
 };
 
 const CustomInput: React.FC<Props> = ({
@@ -23,11 +24,13 @@ const CustomInput: React.FC<Props> = ({
   style,
   inputStyle,
   showIcon,
+  disabled = false,
 }) => {
   return (
-    <InputDiv style={style}>
+    <InputDiv style={style} disabled={disabled}>
       {showIcon && <i className="fas fa-search"></i>}
       <Input
+        disabled={disabled}
         style={inputStyle}
         type={type}
         id={name}
@@ -42,7 +45,7 @@ const CustomInput: React.FC<Props> = ({
   );
 };
 
-const InputDiv = styled.div`
+const InputDiv = styled.div<{ disabled?: boolean }>`
   border: 1px solid #dddddd;
   display: flex;
   align-items: center;
@@ -50,17 +53,18 @@ const InputDiv = styled.div`
   overflow: hidden;
   width: 100%;
   padding: 10px;
+  background-color: ${({ disabled }) => (disabled ? "#F2F2F2" : "transparent")};
 
   .fa-search {
     color: #aaaaaa;
     margin-right: 10px;
   }
 `;
-const Input = styled.input`
+const Input = styled.input<{ disabled?: boolean }>`
   outline: none;
   border: none;
   width: 100%;
-  background-color: transparent;
+  background-color: ${({ disabled }) => (disabled ? "#F2F2F2" : "transparent")};
 `;
 
 export default CustomInput;

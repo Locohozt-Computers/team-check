@@ -4,6 +4,8 @@ import {
   CONDITION,
   DESTRICT,
   InitialStateTypes,
+  OPERATING_SYSTEM,
+  OTHERS,
   PHONE_BRANDS,
   PHONE_MODELS,
   SCREEN_SIZE,
@@ -58,6 +60,16 @@ const registerPhoneReducer = (state: State, action: ActionType<any>) => {
       return {
         ...state,
         colors: action.payload,
+      };
+    case OPERATING_SYSTEM:
+      return {
+        ...state,
+        operating_system: action.payload,
+      };
+    case OTHERS:
+      return {
+        ...state,
+        others: action.payload,
       };
 
     default:

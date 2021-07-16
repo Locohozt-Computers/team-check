@@ -12,6 +12,8 @@ export type InitialStateTypes = {
   screen_size: DType[];
   condition: DType[];
   colors: DType[];
+  operating_system: null | any;
+  others: null | any;
 };
 
 const initialState: InitialStateTypes = {
@@ -23,6 +25,8 @@ const initialState: InitialStateTypes = {
   screen_size: [],
   condition: [],
   colors: [],
+  operating_system: null,
+  others: null,
 };
 
 export const ALL_CATEGORIES = "ALL_CATEGORIES";
@@ -33,6 +37,8 @@ export const DESTRICT = "DESTRICT";
 export const CONDITION = "CONDITION";
 export const SCREEN_SIZE = "SCREEN_SIZE";
 export const COLORS = "COLORS";
+export const OPERATING_SYSTEM = "OPERATING_SYSTEM";
+export const OTHERS = "OTHERS";
 
 type ContextType = {
   all_categories: DType[];
@@ -43,6 +49,8 @@ type ContextType = {
   screen_size: DType[];
   condition: DType[];
   colors: DType[];
+  operating_system: null | any;
+  others: null | any;
   getCategories: () => void;
   getBrands: () => void;
   getStates: () => void;
@@ -51,6 +59,8 @@ type ContextType = {
   getColors: () => void;
   getModels: (id: number) => void;
   getDestrict: (id: number) => void;
+  getOperatingSystem: (os: any) => void;
+  getOthers: (id: number) => void;
 };
 
 export const RegisterPhoneContext = createContext<ContextType>({
@@ -62,6 +72,8 @@ export const RegisterPhoneContext = createContext<ContextType>({
   screen_size: [],
   condition: [],
   colors: [],
+  operating_system: null,
+  others: null,
   getCategories: () => {},
   getBrands: () => {},
   getModels: (id: number) => {},
@@ -70,6 +82,8 @@ export const RegisterPhoneContext = createContext<ContextType>({
   getScreenSize: () => {},
   getColors: () => {},
   getDestrict: (id: number) => {},
+  getOperatingSystem: (os: any) => {},
+  getOthers: (id: number) => {},
 });
 
 const RegisterPhoneProvider: React.FC = ({ children }) => {
@@ -84,10 +98,27 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
       const results = await getHttp("/device/brands");
       const brands = results?.data?.map((brand: any) => ({
         id: brand?.id,
+        osId: brand?.operating_system_id,
         value: brand?.name,
         label: brand?.name,
+        os: brand?.os,
       }));
+      dispatch({ type: OPERATING_SYSTEM, payload: brands });
       dispatch({ type: PHONE_BRANDS, payload: brands });
+    } catch (error) {}
+  };
+
+  const getOperatingSystem = async (operatingSystem: any) => {
+    try {
+      dispatch({
+        type: OPERATING_SYSTEM,
+        payload: {
+          ...operatingSystem,
+          label: operatingSystem?.name,
+          value: operatingSystem?.name,
+          id: operatingSystem?.id,
+        },
+      });
     } catch (error) {}
   };
 
@@ -124,6 +155,13 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
         label: model?.name,
       }));
       dispatch({ type: DESTRICT, payload: models });
+    } catch (error) {}
+  };
+
+  const getOthers = async (id: number) => {
+    try {
+      const results = await getHttp(`/phone-models/${id}`);
+      dispatch({ type: OTHERS, payload: results });
     } catch (error) {}
   };
 
@@ -172,6 +210,8 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     screen_size: state.screen_size,
     condition: state.condition,
     colors: state.colors,
+    operating_system: state.operating_system,
+    others: state.others,
     getCategories,
     getBrands,
     getModels,
@@ -180,6 +220,8 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     getCondition,
     getColors,
     getScreenSize,
+    getOperatingSystem,
+    getOthers,
   };
   return (
     <RegisterPhoneContext.Provider value={values}>

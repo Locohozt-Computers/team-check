@@ -40,6 +40,16 @@ export const FormStyle = styled.form`
       border: 1px solid #ebeaeb;
     }
   }
+
+  .active {
+    .css-yk16xz-control {
+      border: 1px solid #ebeaeb;
+
+      .css-1wa3eu0-placeholder {
+        color: black;
+      }
+    }
+  }
 `;
 
 export const Header = styled.div`
