@@ -34,7 +34,13 @@ export const Container = styled.div`
   }
 `;
 
-export const FormStyle = styled.form``;
+export const FormStyle = styled.form`
+  .select {
+    .css-yk16xz-control {
+      border: 1px solid #ebeaeb;
+    }
+  }
+`;
 
 export const Header = styled.div`
   width: 100%;

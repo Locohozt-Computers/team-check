@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useContext } from "react";
 import { Row, Col, Form, Input, Checkbox } from "antd";
+import Select from "react-select";
 
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
 import { Container, FormStyle } from "./style";
@@ -50,23 +51,6 @@ const RegisterPhoneForm: React.FC<Props> = ({
     });
   };
 
-  const selectOnChange = ({
-    target: { name, id },
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({
-      ...values,
-      [name]: parseInt(id),
-    });
-  };
-
-  // const resolution = models?.resolution?.map((res: any) => ({
-  //   id: 1,
-  //   label: res,
-  //   value: res,
-  // })) || [];
-
-  console.log(models)
-
   return (
     <HomeLayout>
       <Container>
@@ -83,215 +67,272 @@ const RegisterPhoneForm: React.FC<Props> = ({
         <FormStyle onSubmit={onSubmit}>
           <Row gutter={16}>
             <Col span={24}>
-              <CustomDropdown
-                data={states}
+              <Select
+                className="select"
+                options={states}
+                isSearchable={true}
                 name="state_id"
-                onChange={({
-                  target: { value, id },
-                }: React.ChangeEvent<HTMLInputElement>) => {
-                  getDestrict(parseInt(id));
+                placeholder="States"
+                onChange={({ id }: any) => {
+                  getDestrict(id);
                   setValues({
                     ...values,
-                    brand: value,
+                    state_id: id,
                   });
                 }}
-                defaultSelect="States"
               />
             </Col>
           </Row>
           <br />
           <Row gutter={16}>
             <Col span={24}>
-              <CustomDropdown
-                disabled={destrict?.length > 0 ? false : true}
-                data={destrict}
-                name="lga_id"
-                onChange={onselectionchange}
-                defaultSelect="Destrict"
+              <Select
+                className="select"
+                isDisabled={destrict?.length > 0 ? false : true}
+                isSearchable={true}
+                options={destrict}
+                placeholder="Destrict"
+                onChange={({ id }: any) => {
+                  setValues({
+                    ...values,
+                    lga_id: id,
+                  });
+                }}
               />
             </Col>
           </Row>
           <br />
           <Row>
             <Col xs={24} md={12} className="pr">
-              <CustomDropdown
-                data={brands}
-                name="brand"
-                onChange={({
-                  target: { value, id },
-                }: React.ChangeEvent<HTMLInputElement>) => {
+              <Select
+                className="select"
+                options={brands}
+                placeholder="Brands"
+                onChange={({ id }: any) => {
                   getModels(parseInt(id));
                   setValues({
                     ...values,
-                    brand: value,
+                    brand_id: id,
                   });
                 }}
-                defaultSelect="Brand"
-                error={error?.brand}
               />
             </Col>
             <Col xs={24} md={12} className="pl">
-              <CustomDropdown
-                disabled={models?.length > 0 ? false : true}
-                name="model"
-                data={models}
-                onChange={({
-                  target: { value },
-                }: React.ChangeEvent<HTMLInputElement>) => {
+              <Select
+                className="select"
+                isDisabled={models?.length > 0 ? false : true}
+                options={models}
+                placeholder="Models"
+                onChange={({ id }: any) => {
                   setValues({
                     ...values,
-                    model: value,
+                    phone_model_id: id,
                   });
                 }}
-                defaultSelect="Model"
-                error={error?.model}
               />
             </Col>
           </Row>
           <br />
           <Row>
             <Col xs={24} md={12} className="pr">
-              <CustomDropdown
-                data={condition}
-                onChange={selectOnChange}
-                defaultSelect="Condition"
-                name="condition"
-                error={error?.condition}
+              <Select
+                className="select"
+                options={condition}
+                placeholder="Condition"
+                onChange={({ id }: any) => {
+                  setValues({
+                    ...values,
+                    condition_id: id,
+                  });
+                }}
               />
             </Col>
             <Col xs={24} md={12} className="pl">
-              <CustomDropdown
-                data={registerData.model}
-                onChange={selectOnChange}
-                defaultSelect="Second Condition"
-                name="second_condition"
-                error={error?.second_condition}
+              <Select
+                className="select"
+                options={[]}
+                placeholder="Second Condition"
+                onChange={({ id }: any) => {
+                  setValues({
+                    ...values,
+                    second_condition_id: id,
+                  });
+                }}
               />
             </Col>
           </Row>
           <br />
           <Row>
             <Col xs={24} md={12} className="pr">
-              <CustomDropdown
-                data={registerData.model}
-                name="ram"
-                onChange={selectOnChange}
-                defaultSelect="Ram"
-                error={error?.ram}
+              <Select
+                className="select"
+                options={[]}
+                placeholder="Ram"
+                onChange={({ value }: any) => {
+                  setValues({
+                    ...values,
+                    ram: value,
+                  });
+                }}
               />
             </Col>
             <Col xs={24} md={12} className="pl">
-              <CustomDropdown
-                data={registerData.model}
-                name="internal_storage"
-                onChange={selectOnChange}
-                defaultSelect="Internal Storage"
-                error={error?.internal_storage}
+              <Select
+                className="select"
+                options={condition}
+                placeholder="Internal Storage"
+                onChange={({ value }: any) => {
+                  setValues({
+                    ...values,
+                    internal_storage: value,
+                  });
+                }}
               />
             </Col>
           </Row>
           <br />
           <Row>
             <Col xs={24} md={12} className="pr">
-              <CustomDropdown
-                data={screen_size}
-                name="screen_size"
-                onChange={selectOnChange}
-                defaultSelect="Screen Size"
-                error={error?.screen_size}
+              <Select
+                className="select"
+                options={screen_size}
+                placeholder="Screen Size"
+                onChange={({ id }: any) => {
+                  setValues({
+                    ...values,
+                    screen_size_id: id,
+                  });
+                }}
               />
             </Col>
             <Col xs={24} md={12} className="pl">
-              <CustomDropdown
-                data={colors}
-                name="color"
-                onChange={selectOnChange}
-                defaultSelect="Colour"
-                error={error?.color}
+              <Select
+                className="select"
+                options={colors}
+                isSearchable={true}
+                placeholder="Colors"
+                onChange={({ id }: any) => {
+                  setValues({
+                    ...values,
+                    color_id: id,
+                  });
+                }}
               />
             </Col>
           </Row>
           <br />
           <Row>
             <Col xs={24} md={12} className="pr">
-              <CustomDropdown
-                data={registerData.model}
-                name="operating_system"
-                onChange={selectOnChange}
-                defaultSelect="Operating System"
-                error={error?.operating_system}
+              <Select
+                className="select"
+                options={[]}
+                placeholder="Operating System"
+                onChange={({ id }: any) => {
+                  setValues({
+                    ...values,
+                    operating_system_id: id,
+                  });
+                }}
               />
             </Col>
             <Col xs={24} md={12} className="pl">
-              <CustomDropdown
-                data={registerData.model}
-                name="display_type"
-                onChange={selectOnChange}
-                defaultSelect="Display Type"
-                error={error?.display_type}
+              <Select
+                className="select"
+                options={[]}
+                placeholder="Display Type"
+                onChange={({ value }: any) => {
+                  setValues({
+                    ...values,
+                    display_type: value,
+                  });
+                }}
               />
             </Col>
           </Row>
           <br />
           <Row>
             <Col xs={24} md={12} className="pr">
-              <CustomDropdown
-                data={[]}
-                name="resolution"
-                onChange={selectOnChange}
-                defaultSelect="Resolution"
-                error={error?.resolution}
+              <Select
+                className="select"
+                options={[]}
+                placeholder="Resolution"
+                onChange={({ value }: any) => {
+                  setValues({
+                    ...values,
+                    resolution: value,
+                  });
+                }}
               />
             </Col>
             <Col xs={24} md={12} className="pl">
-              <CustomDropdown
-                data={registerData.model}
-                name="sim"
-                onChange={selectOnChange}
-                defaultSelect="SIM"
-                error={error?.sim}
+              <Select
+                className="select"
+                options={[]}
+                placeholder="SIM"
+                onChange={({ value }: any) => {
+                  setValues({
+                    ...values,
+                    sim: value,
+                  });
+                }}
               />
             </Col>
           </Row>
           <br />
           <Row>
             <Col xs={24} md={12} className="pr">
-              <CustomDropdown
-                data={registerData.model}
-                name="card_slot"
-                onChange={selectOnChange}
-                defaultSelect="Card Slot"
-                error={error?.card_slot}
+              <Select
+                className="select"
+                options={[]}
+                placeholder="Card Slot"
+                onChange={({ value }: any) => {
+                  setValues({
+                    ...values,
+                    card_slot: value,
+                  });
+                }}
               />
             </Col>
             <Col xs={24} md={12} className="pl">
-              <CustomDropdown
-                data={registerData.model}
-                name="main_camera"
-                onChange={selectOnChange}
-                defaultSelect="Main Camera"
-                error={error?.main_camera}
+              <Select
+                className="select"
+                options={[]}
+                placeholder="Main Camera"
+                onChange={({ value }: any) => {
+                  setValues({
+                    ...values,
+                    main_camera: value,
+                  });
+                }}
               />
             </Col>
           </Row>
           <br />
           <Row>
             <Col xs={24} md={12} className="pr">
-              <CustomDropdown
-                data={registerData.model}
-                name="selfie_camera"
-                onChange={selectOnChange}
-                defaultSelect="Selfie Camera"
-                error={error?.selfie_camera}
+              <Select
+                className="select"
+                options={[]}
+                placeholder="Selfie Camera"
+                onChange={({ value }: any) => {
+                  setValues({
+                    ...values,
+                    selfie_camera: value,
+                  });
+                }}
               />
             </Col>
             <Col xs={24} md={12} className="pl">
-              <CustomDropdown
-                data={registerData.model}
-                name="battery"
-                onChange={selectOnChange}
-                defaultSelect="Battery (mAh)"
-                error={error?.battery}
+              <Select
+                className="select"
+                options={[]}
+                placeholder="Battery (MAH)"
+                onChange={({ value }: any) => {
+                  setValues({
+                    ...values,
+                    battery: value,
+                  });
+                }}
               />
             </Col>
           </Row>

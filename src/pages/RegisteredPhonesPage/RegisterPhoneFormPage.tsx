@@ -4,15 +4,17 @@ import RegisterPhoneForm from "components/RegisteredPhones/RegisterPhoneForm";
 import registerFormValidation from "utils/validations/registerFormValidation";
 
 export type RegisterValueType = {
-  brand: string;
-  model: string;
-  condition: string;
+  state_id: number;
+  lga_id: number;
+  brand_id: number;
+  phone_model_id: number;
+  condition_id: number;
   second_condition: string;
   ram: string;
   internal_storage: string;
-  screen_size: string;
-  color: string;
-  operating_system: string;
+  screen_size_id: number;
+  color_id: number;
+  operating_system_id: number;
   display_type: string;
   resolution: string;
   sim: string;
@@ -29,15 +31,17 @@ export type RegisterValueType = {
 
 const RegisterPhoneFormPage = () => {
   const [values, setValues] = useState<RegisterValueType>({
-    brand: "",
-    model: "",
-    condition: "",
+    state_id: 0,
+    lga_id: 0,
+    brand_id: 0,
+    phone_model_id: 0,
+    condition_id: 0,
     second_condition: "",
     ram: "",
     internal_storage: "",
-    screen_size: "",
-    color: "",
-    operating_system: "",
+    screen_size_id: 0,
+    color_id: 0,
+    operating_system_id: 0,
     display_type: "",
     resolution: "",
     sim: "",
@@ -55,7 +59,7 @@ const RegisterPhoneFormPage = () => {
   // const [errors, setErrors] = useState<RegisterValueType>({
   //   brand: "",
   //   model: "",
-  //   condition: "",
+  //   condition_id: "",
   //   second_condition: "",
   //   ram: "",
   //   internal_storage: "",
@@ -79,6 +83,7 @@ const RegisterPhoneFormPage = () => {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errors = registerFormValidation(values);
+    console.log(values)
 
     setErrors(errors);
   };
