@@ -34,9 +34,9 @@ export const multiUploadImage = async (files: any) => {
         headers: { "X-Requested-With": "XMLHttpRequest" },
       });
 
-      const width = res?.data?.width;
-      const height = res?.data?.height;
-      const orientation = height > width ? "portrait" : "landscape";
+      // const width = res?.data?.width;
+      // const height = res?.data?.height;
+      // const orientation = height > width ? "portrait" : "landscape";
 
       // setSize({
       //   width: res?.data?.width,

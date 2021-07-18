@@ -8,6 +8,9 @@ import {
   OTHERS,
   PHONE_BRANDS,
   PHONE_MODELS,
+  RAMS,
+  REG_FEE,
+  REG_USER,
   SCREEN_SIZE,
   STATES,
 } from "./RegisterPhoneProvider";
@@ -60,6 +63,21 @@ const registerPhoneReducer = (state: State, action: ActionType<any>) => {
       return {
         ...state,
         colors: action.payload,
+      };
+    case RAMS:
+      return {
+        ...state,
+        rams: action.payload,
+      };
+    case REG_FEE:
+      return {
+        ...state,
+        reg_fee: action.payload,
+      };
+    case REG_USER:
+      return {
+        ...state,
+        reg_user: action.payload,
       };
     case OPERATING_SYSTEM:
       return {

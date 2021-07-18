@@ -98,6 +98,7 @@ export const Images = styled.div`
 
 export const PhotoLists = styled.div`
   display: flex;
+  max-width: 100%;
   align-items: center;
   margin-left: 20px;
   overflow-x: auto;

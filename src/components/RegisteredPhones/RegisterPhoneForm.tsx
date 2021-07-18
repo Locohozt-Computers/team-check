@@ -6,13 +6,10 @@ import Spinner from "react-loader-spinner";
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
 import { Container, FormStyle, AddPhoto, Images, PhotoLists } from "./style";
 import CustomInput from "components/ui/CustomInput";
-import CustomDropdown from "components/ui/CustomDropdown";
 import { useHistory } from "react-router-dom";
 import Title from "components/ui/Title";
-import { registerData } from "./data";
 import { RegisterValueType } from "pages/RegisteredPhonesPage/RegisterPhoneFormPage";
 import CustomButton from "components/ui/CustomButton";
-import registerFormValidation from "utils/validations/registerFormValidation";
 import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvider";
 import { getDropdown } from "utils/getDropdown";
 import { useEffect } from "react";
@@ -41,14 +38,17 @@ const RegisterPhoneForm: React.FC<Props> = ({
     condition,
     screen_size,
     colors,
+    rams,
     states,
     destrict,
     operating_system,
     others,
+    reg_user,
     getModels,
     getDestrict,
     getOthers,
     getOperatingSystem,
+    getRegUser,
   } = useContext(RegisterPhoneContext);
 
   const [loading, setLoading] = useState(false);
@@ -62,7 +62,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
     });
   };
 
-  console.log("others === ", others);
+  // console.log("others === ", others);
   const battery = getDropdown(others?.battery);
   const displayType = getDropdown(others?.display_type);
   const cardSlot = getDropdown(others?.card_slot);
@@ -85,6 +85,8 @@ const RegisterPhoneForm: React.FC<Props> = ({
       internal_storage: storage?.length <= 1 ? storage[0]?.value : "",
       category_id: others?.category_id ? others?.category_id : 0,
     });
+
+    // eslint-disable-next-line
   }, [
     others?.battery,
     others?.display_type,
@@ -95,6 +97,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
     others?.sim,
     others?.internal_storage,
   ]);
+
+  const onSearch = ({
+    target: { value },
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(value);
+    getRegUser(value);
+  };
+  console.log(reg_user);
 
   return (
     <HomeLayout>
@@ -136,7 +146,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
                 <PhotoLists>
                   {values.images?.map((image: string, index: number) => (
                     <div key={index} className="img_div">
-                      <img src={image} alt="image" />
+                      <img src={image} alt="images" />
                       <i
                         className="fas fa-times"
                         onClick={() => {
@@ -158,6 +168,18 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   )}
                 </PhotoLists>
               </Images>
+            </Col>
+          </Row>
+          <br />
+          <Row gutter={16}>
+            <Col span={24}>
+              <Input
+                placeholder="Search for a user you want to register..."
+                allowClear
+                size="large"
+                onChange={onSearch}
+              />
+              <span>{reg_user && reg_user?.username}</span>
             </Col>
           </Row>
           <br />
@@ -265,7 +287,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
             <Col xs={24} md={12} className="pr">
               <Select
                 className="select"
-                options={[]}
+                options={rams}
                 placeholder="Ram"
                 onChange={({ value }: any) => {
                   setValues({

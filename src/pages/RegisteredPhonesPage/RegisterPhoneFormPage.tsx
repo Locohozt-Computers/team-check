@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import RegisterPhoneForm from "components/RegisteredPhones/RegisterPhoneForm";
-import registerFormValidation from "utils/validations/registerFormValidation";
 import { useContext } from "react";
 import { AuthContext } from "context/auth/AuthProvider";
 
@@ -69,11 +68,8 @@ const RegisterPhoneFormPage = () => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const errors = registerFormValidation(values);
 
     console.log(values);
-
-    setErrors(errors);
   };
 
   return (

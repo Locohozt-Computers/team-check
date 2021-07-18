@@ -12,6 +12,9 @@ export type InitialStateTypes = {
   screen_size: DType[];
   condition: DType[];
   colors: DType[];
+  rams: DType[];
+  reg_fee: any;
+  reg_user: any;
   operating_system: null | any;
   others: null | any;
 };
@@ -25,6 +28,9 @@ const initialState: InitialStateTypes = {
   screen_size: [],
   condition: [],
   colors: [],
+  rams: [],
+  reg_fee: null,
+  reg_user: null,
   operating_system: null,
   others: null,
 };
@@ -37,6 +43,9 @@ export const DESTRICT = "DESTRICT";
 export const CONDITION = "CONDITION";
 export const SCREEN_SIZE = "SCREEN_SIZE";
 export const COLORS = "COLORS";
+export const RAMS = "RAMS";
+export const REG_FEE = "REG_FEE";
+export const REG_USER = "REG_USER";
 export const OPERATING_SYSTEM = "OPERATING_SYSTEM";
 export const OTHERS = "OTHERS";
 
@@ -49,6 +58,9 @@ type ContextType = {
   screen_size: DType[];
   condition: DType[];
   colors: DType[];
+  rams: DType[];
+  reg_fee: any;
+  reg_user: any;
   operating_system: null | any;
   others: null | any;
   getCategories: () => void;
@@ -57,6 +69,9 @@ type ContextType = {
   getCondition: () => void;
   getScreenSize: () => void;
   getColors: () => void;
+  getRams: () => void;
+  getRegFee: () => void;
+  getRegUser: (email: string) => void;
   getModels: (id: number) => void;
   getDestrict: (id: number) => void;
   getOperatingSystem: (os: any) => void;
@@ -72,6 +87,9 @@ export const RegisterPhoneContext = createContext<ContextType>({
   screen_size: [],
   condition: [],
   colors: [],
+  rams: [],
+  reg_fee: null,
+  reg_user: null,
   operating_system: null,
   others: null,
   getCategories: () => {},
@@ -81,6 +99,9 @@ export const RegisterPhoneContext = createContext<ContextType>({
   getCondition: () => {},
   getScreenSize: () => {},
   getColors: () => {},
+  getRams: () => {},
+  getRegFee: () => {},
+  getRegUser: (email: string) => {},
   getDestrict: (id: number) => {},
   getOperatingSystem: (os: any) => {},
   getOthers: (id: number) => {},
@@ -201,6 +222,32 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     } catch (error) {}
   };
 
+  const getRams = async () => {
+    try {
+      const results = await getHttp("/device/rams");
+      const rams = results?.map((ram: any) => ({
+        id: ram?.id,
+        value: ram?.name,
+        label: ram?.name,
+      }));
+      dispatch({ type: RAMS, payload: rams });
+    } catch (error) {}
+  };
+
+  const getRegFee = async () => {
+    try {
+      const results = await getHttp("/device/reg_fee");
+      dispatch({ type: RAMS, payload: results });
+    } catch (error) {}
+  };
+
+  const getRegUser = async (email: string) => {
+    try {
+      const results = await getHttp(`/user/${email}`);
+      dispatch({ type: RAMS, payload: results });
+    } catch (error) {}
+  };
+
   const values = {
     all_categories: state?.all_categories,
     brands: state.brands,
@@ -210,6 +257,9 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     screen_size: state.screen_size,
     condition: state.condition,
     colors: state.colors,
+    rams: state.rams,
+    reg_fee: state.reg_fee,
+    reg_user: state.reg_user,
     operating_system: state.operating_system,
     others: state.others,
     getCategories,
@@ -219,6 +269,9 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     getDestrict,
     getCondition,
     getColors,
+    getRams,
+    getRegFee,
+    getRegUser,
     getScreenSize,
     getOperatingSystem,
     getOthers,

@@ -19,6 +19,8 @@ const HomeLayout: React.FC = ({ children }) => {
     getCategories,
     getStates,
     getColors,
+    getRams,
+    getRegFee,
     getCondition,
     getScreenSize,
   } = useContext(RegisterPhoneContext);
@@ -34,6 +36,8 @@ const HomeLayout: React.FC = ({ children }) => {
     getColors();
     getCondition();
     getScreenSize();
+    getRams();
+    getRegFee();
 
     // eslint-disable-next-line
   }, [profile?.walletBalance]);
