@@ -1,20 +1,13 @@
+import React, { useContext, useState } from "react";
 import { AuthContext } from "context/auth/AuthProvider";
-import { WalletContext } from "context/wallet/WalletProvider";
-import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { usePaystackPayment } from "react-paystack";
-import { useHistory } from "react-router";
 import styled from "styled-components";
-import { successNotify } from "./errorMessage";
 
 type PProps = {
   amount: any;
   email: string;
   handleSuccess?: any;
   handleClose?: any;
-  setStateAmount?: Dispatch<SetStateAction<number>>;
-  setShowFundWalletModal?: Dispatch<SetStateAction<boolean>>;
-  setShowModal?: Dispatch<SetStateAction<boolean>>;
-  stateAmount: number;
   saveTransaction?: any;
   description?: string;
   background?: string;
@@ -24,7 +17,6 @@ type PProps = {
   showNumber?: boolean;
   label?: string;
   charges: number;
-  route?: string;
 };
 
 const PAYSTACK_PUB_KEY = process.env.REACT_APP_PAYSTACK_PUB_KEY;
@@ -34,8 +26,6 @@ const PayStack = ({
   email,
   handleSuccess,
   handleClose,
-  setStateAmount,
-  stateAmount,
   saveTransaction,
   description = "Fund wallet",
   trans_type = 1,
@@ -45,14 +35,9 @@ const PayStack = ({
   label,
   onClick,
   charges,
-  route = "/",
-  setShowFundWalletModal,
-  setShowModal,
 }: PProps) => {
   const [ref, setRef] = useState(new Date().getTime());
-  const history = useHistory();
 
-  const { fundWalletContext, addToWalletBalance } = useContext(WalletContext);
   const { user } = useContext(AuthContext);
 
   const config: any = {
@@ -72,32 +57,12 @@ const PayStack = ({
 
   // you can call this function anything
   const onSuccess = (response: any) => {
-    const fundWallet = async () => {
-      try {
-        await fundWalletContext({
-          trxref: response?.trxref,
-          amount: amount - charges,
-          reference: response?.reference,
-        });
-
-        addToWalletBalance(amount - charges);
-
-        history.push(route);
-        if (setStateAmount) {
-          setStateAmount(amount - charges + stateAmount);
-        }
-        if (setShowFundWalletModal) {
-          setShowFundWalletModal(false);
-        }
-        if (setShowModal) {
-          setShowModal(false);
-        }
-
-        successNotify("Successfully funded your wallet");
-      } catch (error) {}
+    const obj = {
+      charges,
+      response,
     };
 
-    fundWallet();
+    saveTransaction(obj);
 
     setRef(new Date().getTime());
   };

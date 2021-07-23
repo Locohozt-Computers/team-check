@@ -2,6 +2,7 @@ import React, {
   ChangeEvent,
   Dispatch,
   SetStateAction,
+  useContext,
   useState,
 } from "react";
 import styled from "styled-components";
@@ -12,6 +13,9 @@ import CustomModalUI from "components/ui/CustomModal";
 import Loader from "components/ui/Loader";
 import { formatPrice } from "utils/formatPrice";
 import CustomInput from "components/ui/CustomInput";
+import { successNotify } from "utils/errorMessage";
+import { useHistory } from "react-router-dom";
+import { WalletContext } from "context/wallet/WalletProvider";
 
 type Props = {
   setShowFundWalletModal: Dispatch<SetStateAction<boolean>>;
@@ -26,9 +30,12 @@ const PaymentComponent: React.FC<Props> = ({
   setAmount: setStateAmount,
   amount: stateAmount,
 }) => {
-
   const userFromLocalStorage: any = localStorage.getItem("techCheckPoint");
   const user = JSON.parse(userFromLocalStorage);
+
+  const { fundWalletContext, addToWalletBalance } = useContext(WalletContext);
+
+  const history = useHistory();
 
   const [amountCharges] = useState(0);
   const [amount, setAmount] = useState<number>(0);
@@ -36,8 +43,27 @@ const PaymentComponent: React.FC<Props> = ({
   const [showModal, setShowModal] = useState(false);
 
   async function confirm(obj: any) {
-    setShowFundWalletModal(false);
-    setShowModal(false);
+    try {
+      await fundWalletContext({
+        trxref: obj?.response?.trxref,
+        amount: amount - obj?.charges,
+        reference: obj?.response?.reference,
+      });
+
+      addToWalletBalance(amount - obj?.charges);
+
+      history.push("/wallet");
+
+      setStateAmount(amount - obj?.charges + stateAmount);
+
+      setShowFundWalletModal(false);
+
+      setShowModal(false);
+
+      successNotify("Successfully funded your wallet");
+      setShowFundWalletModal(false);
+      setShowModal(false);
+    } catch (error) {}
   }
 
   return (
@@ -144,15 +170,10 @@ const PaymentComponent: React.FC<Props> = ({
                   charges={paystackCharge(amount)}
                   email={user?.email ? user.email : ""}
                   handleClose={() => {}}
-                  setStateAmount={setStateAmount}
-                  stateAmount={stateAmount}
                   saveTransaction={confirm}
                   description={`Fund wallet with ${amount}`}
                   label={"Pay"}
                   showNumber={false}
-                  route="/wallet"
-                  setShowFundWalletModal={setShowFundWalletModal}
-                  setShowModal={setShowModal}
                 />
               )}
             </div>
@@ -176,7 +197,7 @@ const Container = styled.div`
   }
 `;
 
-const ButtonStyle = styled.button`
+export const ButtonStyle = styled.button`
   width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.5);
   outline: none;
@@ -191,7 +212,7 @@ const ButtonStyle = styled.button`
   }
 `;
 
-const ParagraphOne = styled.h1`
+export const ParagraphOne = styled.h1`
   color: rgba(255, 255, 255, 0.7);
   margin: 20px 0;
 `;
@@ -205,7 +226,7 @@ const ParagraphOne = styled.h1`
 //   }
 // `;
 
-const AmountToFundWallet = styled.div`
+export const AmountToFundWallet = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
@@ -220,7 +241,7 @@ const AmountToFundWallet = styled.div`
   }
 `;
 
-const MakePayment = styled.div`
+export const MakePayment = styled.div`
   background: #3b3b4d;
   padding: 20px;
 
@@ -230,7 +251,7 @@ const MakePayment = styled.div`
   }
 `;
 
-const PayStackChargeModalDiv = styled.div`
+export const PayStackChargeModalDiv = styled.div`
   background-color: #121217;
   padding: 30px;
 

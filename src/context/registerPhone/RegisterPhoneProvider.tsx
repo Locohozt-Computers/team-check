@@ -1,6 +1,7 @@
 import { DType } from "components/ui/CustomDropdown";
+import { RegisterValueType } from "pages/RegisteredPhonesPage/RegisterPhoneFormPage";
 import React, { createContext, useReducer } from "react";
-import { getHttp } from "utils/api/createHttp";
+import { createHttp, getHttp } from "utils/api/createHttp";
 import registerPhoneReducer from "./RegisterPhoneReducer";
 
 export type InitialStateTypes = {
@@ -48,6 +49,7 @@ export const REG_FEE = "REG_FEE";
 export const REG_USER = "REG_USER";
 export const OPERATING_SYSTEM = "OPERATING_SYSTEM";
 export const OTHERS = "OTHERS";
+export const REGISTER_PHONE = "REGISTER_PHONE";
 
 type ContextType = {
   all_categories: DType[];
@@ -76,6 +78,7 @@ type ContextType = {
   getDestrict: (id: number) => void;
   getOperatingSystem: (os: any) => void;
   getOthers: (id: number) => void;
+  registerPhone: (values: RegisterValueType) => void;
 };
 
 export const RegisterPhoneContext = createContext<ContextType>({
@@ -105,6 +108,7 @@ export const RegisterPhoneContext = createContext<ContextType>({
   getDestrict: (id: number) => {},
   getOperatingSystem: (os: any) => {},
   getOthers: (id: number) => {},
+  registerPhone: (values: RegisterValueType) => {},
 });
 
 const RegisterPhoneProvider: React.FC = ({ children }) => {
@@ -117,6 +121,7 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
   const getBrands = async () => {
     try {
       const results = await getHttp("/device/brands");
+      console.log("other === ", results);
       const brands = results?.data?.map((brand: any) => ({
         id: brand?.id,
         osId: brand?.operating_system_id,
@@ -146,6 +151,7 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
   const getModels = async (id: number) => {
     try {
       const results = await getHttp(`/phone-brands/${id}`);
+      // console.log(results);
       const models = results?.map((model: any) => ({
         id: model?.id,
         value: model?.name,
@@ -236,16 +242,25 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
 
   const getRegFee = async () => {
     try {
-      const results = await getHttp("/device/reg_fee");
-      dispatch({ type: RAMS, payload: results });
+      const results = await getHttp("/device/reg-fee");
+      dispatch({ type: REG_FEE, payload: results });
     } catch (error) {}
   };
 
   const getRegUser = async (email: string) => {
     try {
       const results = await getHttp(`/user/${email}`);
-      dispatch({ type: RAMS, payload: results });
+      dispatch({ type: REG_USER, payload: results });
     } catch (error) {}
+  };
+
+  const registerPhone = async (values: RegisterValueType) => {
+    try {
+      const results = await createHttp(`/device/register-phone`, values);
+      dispatch({ type: REGISTER_PHONE, payload: results });
+    } catch (error) {
+      throw error;
+    }
   };
 
   const values = {
@@ -275,6 +290,7 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     getScreenSize,
     getOperatingSystem,
     getOthers,
+    registerPhone,
   };
   return (
     <RegisterPhoneContext.Provider value={values}>

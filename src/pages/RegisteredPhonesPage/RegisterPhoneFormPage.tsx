@@ -3,9 +3,14 @@ import React, { useState } from "react";
 import RegisterPhoneForm from "components/RegisteredPhones/RegisterPhoneForm";
 import { useContext } from "react";
 import { AuthContext } from "context/auth/AuthProvider";
+import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvider";
+import { useEffect } from "react";
+import { errorNotify, successNotify } from "utils/errorMessage";
+import { canRegisterPhone } from "utils/canRegisterPhone";
 
 export type RegisterValueType = {
   agent_id?: number | any;
+  user_id?: number | any;
   images: string[];
   category_id: number;
   state_id: number;
@@ -13,8 +18,7 @@ export type RegisterValueType = {
   brand_id: number;
   phone_model_id: number;
   condition_id: number;
-  second_condition: string;
-  ram: string;
+  ram_size_id: number;
   internal_storage: string;
   screen_size_id: number;
   color_id: number;
@@ -27,16 +31,19 @@ export type RegisterValueType = {
   selfie_camera: string;
   battery: string;
   description: string;
-  price: string;
-  name: string;
-  your_price: string;
-  isNogetiable?: boolean;
+  amount: string;
+  warranty: number;
+  pay_type: number;
+  trxref: string;
+  reference: string;
+  // isNogetiable?: boolean;
 };
 
 const RegisterPhoneFormPage = () => {
   const { user } = useContext(AuthContext);
+  const { getRegFee, registerPhone } = useContext(RegisterPhoneContext);
   const [values, setValues] = useState<RegisterValueType>({
-    agent_id: user.id,
+    agent_id: user?.id,
     images: [],
     category_id: 0,
     state_id: 0,
@@ -44,8 +51,7 @@ const RegisterPhoneFormPage = () => {
     brand_id: 0,
     phone_model_id: 0,
     condition_id: 0,
-    second_condition: "",
-    ram: "",
+    ram_size_id: 0,
     internal_storage: "",
     screen_size_id: 0,
     color_id: 0,
@@ -58,18 +64,37 @@ const RegisterPhoneFormPage = () => {
     selfie_camera: "",
     battery: "",
     description: "",
-    price: "",
-    name: "",
-    your_price: "",
-    isNogetiable: false,
+    amount: "",
+    warranty: 0,
+    pay_type: 0,
+    trxref: "",
+    reference: "",
+    // isNogetiable: false,
   });
 
   const [errors, setErrors] = useState<Partial<RegisterValueType> | any>();
 
-  const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
+    getRegFee();
 
-    console.log(values);
+    // eslint-disable-next-line
+  }, []);
+
+  const onSubmit = async () => {
+    // e.preventDefault();
+
+    const validForm = canRegisterPhone(values);
+
+    if (validForm) {
+      return errorNotify("Some fields are required");
+    }
+
+    try {
+      await registerPhone(values);
+      successNotify("Successfully register a phone");
+    } catch (error) {
+      errorNotify("something went wrong");
+    }
   };
 
   return (

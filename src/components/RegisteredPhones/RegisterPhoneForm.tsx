@@ -15,13 +15,26 @@ import { getDropdown } from "utils/getDropdown";
 import { useEffect } from "react";
 import { multiUploadImage } from "utils/cloudinary/multiupload";
 import { useState } from "react";
+import CustomModalUI from "components/ui/CustomModal";
+import { SelectCards, SelectActions, SelectCard } from "components/Wallet";
+import {
+  AmountToFundWallet,
+  ButtonStyle,
+  MakePayment,
+  ParagraphOne,
+  PayStackChargeModalDiv,
+} from "components/Wallet/FundWallet";
+import { formatPrice } from "utils/formatPrice";
+import { paystackCharge } from "utils/paystackCharge";
+import Loader from "components/ui/Loader";
+import PayStack from "utils/PayStack";
 
 type Props = {
   values: RegisterValueType;
   errors: RegisterValueType;
   setValues: Dispatch<SetStateAction<any>>;
   setErrors: Dispatch<SetStateAction<any>>;
-  onSubmit: (e: React.FormEvent) => Promise<void>;
+  onSubmit: () => Promise<void>;
 };
 
 const RegisterPhoneForm: React.FC<Props> = ({
@@ -32,6 +45,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
   errors: error,
 }) => {
   const history = useHistory();
+
   const {
     brands,
     models,
@@ -44,6 +58,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
     operating_system,
     others,
     reg_user,
+    reg_fee,
     getModels,
     getDestrict,
     getOthers,
@@ -51,18 +66,31 @@ const RegisterPhoneForm: React.FC<Props> = ({
     getRegUser,
   } = useContext(RegisterPhoneContext);
 
+  const userFromLocalStorage: any = localStorage.getItem("techCheckPoint");
+  const user = JSON.parse(userFromLocalStorage);
+
+  const [showFundWalletModal, setShowFundWalletModal] = useState(false);
+  const [, setShowTransferToWallet] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showPayChargeModal, setShowPayChargeModal] = useState(false);
+
   const [loading, setLoading] = useState(false);
 
-  const inputOnChange = ({
-    target: { value, name },
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({
-      ...values,
-      [name]: value,
-    });
-  };
+  const [amountCharges] = useState(0);
+  const [amount, setAmount] = useState<number>(0);
+  const [index, setIndex] = useState<number>();
 
-  // console.log("others === ", others);
+  // const inputOnChange = ({
+  //   target: { value, name },
+  // }: React.ChangeEvent<HTMLInputElement>) => {
+  //   setValues({
+  //     ...values,
+  //     [name]: value,
+  //   });
+  // };
+
+  console.log("others === ", reg_fee, values.amount);
+
   const battery = getDropdown(others?.battery);
   const displayType = getDropdown(others?.display_type);
   const cardSlot = getDropdown(others?.card_slot);
@@ -84,6 +112,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
       sim: sim?.length <= 1 ? sim[0]?.value : "",
       internal_storage: storage?.length <= 1 ? storage[0]?.value : "",
       category_id: others?.category_id ? others?.category_id : 0,
+      user_id: reg_user ? reg_user?.id : 0,
     });
 
     // eslint-disable-next-line
@@ -96,6 +125,8 @@ const RegisterPhoneForm: React.FC<Props> = ({
     others?.resolution,
     others?.sim,
     others?.internal_storage,
+    reg_user?.id,
+    reg_fee?.fee,
   ]);
 
   const onSearch = ({
@@ -104,7 +135,16 @@ const RegisterPhoneForm: React.FC<Props> = ({
     console.log(value);
     getRegUser(value);
   };
-  console.log(reg_user);
+
+  async function confirm(obj: any) {
+    setValues({
+      ...values,
+      trxref: obj?.trxref,
+      reference: obj?.reference,
+    });
+    setShowFundWalletModal(false);
+    setShowModal(false);
+  }
 
   return (
     <HomeLayout>
@@ -119,7 +159,13 @@ const RegisterPhoneForm: React.FC<Props> = ({
         </h1>
         <br />
         <br />
-        <FormStyle onSubmit={onSubmit}>
+        <FormStyle
+          onSubmit={(e: React.FormEvent) => {
+            e.preventDefault();
+
+            setShowModal(true);
+          }}
+        >
           <Row gutter={16}>
             <h2 style={{ color: "#bbbbbb" }}>Add Photos</h2>
             <Col span={24}>
@@ -268,7 +314,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
                 }}
               />
             </Col>
-            <Col xs={24} md={12} className="pl">
+            {/* <Col xs={24} md={12} className="pl">
               <Select
                 className="select"
                 options={[]}
@@ -277,6 +323,23 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   setValues({
                     ...values,
                     second_condition_id: id,
+                  });
+                }}
+              />
+            </Col> */}
+            <Col xs={24} md={12} className="pl">
+              <Select
+                className={battery?.length <= 1 ? "select active" : "select"}
+                isDisabled={battery?.length > 1 ? false : true}
+                options={battery}
+                defaultInputValue={battery?.value}
+                placeholder={
+                  battery?.length <= 1 ? battery[0]?.value : "Battery (MAH)"
+                }
+                onChange={({ value }: any) => {
+                  setValues({
+                    ...values,
+                    battery: value,
                   });
                 }}
               />
@@ -289,10 +352,10 @@ const RegisterPhoneForm: React.FC<Props> = ({
                 className="select"
                 options={rams}
                 placeholder="Ram"
-                onChange={({ value }: any) => {
+                onChange={({ id }: any) => {
                   setValues({
                     ...values,
-                    ram: value,
+                    ram_size_id: id,
                   });
                 }}
               />
@@ -445,7 +508,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
           </Row>
           <br />
           <Row>
-            <Col xs={24} md={12} className="pr">
+            <Col xs={24} md={24} className="pr">
               <Select
                 className={
                   selfieCamera?.length <= 1 ? "select active" : "select"
@@ -460,23 +523,6 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   setValues({
                     ...values,
                     selfie_camera: value,
-                  });
-                }}
-              />
-            </Col>
-            <Col xs={24} md={12} className="pl">
-              <Select
-                className={battery?.length <= 1 ? "select active" : "select"}
-                isDisabled={battery?.length > 1 ? false : true}
-                options={battery}
-                defaultInputValue={battery?.value}
-                placeholder={
-                  battery?.length <= 1 ? battery[0]?.value : "Battery (MAH)"
-                }
-                onChange={({ value }: any) => {
-                  setValues({
-                    ...values,
-                    battery: value,
                   });
                 }}
               />
@@ -498,7 +544,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
             </Form.Item>
           </Row>
           <br />
-          <Row>
+          {/* <Row>
             <CustomInput
               placeholder="Price"
               name="price"
@@ -506,21 +552,29 @@ const RegisterPhoneForm: React.FC<Props> = ({
               onChange={inputOnChange}
             />
           </Row>
-          <br />
+          <br /> */}
           <Row>
             <Checkbox
               onChange={({ target: { checked } }) =>
                 setValues({
                   ...values,
-                  isNogetiable: checked,
+                  warranty: checked ? 1 : 0,
+                  amount: checked
+                    ? others?.warranty_fee && reg_fee?.fee
+                      ? parseInt(others?.warranty_fee) + parseInt(reg_fee?.fee)
+                      : ""
+                    : "",
                 })
               }
             >
-              Negotiable
+              Warranty{" "}
+              {others?.warranty_fee &&
+                values.warranty === 1 &&
+                `(N ${others?.warranty_fee})`}
             </Checkbox>
           </Row>
           <br />
-          <Row>
+          {/* <Row>
             <Col xs={24} md={12} className="pr">
               <CustomInput
                 placeholder="Your Phone"
@@ -537,8 +591,8 @@ const RegisterPhoneForm: React.FC<Props> = ({
                 onChange={inputOnChange}
               />
             </Col>
-          </Row>
-          <br />
+          </Row> 
+          <br /> */}
           <Row>
             <CustomButton
               type="submit"
@@ -548,6 +602,201 @@ const RegisterPhoneForm: React.FC<Props> = ({
           </Row>
         </FormStyle>
       </Container>
+
+      <CustomModalUI
+        visible={showModal}
+        component={() => {
+          return (
+            <SelectCards>
+              <h1>Select Payment Option</h1>
+              <p>Please select your mode of payment</p>
+              <SelectActions>
+                <SelectCard
+                  onClick={() => {
+                    setValues({
+                      ...values,
+                      pay_type: 1,
+                    });
+                    setShowFundWalletModal(true);
+                    setShowModal(false);
+                  }}
+                >
+                  <i className="fas fa-university"></i>
+                  <span>Bank</span>
+                </SelectCard>
+                <SelectCard
+                  onClick={() => {
+                    setValues({
+                      ...values,
+                      pay_type: 0,
+                    });
+                    onSubmit();
+                    setShowTransferToWallet(true);
+                    setShowModal(false);
+                  }}
+                >
+                  <i className="fas fa-wallet"></i>
+                  <span>Wallet</span>
+                </SelectCard>
+              </SelectActions>
+            </SelectCards>
+          );
+        }}
+        handleCancel={() => {
+          setValues({
+            ...values,
+            amount: "",
+          });
+          setShowModal(false);
+        }}
+        width={350}
+        closable={false}
+      />
+
+      <CustomModalUI
+        visible={showFundWalletModal}
+        component={() => {
+          return (
+            <MakePayment>
+              <ParagraphOne>Register Amount</ParagraphOne>
+
+              <span className="label">Quick Pay</span>
+              <AmountToFundWallet>
+                {[1000, 2000, 3000, 4000]?.map((amount: number, i: number) => (
+                  <ButtonStyle
+                    key={i}
+                    style={{
+                      background: index === i ? "#FF2A5F" : "transparent",
+                    }}
+                    onClick={() => {
+                      setValues({
+                        ...values,
+                        amount,
+                      });
+                      setIndex(i);
+                      setShowModal(true);
+                    }}
+                  >
+                    {amount}
+                  </ButtonStyle>
+                ))}
+              </AmountToFundWallet>
+              <p style={{ color: "white" }}>
+                Paystack charges{" "}
+                {formatPrice(
+                  paystackCharge(
+                    parseInt(values.amount)
+                      ? parseInt(values.amount)
+                      : amountCharges
+                  )
+                )}
+              </p>
+              <br />
+              <span className="label">Large Amount</span>
+              <CustomInput
+                placeholder="Enter Amount"
+                type="number"
+                value={values.amount}
+                onChange={({
+                  target: { value },
+                }: React.ChangeEvent<HTMLInputElement>) =>
+                  setValues({
+                    ...values,
+                    amount: value,
+                  })
+                }
+                inputStyle={{ color: "white" }}
+              />
+              <br />
+              <ButtonStyle
+                disabled={!values.amount}
+                style={{ padding: 10 }}
+                onClick={() => {
+                  setAmount(parseInt(values.amount));
+                  setShowPayChargeModal(true);
+                }}
+              >
+                {values.amount ? formatPrice(values.amount) : "Pay"}
+              </ButtonStyle>
+            </MakePayment>
+          );
+        }}
+        closable
+        handleCancel={() => {
+          setValues({
+            ...values,
+            amount: "",
+          });
+          setShowFundWalletModal(false);
+        }}
+        width={400}
+      />
+
+      <CustomModalUI
+        component={() => (
+          <PayStackChargeModalDiv>
+            <h1>Paystack Charge</h1>
+            <p>Pay stack charges you {formatPrice(paystackCharge(amount))}</p>
+            <div className="action_btns">
+              <ButtonStyle
+                style={{ padding: 2 }}
+                disabled={!amount}
+                onClick={() => {
+                  setAmount(0);
+                  setShowPayChargeModal(false);
+                }}
+              >
+                Cancel
+              </ButtonStyle>
+              {false ? (
+                <div
+                  style={{
+                    height: 22,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: 20,
+                  }}
+                >
+                  <Loader size={0} type="Oval" width={18} height={18} />
+                </div>
+              ) : (
+                <PayStack
+                  background={"#FF2A5F"}
+                  style={{ height: 27, border: 0 }}
+                  amount={
+                    values.amount
+                      ? paystackCharge(parseInt(values.amount)) +
+                        parseInt(values.amount)
+                      : 0
+                  }
+                  charges={paystackCharge(amount)}
+                  email={user?.email ? user.email : ""}
+                  handleClose={() => {
+                    setValues({
+                      ...values,
+                      amount: "",
+                    });
+                  }}
+                  saveTransaction={confirm}
+                  description={`Fund wallet with ${amount}`}
+                  label={"Pay"}
+                  showNumber={false}
+                />
+              )}
+            </div>
+          </PayStackChargeModalDiv>
+        )}
+        visible={showPayChargeModal}
+        handleCancel={() => {
+          setValues({
+            ...values,
+            amount: "",
+          });
+        }}
+        width={300}
+        closable={false}
+      />
     </HomeLayout>
   );
 };

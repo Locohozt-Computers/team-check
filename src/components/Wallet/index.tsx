@@ -116,7 +116,7 @@ const WalletComponent: React.FC<{
   );
 };
 
-const SelectCards = styled.div`
+export const SelectCards = styled.div`
   background-color: white;
   padding: 20px;
 
@@ -135,12 +135,12 @@ const SelectCards = styled.div`
   }
 `;
 
-const SelectActions = styled.div`
+export const SelectActions = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
 `;
-const SelectCard = styled.div`
+export const SelectCard = styled.div`
   width: 100px;
   height: 50px;
   border: 1px solid #eeeeee;
