@@ -38,8 +38,6 @@ const TransferToWallet: React.FC<Props> = ({
   const [loading, setLoading] = useState(false);
   const [alertModal, setAlertModal] = useState(false);
 
-  // console.log("")
-
   async function confirm() {
     setLoading(true);
     const obj = {

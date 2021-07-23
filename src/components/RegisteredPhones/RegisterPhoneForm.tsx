@@ -80,17 +80,6 @@ const RegisterPhoneForm: React.FC<Props> = ({
   const [amount, setAmount] = useState<number>(0);
   const [index, setIndex] = useState<number>();
 
-  // const inputOnChange = ({
-  //   target: { value, name },
-  // }: React.ChangeEvent<HTMLInputElement>) => {
-  //   setValues({
-  //     ...values,
-  //     [name]: value,
-  //   });
-  // };
-
-  console.log("others === ", reg_fee, values.amount);
-
   const battery = getDropdown(others?.battery);
   const displayType = getDropdown(others?.display_type);
   const cardSlot = getDropdown(others?.card_slot);
@@ -132,7 +121,6 @@ const RegisterPhoneForm: React.FC<Props> = ({
   const onSearch = ({
     target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(value);
     getRegUser(value);
   };
 
@@ -202,7 +190,6 @@ const RegisterPhoneForm: React.FC<Props> = ({
                               (image: string, ind: number) => ind !== index
                             ),
                           });
-                          console.log(index);
                         }}
                       ></i>
                     </div>
@@ -314,19 +301,6 @@ const RegisterPhoneForm: React.FC<Props> = ({
                 }}
               />
             </Col>
-            {/* <Col xs={24} md={12} className="pl">
-              <Select
-                className="select"
-                options={[]}
-                placeholder="Second Condition"
-                onChange={({ id }: any) => {
-                  setValues({
-                    ...values,
-                    second_condition_id: id,
-                  });
-                }}
-              />
-            </Col> */}
             <Col xs={24} md={12} className="pl">
               <Select
                 className={battery?.length <= 1 ? "select active" : "select"}
@@ -544,15 +518,6 @@ const RegisterPhoneForm: React.FC<Props> = ({
             </Form.Item>
           </Row>
           <br />
-          {/* <Row>
-            <CustomInput
-              placeholder="Price"
-              name="price"
-              value={values.price}
-              onChange={inputOnChange}
-            />
-          </Row>
-          <br /> */}
           <Row>
             <Checkbox
               onChange={({ target: { checked } }) =>
@@ -574,25 +539,6 @@ const RegisterPhoneForm: React.FC<Props> = ({
             </Checkbox>
           </Row>
           <br />
-          {/* <Row>
-            <Col xs={24} md={12} className="pr">
-              <CustomInput
-                placeholder="Your Phone"
-                name="your_price"
-                value={values.your_price}
-                onChange={inputOnChange}
-              />
-            </Col>
-            <Col xs={24} md={12} className="pl">
-              <CustomInput
-                placeholder="Name"
-                name="name"
-                value={values.name}
-                onChange={inputOnChange}
-              />
-            </Col>
-          </Row> 
-          <br /> */}
           <Row>
             <CustomButton
               type="submit"

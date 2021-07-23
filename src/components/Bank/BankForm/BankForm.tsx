@@ -34,7 +34,6 @@ const BankForm: React.FC<Props> = ({
   const getBanks = async () => {
     try {
       const res = await getHttp("/all-banks");
-      console.log(res);
       const banks = res?.map((bank: any) => {
         return {
           id: bank?.BankSortCode,
@@ -75,7 +74,6 @@ const BankForm: React.FC<Props> = ({
       setName(res?.account_name);
       setLoading(false);
     } catch (error) {
-      console.log(error?.response);
       if (name && error) {
         setName("");
       }

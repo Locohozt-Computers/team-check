@@ -121,7 +121,6 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
   const getBrands = async () => {
     try {
       const results = await getHttp("/device/brands");
-      console.log("other === ", results);
       const brands = results?.data?.map((brand: any) => ({
         id: brand?.id,
         osId: brand?.operating_system_id,
@@ -151,7 +150,6 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
   const getModels = async (id: number) => {
     try {
       const results = await getHttp(`/phone-brands/${id}`);
-      // console.log(results);
       const models = results?.map((model: any) => ({
         id: model?.id,
         value: model?.name,
