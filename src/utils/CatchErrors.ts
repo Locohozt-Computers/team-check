@@ -114,3 +114,10 @@ export const authErrorHandler = <T>(error: T | any) => {
     }
   }
 };
+
+export const logoutUnauthorizeUser = (code: number) => {
+  if (code === 401) {
+    localStorage.removeItem("techCheckPoint");
+    console.log(40111, code);
+  }
+};

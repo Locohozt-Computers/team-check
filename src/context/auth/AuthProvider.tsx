@@ -12,7 +12,7 @@ import {
   getHttp,
   updateHttp,
 } from "utils/api/createHttp";
-import { authErrorHandler } from "utils/CatchErrors";
+import { authErrorHandler, logoutUnauthorizeUser } from "utils/CatchErrors";
 import { errorNotify } from "utils/errorMessage";
 import authReducer from "./Authreducer";
 
@@ -144,6 +144,7 @@ const AuthProvider: React.FC = ({ children }) => {
       //   throw "Network went wrong!!!";
       // }
       // throw error?.response?.data?.message;
+      logoutUnauthorizeUser(error?.response?.data?.status_code)
       throw error;
     }
   };
