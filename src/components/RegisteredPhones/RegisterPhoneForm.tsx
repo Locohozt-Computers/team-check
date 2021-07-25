@@ -737,11 +737,6 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   setValues({
                     ...values,
                     warranty: checked ? 1 : 0,
-                    // amount: checked
-                    //   ? others?.warranty_fee && reg_fee?.fee
-                    //     ? parseInt(others?.warranty_fee) + parseInt(reg_fee?.fee)
-                    //     : 0
-                    //   : 0,
                   })
                 }
               >
