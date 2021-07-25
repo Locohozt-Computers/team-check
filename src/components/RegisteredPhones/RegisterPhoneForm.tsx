@@ -239,7 +239,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
           <Row gutter={16}>
             <Col span={24}>
               <Input
-                placeholder="Search for a user you want to register..."
+                placeholder="Search a user with his/her email..."
                 allowClear
                 size="large"
                 onChange={onSearch}
