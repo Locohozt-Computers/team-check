@@ -141,11 +141,16 @@ const RegisterPhoneForm: React.FC<Props> = ({
     reg_fee?.fee,
   ]);
 
-  const onSearch = ({
+  const onSearch = async ({
     target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
-    setUserEmail(value);
-    getRegUser(value);
+    // setUserEmail(value);
+    const user: any = await getRegUser(value);
+    if (user) {
+      setUserEmail(user);
+    } else {
+      setUserEmail("");
+    }
   };
 
   async function confirm(obj: any) {
@@ -239,7 +244,11 @@ const RegisterPhoneForm: React.FC<Props> = ({
                 size="large"
                 onChange={onSearch}
               />
-              <span>{reg_user && userEmail && reg_user?.username}</span>
+              {userEmail !== "error" ? (
+                <span>{userEmail}</span>
+              ) : (
+                userEmail?.length > 1 && <span>User not found</span>
+              )}
               {!values.user_id && (
                 <ErrorDiv
                   key="user_id"

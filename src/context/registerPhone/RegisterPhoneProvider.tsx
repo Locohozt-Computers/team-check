@@ -249,7 +249,10 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     try {
       const results = await getHttp(`/user/${email}`);
       dispatch({ type: REG_USER, payload: results });
-    } catch (error) {}
+      return results?.username;
+    } catch (error) {
+      return "error";
+    }
   };
 
   const registerPhone = async (values: RegisterValueType) => {

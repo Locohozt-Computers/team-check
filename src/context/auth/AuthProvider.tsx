@@ -22,13 +22,6 @@ export const logoutUserWhenTokenHasExpired = () => {
 
     const expirationTime = decoded?.exp * 1000 - 60000;
 
-    console.log(
-      decoded,
-      expirationTime,
-      Date.now() >= expirationTime,
-      Date.now() <= expirationTime
-    );
-
     if (Date.now() >= expirationTime) {
       localStorage.removeItem("techCheckPoint");
     }

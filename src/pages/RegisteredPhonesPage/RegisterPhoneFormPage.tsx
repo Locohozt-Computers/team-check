@@ -73,8 +73,6 @@ const RegisterPhoneFormPage = () => {
     // isNogetiable: false,
   });
 
-  const [errors, setErrors] = useState<Partial<RegisterValueType> | any>();
-
   useEffect(() => {
     getRegFee();
 
