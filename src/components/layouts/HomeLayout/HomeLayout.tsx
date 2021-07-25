@@ -1,4 +1,7 @@
-import { AuthContext } from "context/auth/AuthProvider";
+import {
+  AuthContext,
+  logoutUserWhenTokenHasExpired,
+} from "context/auth/AuthProvider";
 import { LayoutContext } from "context/layout/LayoutProvider";
 import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvider";
 import { WalletContext } from "context/wallet/WalletProvider";
@@ -38,6 +41,8 @@ const HomeLayout: React.FC = ({ children }) => {
     getScreenSize();
     getRams();
     getRegFee();
+
+    logoutUserWhenTokenHasExpired();
 
     // eslint-disable-next-line
   }, [profile?.walletBalance]);

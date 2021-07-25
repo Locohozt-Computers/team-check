@@ -1,5 +1,5 @@
-import { ResetType } from "components/Auth/ResetPassword";
 import React, { createContext, useEffect, useReducer } from "react";
+import jwtDecode from "jwt-decode";
 import {
   ChangePasswordType,
   GetEdBankType,
@@ -7,17 +7,33 @@ import {
   SignupUserType,
   UserType,
 } from "types/authTypes";
-import {
-  createHttp,
-  getHttp,
-  updateHttp,
-} from "utils/api/createHttp";
+import { ResetType } from "components/Auth/ResetPassword";
+import { createHttp, getHttp, updateHttp } from "utils/api/createHttp";
 import { authErrorHandler, logoutUnauthorizeUser } from "utils/CatchErrors";
 import { errorNotify } from "utils/errorMessage";
 import authReducer from "./Authreducer";
 
 let user: any = localStorage.getItem("techCheckPoint");
 user = JSON.parse(user);
+
+export const logoutUserWhenTokenHasExpired = () => {
+  if (user?.token) {
+    let decoded: any = jwtDecode(user?.token);
+
+    const expirationTime = decoded?.exp * 1000 - 60000;
+
+    console.log(
+      decoded,
+      expirationTime,
+      Date.now() >= expirationTime,
+      Date.now() <= expirationTime
+    );
+
+    if (Date.now() >= expirationTime) {
+      localStorage.removeItem("techCheckPoint");
+    }
+  }
+};
 
 export type InitialStateTypes<T> = {
   user: T;
@@ -144,7 +160,7 @@ const AuthProvider: React.FC = ({ children }) => {
       //   throw "Network went wrong!!!";
       // }
       // throw error?.response?.data?.message;
-      logoutUnauthorizeUser(error?.response?.data?.status_code)
+      logoutUnauthorizeUser(error?.response?.data?.status_code);
       throw error;
     }
   };

@@ -31,7 +31,7 @@ export type RegisterValueType = {
   selfie_camera: string;
   battery: string;
   description: string;
-  amount: string;
+  amount: string | any;
   warranty: number;
   pay_type: number;
   trxref: string;
@@ -42,6 +42,7 @@ export type RegisterValueType = {
 const RegisterPhoneFormPage = () => {
   const { user } = useContext(AuthContext);
   const { getRegFee, registerPhone } = useContext(RegisterPhoneContext);
+  const [showError, setShowError] = useState(false);
   const [values, setValues] = useState<RegisterValueType>({
     agent_id: user?.id,
     images: [],
@@ -86,6 +87,7 @@ const RegisterPhoneFormPage = () => {
     const validForm = canRegisterPhone(values);
 
     if (validForm) {
+      setShowError(true);
       return errorNotify("Some fields are required");
     }
 
@@ -103,8 +105,8 @@ const RegisterPhoneFormPage = () => {
         values={values}
         setValues={setValues}
         onSubmit={onSubmit}
-        errors={errors}
-        setErrors={setErrors}
+        showError={showError}
+        setShowError={setShowError}
       />
     </div>
   );

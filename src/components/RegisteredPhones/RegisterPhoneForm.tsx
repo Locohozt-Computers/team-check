@@ -31,18 +31,39 @@ import PayStack from "utils/PayStack";
 
 type Props = {
   values: RegisterValueType;
-  errors: RegisterValueType;
+  showError: boolean;
   setValues: Dispatch<SetStateAction<any>>;
-  setErrors: Dispatch<SetStateAction<any>>;
+  setShowError: Dispatch<SetStateAction<boolean>>;
   onSubmit: () => Promise<void>;
+};
+
+const ErrorDiv = ({
+  values,
+  name,
+  showError,
+  key = "a",
+}: {
+  values: any;
+  name: string;
+  showError: boolean;
+  key: any;
+}) => {
+  const value = !values[key];
+  return (
+    <>
+      {value && showError && (
+        <span style={{ color: "red" }}>{name} is a required field</span>
+      )}
+    </>
+  );
 };
 
 const RegisterPhoneForm: React.FC<Props> = ({
   setValues,
   values,
   onSubmit,
-  setErrors,
-  errors: error,
+  setShowError,
+  showError,
 }) => {
   const history = useHistory();
 
@@ -73,12 +94,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
   const [, setShowTransferToWallet] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [showPayChargeModal, setShowPayChargeModal] = useState(false);
+  const [showCharges, setShowCharges] = useState(false);
 
   const [loading, setLoading] = useState(false);
 
   const [amountCharges] = useState(0);
   const [amount, setAmount] = useState<number>(0);
   const [index, setIndex] = useState<number>();
+  const [userEmail, setUserEmail] = useState("");
 
   const battery = getDropdown(others?.battery);
   const displayType = getDropdown(others?.display_type);
@@ -121,6 +144,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
   const onSearch = ({
     target: { value },
   }: React.ChangeEvent<HTMLInputElement>) => {
+    setUserEmail(value);
     getRegUser(value);
   };
 
@@ -201,6 +225,9 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   )}
                 </PhotoLists>
               </Images>
+              {values.images?.length <= 0 && showError && (
+                <span style={{ color: "red" }}>Image is a required field</span>
+              )}
             </Col>
           </Row>
           <br />
@@ -212,7 +239,15 @@ const RegisterPhoneForm: React.FC<Props> = ({
                 size="large"
                 onChange={onSearch}
               />
-              <span>{reg_user && reg_user?.username}</span>
+              <span>{reg_user && userEmail && reg_user?.username}</span>
+              {!values.user_id && (
+                <ErrorDiv
+                  key="user_id"
+                  values={values}
+                  name="User"
+                  showError={showError}
+                />
+              )}
             </Col>
           </Row>
           <br />
@@ -232,6 +267,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.state_id && (
+                <ErrorDiv
+                  key="state_id"
+                  values={values}
+                  name="State"
+                  showError={showError}
+                />
+              )}
             </Col>
           </Row>
           <br />
@@ -250,6 +293,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.lga_id && (
+                <ErrorDiv
+                  key="lga_id"
+                  values={values}
+                  name="Destrict"
+                  showError={showError}
+                />
+              )}
             </Col>
           </Row>
           <br />
@@ -269,6 +320,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.brand_id && (
+                <ErrorDiv
+                  key="brand_id"
+                  values={values}
+                  name="Brand"
+                  showError={showError}
+                />
+              )}
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
@@ -284,6 +343,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.phone_model_id && (
+                <ErrorDiv
+                  key="phone_model_id"
+                  values={values}
+                  name="Model"
+                  showError={showError}
+                />
+              )}
             </Col>
           </Row>
           <br />
@@ -300,6 +367,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.condition_id && (
+                <ErrorDiv
+                  key="condition_id"
+                  values={values}
+                  name="Condition"
+                  showError={showError}
+                />
+              )}
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
@@ -317,6 +392,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.battery && (
+                <ErrorDiv
+                  key="battery"
+                  values={values}
+                  name="Battery"
+                  showError={showError}
+                />
+              )}
             </Col>
           </Row>
           <br />
@@ -333,6 +416,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.ram_size_id && (
+                <ErrorDiv
+                  key="ram_size_id"
+                  values={values}
+                  name="Ram"
+                  showError={showError}
+                />
+              )}
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
@@ -348,6 +439,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.internal_storage && (
+                <ErrorDiv
+                  key="internal_storage"
+                  values={values}
+                  name="Internal Storage"
+                  showError={showError}
+                />
+              )}
             </Col>
           </Row>
           <br />
@@ -364,6 +463,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.screen_size_id && (
+                <ErrorDiv
+                  key="screen_size_id"
+                  values={values}
+                  name="Screen Size"
+                  showError={showError}
+                />
+              )}
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
@@ -378,6 +485,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.color_id && (
+                <ErrorDiv
+                  key="color_id"
+                  values={values}
+                  name="Color"
+                  showError={showError}
+                />
+              )}
             </Col>
           </Row>
           <br />
@@ -394,6 +509,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.operating_system_id && (
+                <ErrorDiv
+                  key="operating_system_id"
+                  values={values}
+                  name="Operating System"
+                  showError={showError}
+                />
+              )}
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
@@ -413,6 +536,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.display_type && (
+                <ErrorDiv
+                  key="display_type"
+                  values={values}
+                  name="Display Type"
+                  showError={showError}
+                />
+              )}
             </Col>
           </Row>
           <br />
@@ -432,6 +563,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.resolution && (
+                <ErrorDiv
+                  key="resolution"
+                  values={values}
+                  name="Resolution"
+                  showError={showError}
+                />
+              )}
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
@@ -445,6 +584,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.sim && (
+                <ErrorDiv
+                  key="sim"
+                  values={values}
+                  name="SIM"
+                  showError={showError}
+                />
+              )}
             </Col>
           </Row>
           <br />
@@ -463,6 +610,14 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.card_slot && (
+                <ErrorDiv
+                  key="card_slot"
+                  values={values}
+                  name="Card Slot"
+                  showError={showError}
+                />
+              )}
             </Col>
             <Col xs={24} md={12} className="pl">
               <Select
@@ -478,11 +633,19 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.main_camera && (
+                <ErrorDiv
+                  key="main_camera"
+                  values={values}
+                  name="Main Camera"
+                  showError={showError}
+                />
+              )}
             </Col>
           </Row>
           <br />
           <Row>
-            <Col xs={24} md={24} className="pr">
+            <Col xs={24} md={12} className="pr">
               <Select
                 className={
                   selfieCamera?.length <= 1 ? "select active" : "select"
@@ -500,6 +663,38 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   });
                 }}
               />
+              {!values.selfie_camera && (
+                <ErrorDiv
+                  key="selfie_camera"
+                  values={values}
+                  name="Selfie Camera"
+                  showError={showError}
+                />
+              )}
+            </Col>
+            <Col xs={24} md={12} className="pl">
+              <CustomInput
+                placeholder="Enter Price"
+                type="number"
+                value={values.amount}
+                onChange={({
+                  target: { value },
+                }: React.ChangeEvent<HTMLInputElement>) =>
+                  setValues({
+                    ...values,
+                    amount: value,
+                  })
+                }
+                inputStyle={{ height: 16 }}
+              />
+              {!values.amount && (
+                <ErrorDiv
+                  key="amount"
+                  values={values}
+                  name="Price"
+                  showError={showError}
+                />
+              )}
             </Col>
           </Row>
           <br />
@@ -515,28 +710,47 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   })
                 }
               />
+              {!values.description && (
+                <ErrorDiv
+                  key="description"
+                  values={values}
+                  name="Description"
+                  showError={showError}
+                />
+              )}
             </Form.Item>
           </Row>
           <br />
           <Row>
-            <Checkbox
-              onChange={({ target: { checked } }) =>
-                setValues({
-                  ...values,
-                  warranty: checked ? 1 : 0,
-                  amount: checked
-                    ? others?.warranty_fee && reg_fee?.fee
-                      ? parseInt(others?.warranty_fee) + parseInt(reg_fee?.fee)
-                      : ""
-                    : "",
-                })
-              }
-            >
-              Warranty{" "}
-              {others?.warranty_fee &&
-                values.warranty === 1 &&
-                `(N ${others?.warranty_fee})`}
-            </Checkbox>
+            <Col>
+              <Checkbox
+                onChange={({ target: { checked } }) =>
+                  setValues({
+                    ...values,
+                    warranty: checked ? 1 : 0,
+                    // amount: checked
+                    //   ? others?.warranty_fee && reg_fee?.fee
+                    //     ? parseInt(others?.warranty_fee) + parseInt(reg_fee?.fee)
+                    //     : 0
+                    //   : 0,
+                  })
+                }
+              >
+                Warranty{" "}
+                {others?.warranty_fee &&
+                  values.warranty === 1 &&
+                  `(N ${others?.warranty_fee})`}
+              </Checkbox>
+              <br />
+              <div>
+                {values.warranty === 1 && (
+                  <p>
+                    Warranty is valid for 1 year and it start from three months
+                    from now
+                  </p>
+                )}
+              </div>
+            </Col>
           </Row>
           <br />
           <Row>
@@ -572,13 +786,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
                 </SelectCard>
                 <SelectCard
                   onClick={() => {
-                    setValues({
-                      ...values,
-                      pay_type: 0,
-                    });
-                    onSubmit();
-                    setShowTransferToWallet(true);
-                    setShowModal(false);
+                    setShowCharges(true);
                   }}
                 >
                   <i className="fas fa-wallet"></i>
@@ -741,6 +949,54 @@ const RegisterPhoneForm: React.FC<Props> = ({
           });
         }}
         width={300}
+        closable={false}
+      />
+
+      {/* alert for displaying charges */}
+      <CustomModalUI
+        visible={showCharges}
+        component={() => {
+          return (
+            <SelectCards>
+              <h1>Registration Charges</h1>
+              <p>
+                Are you sure you want to register this phone with this amount,{" "}
+                {parseInt(others?.warranty_fee) + parseInt(reg_fee?.fee)}
+              </p>
+              <SelectActions>
+                <SelectCard
+                  onClick={() => {
+                    setShowCharges(false);
+                  }}
+                >
+                  <span>No</span>
+                </SelectCard>
+                <SelectCard
+                  onClick={() => {
+                    setValues({
+                      ...values,
+                      pay_type: 0,
+                    });
+                    onSubmit();
+                    setShowTransferToWallet(true);
+                    setShowModal(false);
+                    setShowCharges(false);
+                  }}
+                >
+                  <span>Yes</span>
+                </SelectCard>
+              </SelectActions>
+            </SelectCards>
+          );
+        }}
+        handleCancel={() => {
+          setValues({
+            ...values,
+            amount: "",
+          });
+          setShowModal(false);
+        }}
+        width={350}
         closable={false}
       />
     </HomeLayout>
