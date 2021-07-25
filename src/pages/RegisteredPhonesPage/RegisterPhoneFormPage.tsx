@@ -94,6 +94,7 @@ const RegisterPhoneFormPage = () => {
     try {
       await registerPhone(values);
       successNotify("Successfully register a phone");
+      setShowError(false);
     } catch (error) {
       errorNotify("something went wrong");
     }
