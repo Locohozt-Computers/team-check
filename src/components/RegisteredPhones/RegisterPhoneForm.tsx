@@ -18,7 +18,6 @@ import { useState } from "react";
 import CustomModalUI from "components/ui/CustomModal";
 import { SelectCards, SelectActions, SelectCard } from "components/Wallet";
 import {
-  AmountToFundWallet,
   ButtonStyle,
   MakePayment,
   ParagraphOne,
@@ -28,20 +27,21 @@ import { formatPrice } from "utils/formatPrice";
 import { paystackCharge } from "utils/paystackCharge";
 import Loader from "components/ui/Loader";
 import PayStack from "utils/PayStack";
+import { canNotRegisterPhone } from "utils/canNotRegisterPhone";
 
 type Props = {
   values: RegisterValueType;
   showError: boolean;
   setValues: Dispatch<SetStateAction<any>>;
   setShowError: Dispatch<SetStateAction<boolean>>;
-  onSubmit: () => Promise<void>;
+  onSubmit: (obj: { reference?: string; trxref?: string }) => Promise<void>;
 };
 
 const ErrorDiv = ({
   values,
   name,
   showError,
-  key = "a",
+  key = "",
 }: {
   values: any;
   name: string;
@@ -98,9 +98,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
 
   const [loading, setLoading] = useState(false);
 
-  const [amountCharges] = useState(0);
   const [amount, setAmount] = useState<number>(0);
-  const [index, setIndex] = useState<number>();
   const [userEmail, setUserEmail] = useState("");
 
   const battery = getDropdown(others?.battery);
@@ -154,11 +152,11 @@ const RegisterPhoneForm: React.FC<Props> = ({
   };
 
   async function confirm(obj: any) {
-    setValues({
-      ...values,
-      trxref: obj?.trxref,
-      reference: obj?.reference,
+    onSubmit({
+      trxref: obj?.response?.trxref,
+      reference: obj?.response?.reference,
     });
+    setShowPayChargeModal(false);
     setShowFundWalletModal(false);
     setShowModal(false);
   }
@@ -759,9 +757,15 @@ const RegisterPhoneForm: React.FC<Props> = ({
           <br />
           <Row>
             <CustomButton
+              disabled={canNotRegisterPhone(values)}
               type="submit"
               label="Submit"
-              background="dodgerblue"
+              background={
+                canNotRegisterPhone(values) ? "#dddddd" : "dodgerblue"
+              }
+              style={{
+                color: canNotRegisterPhone(values) ? "#222222" : "#ffffff",
+              }}
             />
           </Row>
         </FormStyle>
@@ -786,7 +790,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   }}
                 >
                   <i className="fas fa-university"></i>
-                  <span>Bank</span>
+                  <span>Card</span>
                 </SelectCard>
                 <SelectCard
                   onClick={() => {
@@ -812,6 +816,39 @@ const RegisterPhoneForm: React.FC<Props> = ({
       />
 
       <CustomModalUI
+        visible={showFundWalletModal}
+        component={() => {
+          return (
+            <MakePayment>
+              <ParagraphOne>Pay With Card</ParagraphOne>
+
+              <p style={{ color: "white" }}>Phone Price {values.amount}</p>
+              <br />
+              <br />
+              <ButtonStyle
+                disabled={!values.amount}
+                style={{ padding: 10 }}
+                onClick={() => {
+                  setAmount(parseInt(values.amount));
+                  setShowPayChargeModal(true);
+                }}
+              >
+                {values.amount ? formatPrice(values.amount) : "Pay"}
+              </ButtonStyle>
+            </MakePayment>
+          );
+        }}
+        closable
+        handleCancel={() => {
+          setValues({
+            ...values,
+            amount: "",
+          });
+          setShowFundWalletModal(false);
+        }}
+        width={400}
+      />
+      {/* <CustomModalUI
         visible={showFundWalletModal}
         component={() => {
           return (
@@ -888,7 +925,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
           setShowFundWalletModal(false);
         }}
         width={400}
-      />
+      /> */}
 
       <CustomModalUI
         component={() => (
@@ -928,8 +965,10 @@ const RegisterPhoneForm: React.FC<Props> = ({
                         parseInt(values.amount)
                       : 0
                   }
+                  userId={values.user_id}
                   charges={paystackCharge(amount)}
                   email={user?.email ? user.email : ""}
+                  trans_type={2}
                   handleClose={() => {
                     setValues({
                       ...values,
@@ -981,7 +1020,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
                       ...values,
                       pay_type: 0,
                     });
-                    onSubmit();
+                    onSubmit({});
                     setShowTransferToWallet(true);
                     setShowModal(false);
                     setShowCharges(false);

@@ -1,6 +1,6 @@
 import { RegisterValueType } from "pages/RegisteredPhonesPage/RegisterPhoneFormPage";
 
-export const canRegisterPhone = (values: RegisterValueType) => {
+export const canNotRegisterPhone = (values: RegisterValueType) => {
   console.log(values)
   if (!values.agent_id) {
     return true;

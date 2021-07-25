@@ -12,11 +12,13 @@ type PProps = {
   description?: string;
   background?: string;
   trans_type?: number;
+  reference?: any;
   style?: any;
   onClick?: any;
   showNumber?: boolean;
   label?: string;
   charges: number;
+  userId?: any;
 };
 
 const PAYSTACK_PUB_KEY = process.env.REACT_APP_PAYSTACK_PUB_KEY;
@@ -29,12 +31,14 @@ const PayStack = ({
   saveTransaction,
   description = "Fund wallet",
   trans_type = 1,
+  reference,
   background = "transparent",
   style,
   showNumber,
   label,
   onClick,
   charges,
+  userId
 }: PProps) => {
   const [ref, setRef] = useState(new Date().getTime());
 
@@ -46,10 +50,11 @@ const PayStack = ({
     amount: amount * 100,
     publicKey: PAYSTACK_PUB_KEY,
     metadata: {
-      user_id: user.id,
+      user_id: userId ? userId : user.id,
       description,
       trans_type,
       charges,
+      amount
     },
   };
 

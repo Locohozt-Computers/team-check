@@ -6,7 +6,7 @@ import { AuthContext } from "context/auth/AuthProvider";
 import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvider";
 import { useEffect } from "react";
 import { errorNotify, successNotify } from "utils/errorMessage";
-import { canRegisterPhone } from "utils/canRegisterPhone";
+import { canNotRegisterPhone } from "utils/canNotRegisterPhone";
 
 export type RegisterValueType = {
   agent_id?: number | any;
@@ -79,18 +79,22 @@ const RegisterPhoneFormPage = () => {
     // eslint-disable-next-line
   }, []);
 
-  const onSubmit = async () => {
+  const onSubmit = async (obj: { reference?: string; trxref?: string }) => {
     // e.preventDefault();
 
-    const validForm = canRegisterPhone(values);
+    const notValidVorm = canNotRegisterPhone(values);
 
-    if (validForm) {
+    if (notValidVorm) {
       setShowError(true);
       return errorNotify("Some fields are required");
     }
 
     try {
-      await registerPhone(values);
+      await registerPhone({
+        ...values,
+        reference: obj?.reference ?? "",
+        trxref: obj?.trxref ?? "",
+      });
       successNotify("Successfully register a phone");
       setShowError(false);
     } catch (error) {
