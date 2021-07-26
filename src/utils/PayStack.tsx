@@ -88,7 +88,7 @@ const PayStack = ({
         }
       }}
     >
-      {showNumber ? `N${amount}` : `${label} N(${amount})`}
+      {showNumber ? `${amount}` : `${label} N(${amount})`}
       {/* N{amount} */}
     </ButtonStyle>
   );

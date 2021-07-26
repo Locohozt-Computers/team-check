@@ -942,7 +942,10 @@ const RegisterPhoneForm: React.FC<Props> = ({
         component={() => (
           <PayStackChargeModalDiv>
             <h1>Paystack Charge</h1>
-            <p>Pay stack charges you {formatPrice(paystackCharge(phoneRegFeeAndWalletFee))}</p>
+            <p>
+              Pay stack charges you{" "}
+              {formatPrice(paystackCharge(phoneRegFeeAndWalletFee))}
+            </p>
             <div className="action_btns">
               <ButtonStyle
                 style={{ padding: 2 }}
@@ -976,10 +979,10 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   //       parseInt(values.amount)
                   //     : 0
                   // }
-                  amount={
+                  amount={formatPrice(
                     phoneRegFeeAndWalletFee +
-                    paystackCharge(phoneRegFeeAndWalletFee)
-                  }
+                      paystackCharge(phoneRegFeeAndWalletFee)
+                  )}
                   userId={values.user_id}
                   charges={paystackCharge(phoneRegFeeAndWalletFee)}
                   email={user?.email ? user.email : ""}
@@ -993,7 +996,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   saveTransaction={confirm}
                   description={`Fund wallet with ${phoneRegFeeAndWalletFee}`}
                   label={"Pay"}
-                  showNumber={false}
+                  showNumber={true}
                 />
               )}
             </div>
