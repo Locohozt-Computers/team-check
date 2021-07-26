@@ -50,7 +50,7 @@ const PayStack = ({
     amount: amount * 100,
     publicKey: PAYSTACK_PUB_KEY,
     metadata: {
-      user_id: userId ? userId : user.id,
+      user_id: user.id,
       description,
       trans_type,
       charges,
