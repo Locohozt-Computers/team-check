@@ -3,7 +3,7 @@ import { WalletType } from "types/walletTypes";
 import { formatPrice } from "utils/formatPrice";
 import { TransactionListStyle } from "./style";
 
-const formatDate = (date: any) => new Date(date).toDateString();
+export const formatDate = (date: any) => new Date(date).toDateString();
 
 const TransactionList: React.FC<Partial<WalletType>> = ({
   trans_type,

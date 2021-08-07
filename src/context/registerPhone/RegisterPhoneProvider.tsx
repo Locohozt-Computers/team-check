@@ -18,6 +18,8 @@ export type InitialStateTypes = {
   reg_user: any;
   operating_system: null | any;
   others: null | any;
+  all_register_phones: any;
+  device_detail: any;
 };
 
 const initialState: InitialStateTypes = {
@@ -34,6 +36,8 @@ const initialState: InitialStateTypes = {
   reg_user: null,
   operating_system: null,
   others: null,
+  all_register_phones: [],
+  device_detail: null,
 };
 
 export const ALL_CATEGORIES = "ALL_CATEGORIES";
@@ -50,6 +54,8 @@ export const REG_USER = "REG_USER";
 export const OPERATING_SYSTEM = "OPERATING_SYSTEM";
 export const OTHERS = "OTHERS";
 export const REGISTER_PHONE = "REGISTER_PHONE";
+export const ALL_REGISTER_PHONES = "ALL_REGISTER_PHONES";
+export const DEVICE_DETAIL = "DEVICE_DETAIL";
 
 type ContextType = {
   all_categories: DType[];
@@ -65,6 +71,8 @@ type ContextType = {
   reg_user: any;
   operating_system: null | any;
   others: null | any;
+  all_register_phones: any;
+  device_detail: any;
   getCategories: () => void;
   getBrands: () => void;
   getStates: () => void;
@@ -79,6 +87,9 @@ type ContextType = {
   getOperatingSystem: (os: any) => void;
   getOthers: (id: number) => void;
   registerPhone: (values: RegisterValueType) => void;
+  allRegisterPhonesUsers: () => void;
+  allRegisterPhonesAgent: () => void;
+  getADevice: (id: string) => void;
 };
 
 export const RegisterPhoneContext = createContext<ContextType>({
@@ -95,6 +106,8 @@ export const RegisterPhoneContext = createContext<ContextType>({
   reg_user: null,
   operating_system: null,
   others: null,
+  all_register_phones: [],
+  device_detail: null,
   getCategories: () => {},
   getBrands: () => {},
   getModels: (id: number) => {},
@@ -109,6 +122,9 @@ export const RegisterPhoneContext = createContext<ContextType>({
   getOperatingSystem: (os: any) => {},
   getOthers: (id: number) => {},
   registerPhone: (values: RegisterValueType) => {},
+  allRegisterPhonesUsers: () => {},
+  allRegisterPhonesAgent: () => {},
+  getADevice: (id: string) => {},
 });
 
 const RegisterPhoneProvider: React.FC = ({ children }) => {
@@ -264,6 +280,36 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     }
   };
 
+  const allRegisterPhonesUsers = async () => {
+    try {
+      const results = await getHttp(`/users/all-devices`);
+      console.log("results phones === ", results);
+      dispatch({ type: ALL_REGISTER_PHONES, payload: results });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const allRegisterPhonesAgent = async () => {
+    try {
+      const results = await getHttp(`/agent/all-devices`);
+      console.log("results phones === ", results);
+      dispatch({ type: ALL_REGISTER_PHONES, payload: results });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const getADevice = async (id: string) => {
+    try {
+      const results = await getHttp(`/device/register-phone/${id}`);
+      console.log("results phones === ", results);
+      dispatch({ type: DEVICE_DETAIL, payload: results });
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const values = {
     all_categories: state?.all_categories,
     brands: state.brands,
@@ -278,6 +324,8 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     reg_user: state.reg_user,
     operating_system: state.operating_system,
     others: state.others,
+    all_register_phones: state?.all_register_phones,
+    device_detail: state?.device_detail,
     getCategories,
     getBrands,
     getModels,
@@ -292,6 +340,9 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     getOperatingSystem,
     getOthers,
     registerPhone,
+    allRegisterPhonesUsers,
+    allRegisterPhonesAgent,
+    getADevice,
   };
   return (
     <RegisterPhoneContext.Provider value={values}>

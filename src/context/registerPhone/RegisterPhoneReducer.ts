@@ -1,8 +1,10 @@
 import {
   ALL_CATEGORIES,
+  ALL_REGISTER_PHONES,
   COLORS,
   CONDITION,
   DESTRICT,
+  DEVICE_DETAIL,
   InitialStateTypes,
   OPERATING_SYSTEM,
   OTHERS,
@@ -93,6 +95,16 @@ const registerPhoneReducer = (state: State, action: ActionType<any>) => {
     case REGISTER_PHONE:
       return {
         ...state,
+      };
+    case ALL_REGISTER_PHONES:
+      return {
+        ...state,
+        all_register_phones: action.payload,
+      };
+    case DEVICE_DETAIL:
+      return {
+        ...state,
+        device_detail: action.payload,
       };
 
     default:

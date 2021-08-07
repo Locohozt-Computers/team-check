@@ -51,7 +51,7 @@ const SignUpComponent: FC<Props> = ({ onSubmit }) => {
       password_confirmation: "",
       referral_id: "",
       ip_address: "",
-      role_id: 2,
+      role_id: 3,
     },
     onSubmit,
     validate,
@@ -135,7 +135,7 @@ const SignUpComponent: FC<Props> = ({ onSubmit }) => {
           <Checkbox
             name="role_id"
             onChange={handleChange}
-            value={2}
+            value={3}
             style={{ display: "flex", alignItems: "center", fontSize: 12 }}
           >
             <span style={{ marginLeft: 5 }}>User</span>
@@ -143,7 +143,7 @@ const SignUpComponent: FC<Props> = ({ onSubmit }) => {
           <Checkbox
             name="role_id"
             onChange={handleChange}
-            value={3}
+            value={2}
             style={{ display: "flex", alignItems: "center", fontSize: 12 }}
           >
             <span style={{ marginLeft: 5 }}>Agent</span>

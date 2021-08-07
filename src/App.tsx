@@ -20,6 +20,7 @@ import RegisterPhoneFormPage from "pages/RegisteredPhonesPage/RegisterPhoneFormP
 
 import "react-toastify/dist/ReactToastify.css";
 import "antd/dist/antd.css";
+import PhoneDetail from "components/RegisteredPhones/PhoneDetail";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -40,6 +41,12 @@ function App() {
           exact
           path="/phones/registerphoneform"
           component={RegisterPhoneFormPage}
+        />
+        <PrivateRoute
+          isAuth={true}
+          exact
+          path="/phones/phone-detail/:deviceId"
+          component={PhoneDetail}
         />
         <PrivateRoute
           isAuth={true}

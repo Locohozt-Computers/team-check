@@ -9,6 +9,7 @@ export type SignupUserType = {
   role_id: any;
   id?: number | string;
   profile_id?: string;
+  user_type?: string;
 };
 
 export type UserType = {

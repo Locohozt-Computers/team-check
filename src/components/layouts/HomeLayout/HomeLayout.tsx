@@ -17,6 +17,8 @@ const HomeLayout: React.FC = ({ children }) => {
   const { user, getProfile, profile } = useContext(AuthContext);
   const { getWalletBalance } = useContext(WalletContext);
   const { isMobile } = useContext(LayoutContext);
+  const { allRegisterPhonesUsers, allRegisterPhonesAgent } =
+    useContext(RegisterPhoneContext);
   const {
     getBrands,
     getCategories,
@@ -41,6 +43,8 @@ const HomeLayout: React.FC = ({ children }) => {
     getScreenSize();
     getRams();
     getRegFee();
+    allRegisterPhonesUsers();
+    allRegisterPhonesAgent();
 
     logoutUserWhenTokenHasExpired();
 
