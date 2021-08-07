@@ -15,6 +15,8 @@ const PhoneDetail = () => {
 
   useEffect(() => {
     getADevice(deviceId);
+
+    // eslint-disable-next-line
   }, []);
 
   console.log("device detail === ", device_detail);

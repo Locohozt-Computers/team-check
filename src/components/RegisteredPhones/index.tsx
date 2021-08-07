@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
-import { Container, Header, Content, PhoneListStyle } from "./style";
+import { Container, Header, Content } from "./style";
 import Title from "components/ui/Title";
 import { useContext } from "react";
 import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvider";
