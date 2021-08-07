@@ -168,6 +168,12 @@ const RegisterPhoneForm: React.FC<Props> = ({
       ? reg_fee?.fee
       : others?.warranty_fee;
 
+  console.log(
+    "values === ",
+    formatPrice(
+      phoneRegFeeAndWalletFee + paystackCharge(phoneRegFeeAndWalletFee)
+    )
+  );
   return (
     <HomeLayout>
       <Container>
@@ -901,20 +907,20 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   //       parseInt(values.amount)
                   //     : 0
                   // }
-                  amount={formatPrice(
+                  amount={
                     phoneRegFeeAndWalletFee +
-                      paystackCharge(phoneRegFeeAndWalletFee)
-                  )}
+                    paystackCharge(phoneRegFeeAndWalletFee)
+                  }
                   userId={values.user_id}
                   charges={paystackCharge(phoneRegFeeAndWalletFee)}
                   email={user?.email ? user.email : ""}
                   trans_type={2}
-                  handleClose={() => {
-                    setValues({
-                      ...values,
-                      amount: "",
-                    });
-                  }}
+                  // handleClose={() => {
+                  //   setValues({
+                  //     ...values,
+                  //     amount: "",
+                  //   });
+                  // }}
                   saveTransaction={confirm}
                   description={`Fund wallet with ${phoneRegFeeAndWalletFee}`}
                   label={"Pay"}

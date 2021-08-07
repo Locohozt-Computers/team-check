@@ -140,16 +140,25 @@ const PhoneDetail = () => {
 };
 
 const Wrapper = styled.div`
-  background-color: white;
-  padding: 20px;
   height: 80vh;
+  background-color: white;
 
   .image {
-    height: 100%;
+    height: 60vh;
     width: 100%;
+    background-color: white;
+    overflow-y: hidden;
+
+    img {
+      width: 100%;
+    }
   }
 
   .content {
+    padding: 10px 30px;
+    height: 80vh;
+    background-color: white;
+    overflow-y: auto;
     h2,
     p {
       margin: 0;
