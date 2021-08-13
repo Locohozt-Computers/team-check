@@ -7,6 +7,17 @@ export const NavbarMenu = styled.div`
   align-items: center;
   padding: 0 5%;
   border-bottom: 1px solid #eeeeee;
+
+  .btn-secondary {
+    background-color: transparent;
+    border: 0;
+    outline: none;
+
+    &:hover {
+      outline: none;
+      border: 0;
+    }
+  }
 `;
 export const MenuName = styled.h3`
   margin: 0;

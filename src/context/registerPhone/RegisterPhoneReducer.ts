@@ -6,6 +6,7 @@ import {
   DESTRICT,
   DEVICE_DETAIL,
   InitialStateTypes,
+  LOADING,
   OPERATING_SYSTEM,
   OTHERS,
   PHONE_BRANDS,
@@ -15,7 +16,9 @@ import {
   REG_FEE,
   REG_USER,
   SCREEN_SIZE,
+  SEARCH_PHONE,
   STATES,
+  SUBSCRIPTION_PLANS,
 } from "./RegisterPhoneProvider";
 
 type State = InitialStateTypes;
@@ -95,6 +98,7 @@ const registerPhoneReducer = (state: State, action: ActionType<any>) => {
     case REGISTER_PHONE:
       return {
         ...state,
+        all_register_phones: [action.payload, ...state.all_register_phones],
       };
     case ALL_REGISTER_PHONES:
       return {
@@ -105,6 +109,21 @@ const registerPhoneReducer = (state: State, action: ActionType<any>) => {
       return {
         ...state,
         device_detail: action.payload,
+      };
+    case SEARCH_PHONE:
+      return {
+        ...state,
+        searchedPhones: action.payload,
+      };
+    case SUBSCRIPTION_PLANS:
+      return {
+        ...state,
+        subscription_plans: action.payload,
+      };
+    case LOADING:
+      return {
+        ...state,
+        loading: action.payload,
       };
 
     default:

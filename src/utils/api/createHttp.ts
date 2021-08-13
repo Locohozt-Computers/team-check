@@ -56,4 +56,18 @@ export const updateHttp = async <T>(path: string, payload: T) => {
   return response?.data?.data;
 };
 
+export const deleteHttp = async (path: string) => {
+  const userObj: any = localStorage.getItem("techCheckPoint");
+  const token = JSON.parse(userObj)?.token;
+
+  const response = await axios.delete(path, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return response?.data?.data;
+};
+
 export const createResponseType = typeof createHttp;

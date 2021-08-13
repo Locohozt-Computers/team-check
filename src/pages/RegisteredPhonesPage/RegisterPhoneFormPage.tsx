@@ -7,6 +7,7 @@ import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvide
 import { useEffect } from "react";
 import { errorNotify, successNotify } from "utils/errorMessage";
 import { canNotRegisterPhone } from "utils/canNotRegisterPhone";
+import { useHistory } from "react-router-dom";
 
 export type RegisterValueType = {
   agent_id?: number | any;
@@ -40,6 +41,8 @@ export type RegisterValueType = {
 };
 
 const RegisterPhoneFormPage = () => {
+  const history = useHistory();
+
   const { user } = useContext(AuthContext);
   const { getRegFee, registerPhone } = useContext(RegisterPhoneContext);
   const [showError, setShowError] = useState(false);
@@ -95,6 +98,7 @@ const RegisterPhoneFormPage = () => {
         reference: obj?.reference ?? "",
         trxref: obj?.trxref ?? "",
       });
+      history.push("/phones");
       successNotify("Successfully register a phone");
       setShowError(false);
     } catch (error) {

@@ -1,7 +1,7 @@
+import React, { createContext, useReducer, useEffect } from "react";
 import { DType } from "components/ui/CustomDropdown";
 import { RegisterValueType } from "pages/RegisteredPhonesPage/RegisterPhoneFormPage";
-import React, { createContext, useReducer } from "react";
-import { createHttp, getHttp } from "utils/api/createHttp";
+import { createHttp, deleteHttp, getHttp } from "utils/api/createHttp";
 import registerPhoneReducer from "./RegisterPhoneReducer";
 
 export type InitialStateTypes = {
@@ -20,6 +20,9 @@ export type InitialStateTypes = {
   others: null | any;
   all_register_phones: any;
   device_detail: any;
+  searchedPhones: any;
+  subscription_plans: any;
+  loading: boolean;
 };
 
 const initialState: InitialStateTypes = {
@@ -38,6 +41,9 @@ const initialState: InitialStateTypes = {
   others: null,
   all_register_phones: [],
   device_detail: null,
+  searchedPhones: null,
+  subscription_plans: [],
+  loading: false,
 };
 
 export const ALL_CATEGORIES = "ALL_CATEGORIES";
@@ -53,9 +59,13 @@ export const REG_FEE = "REG_FEE";
 export const REG_USER = "REG_USER";
 export const OPERATING_SYSTEM = "OPERATING_SYSTEM";
 export const OTHERS = "OTHERS";
+export const DELETE_PHONE = "DELETE_PHONE";
 export const REGISTER_PHONE = "REGISTER_PHONE";
 export const ALL_REGISTER_PHONES = "ALL_REGISTER_PHONES";
 export const DEVICE_DETAIL = "DEVICE_DETAIL";
+export const SEARCH_PHONE = "SEARCH_PHONE";
+export const SUBSCRIPTION_PLANS = "SUBSCRIPTION_PLANS";
+export const LOADING = "LOADING";
 
 type ContextType = {
   all_categories: DType[];
@@ -73,6 +83,9 @@ type ContextType = {
   others: null | any;
   all_register_phones: any;
   device_detail: any;
+  searchedPhones: any;
+  subscription_plans: any;
+  loading: boolean;
   getCategories: () => void;
   getBrands: () => void;
   getStates: () => void;
@@ -90,6 +103,9 @@ type ContextType = {
   allRegisterPhonesUsers: () => void;
   allRegisterPhonesAgent: () => void;
   getADevice: (id: string) => void;
+  deleteRegisterPhone: (id: string) => void;
+  searchADevice: (deviceId: string) => void;
+  subscriptionPlans: () => void;
 };
 
 export const RegisterPhoneContext = createContext<ContextType>({
@@ -108,6 +124,9 @@ export const RegisterPhoneContext = createContext<ContextType>({
   others: null,
   all_register_phones: [],
   device_detail: null,
+  searchedPhones: null,
+  subscription_plans: [],
+  loading: false,
   getCategories: () => {},
   getBrands: () => {},
   getModels: (id: number) => {},
@@ -125,10 +144,17 @@ export const RegisterPhoneContext = createContext<ContextType>({
   allRegisterPhonesUsers: () => {},
   allRegisterPhonesAgent: () => {},
   getADevice: (id: string) => {},
+  deleteRegisterPhone: (id: string) => {},
+  searchADevice: (deviceId: string) => {},
+  subscriptionPlans: () => {},
 });
 
 const RegisterPhoneProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(registerPhoneReducer, initialState);
+
+  const loadingState = (state: boolean, type: string = LOADING) => {
+    dispatch({ type, payload: state });
+  };
 
   const getCategories = async () => {
     dispatch({ type: ALL_CATEGORIES, payload: [] });
@@ -280,35 +306,72 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     }
   };
 
+  const deleteRegisterPhone = async (id: string) => {
+    try {
+      const results = await deleteHttp(`/device/register-phone/${id}`);
+      dispatch({ type: DELETE_PHONE, payload: results });
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const allRegisterPhonesUsers = async () => {
     try {
+      loadingState(true);
       const results = await getHttp(`/users/all-devices`);
-      console.log("results phones === ", results);
+      loadingState(false);
       dispatch({ type: ALL_REGISTER_PHONES, payload: results });
     } catch (error) {
+      loadingState(false);
       throw error;
     }
   };
 
   const allRegisterPhonesAgent = async () => {
     try {
+      loadingState(true);
       const results = await getHttp(`/agent/all-devices`);
-      console.log("results phones === ", results);
+      loadingState(false);
       dispatch({ type: ALL_REGISTER_PHONES, payload: results });
     } catch (error) {
+      loadingState(false);
       throw error;
     }
   };
 
   const getADevice = async (id: string) => {
     try {
+      loadingState(true);
       const results = await getHttp(`/device/register-phone/${id}`);
-      console.log("results phones === ", results);
+      loadingState(false);
+      dispatch({ type: DEVICE_DETAIL, payload: results });
+    } catch (error) {
+      loadingState(false);
+      throw error;
+    }
+  };
+
+  const searchADevice = async (deviceId: string) => {
+    try {
+      const results = await getHttp(`/devices/${deviceId}`);
       dispatch({ type: DEVICE_DETAIL, payload: results });
     } catch (error) {
       throw error;
     }
   };
+
+  const subscriptionPlans = async () => {
+    try {
+      const results = await getHttp(`/users/subscriptions`);
+      dispatch({ type: SUBSCRIPTION_PLANS, payload: results });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    subscriptionPlans();
+  }, []);
 
   const values = {
     all_categories: state?.all_categories,
@@ -326,6 +389,9 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     others: state.others,
     all_register_phones: state?.all_register_phones,
     device_detail: state?.device_detail,
+    searchedPhones: state?.searchedPhones,
+    subscription_plans: state?.subscription_plans,
+    loading: state?.loading,
     getCategories,
     getBrands,
     getModels,
@@ -343,6 +409,9 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     allRegisterPhonesUsers,
     allRegisterPhonesAgent,
     getADevice,
+    searchADevice,
+    deleteRegisterPhone,
+    subscriptionPlans,
   };
   return (
     <RegisterPhoneContext.Provider value={values}>
