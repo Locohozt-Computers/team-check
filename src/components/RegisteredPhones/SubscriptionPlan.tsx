@@ -3,12 +3,17 @@ import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvide
 import SubscriptionPlanCard from "./SubscriptionPlanCard";
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
 import styled from "styled-components";
+import Title from "components/ui/Title";
 
 const SubscriptionPlan = () => {
   const { subscription_plans } = useContext(RegisterPhoneContext);
   console.log(subscription_plans);
   return (
     <HomeLayout>
+      <Title title="Suscription Plans"></Title>
+      <br />
+      <br />
+      <br />
       <Wrapper>
         <Cards>
           {subscription_plans?.map((plan: any) => (

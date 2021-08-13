@@ -39,7 +39,7 @@ const PhoneDetail = () => {
     <HomeLayout>
       {loading ? (
         <div>
-          <Loader />
+          <Loader width={30} />
         </div>
       ) : (
         <Wrapper>
@@ -200,6 +200,10 @@ const Wrapper = styled.div`
 
     p {
       color: #c5c7e2;
+    }
+
+    h2{
+      font-size: 16px;
     }
   }
 `;

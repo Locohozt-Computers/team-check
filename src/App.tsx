@@ -52,7 +52,7 @@ function App() {
         <PrivateRoute
           isAuth={true}
           exact
-          path="/phones/subscription-plan"
+          path="/subscription-plans"
           component={SubscriptionPlan}
         />
         <PrivateRoute

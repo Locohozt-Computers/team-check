@@ -30,7 +30,7 @@ const RegisteredPhones = () => {
           {!loading && all_register_phones?.length <= 0 && <h2>No Phone Register Yet</h2>}
           {!all_register_phones?.length && loading && (
             <div>
-              <Loader />
+              <Loader width={30} />
             </div>
           )}
           {all_register_phones?.map((phone: any) => (
