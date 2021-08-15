@@ -9,6 +9,7 @@ import {
   LOADING,
   OPERATING_SYSTEM,
   OTHERS,
+  PHONE_ADVERTLISTS,
   PHONE_BRANDS,
   PHONE_MODELS,
   RAMS,
@@ -119,6 +120,11 @@ const registerPhoneReducer = (state: State, action: ActionType<any>) => {
       return {
         ...state,
         subscription_plans: action.payload,
+      };
+    case PHONE_ADVERTLISTS:
+      return {
+        ...state,
+        phone_advert_lists: action.payload,
       };
     case LOADING:
       return {

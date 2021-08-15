@@ -102,7 +102,12 @@ const RegisterPhoneFormPage = () => {
       successNotify("Successfully register a phone");
       setShowError(false);
     } catch (error) {
-      errorNotify("something went wrong, try again");
+      console.log(error?.response?.data?.message);
+      errorNotify(
+        error?.response?.data
+          ? error?.response?.data?.message
+          : "error?.response?.data?.message"
+      );
     }
   };
 

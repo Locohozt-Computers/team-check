@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Col, Row } from "antd";
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
@@ -9,14 +9,45 @@ import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvide
 import { formatPrice } from "utils/formatPrice";
 import CustomButton from "components/ui/CustomButton";
 import Loader from "components/ui/Loader";
+import CustomModalUI from "components/ui/CustomModal";
+import { SelectCards, SelectActions, SelectCard } from "components/Wallet";
+import SubscriptionPlan from "./SubscriptionPlan";
+import { AuthContext } from "context/auth/AuthProvider";
+import {
+  ButtonStyle,
+  PayStackChargeModalDiv,
+} from "components/Wallet/FundWallet";
+import { paystackCharge } from "utils/paystackCharge";
+import PayStack from "utils/PayStack";
+import { errorNotify, successNotify } from "utils/errorMessage";
 
 const PhoneDetail = () => {
   const { deviceId } = useParams<{ deviceId: string }>();
 
+  const [modal, setModal] = useState(false);
+  const [isSell, setIsSell] = useState(false);
+  const [isAmount, setisAmount] = useState(false);
+  const [showPayModal, setShowPayModal] = useState(false);
+  const [showWalletModal, setShowWalletModal] = useState(false);
+
+  const [plan, setPlan] = useState({
+    id: 0,
+    name: "",
+    amount: "",
+    period: 0,
+  });
+  const [pay_type, setPayType] = useState(0);
+
   const history = useHistory();
 
-  const { getADevice, device_detail, deleteRegisterPhone, loading } =
-    useContext(RegisterPhoneContext);
+  const { user } = useContext(AuthContext);
+  const {
+    getADevice,
+    device_detail,
+    deleteRegisterPhone,
+    subscribePhoneForAdvert,
+    loading,
+  } = useContext(RegisterPhoneContext);
 
   useEffect(() => {
     getADevice(deviceId);
@@ -28,10 +59,45 @@ const PhoneDetail = () => {
     try {
       if (deviceId) {
         await deleteRegisterPhone(deviceId);
+        successNotify("Phone deleted successfully");
         history.push("/phones");
       }
     } catch (error) {
+      errorNotify(
+        error?.response?.data?.message
+          ? error?.response?.data?.message
+          : "Something went wrong,try again"
+      );
       console.log(error);
+    }
+  };
+
+  const choosePlan = async (response?: any) => {
+    try {
+      if (deviceId) {
+        const obj = {
+          plan_id: plan?.id,
+          price: plan?.amount,
+          pay_type,
+          trxref: response ? response?.response?.trxref : "",
+          device_id: deviceId,
+        };
+
+        console.log(obj, response);
+        await subscribePhoneForAdvert(obj);
+        setisAmount(false);
+        setIsSell(false);
+        setShowWalletModal(false);
+
+        successNotify("Successfully added phone to advert");
+      }
+    } catch (error) {
+      errorNotify(
+        error?.response?.data?.message
+          ? error?.response?.data?.message
+          : "Something went wrong,try again"
+      );
+      console.log(error?.response);
     }
   };
 
@@ -155,12 +221,27 @@ const PhoneDetail = () => {
                 <br />
                 <br />
                 <Row>
-                  <Col sm={24} md={12}>
+                  <Col xs={24} md={12}>
                     <CustomButton
                       label="Delete Phone"
                       background="orangered"
-                      onClick={deletePhone}
+                      style={{ width: 150 }}
+                      onClick={() => {
+                        setModal(true);
+                      }}
                     />
+                  </Col>
+                  <Col xs={24} md={12}>
+                    {user?.user_type === "USER" && (
+                      <CustomButton
+                        label="Sell Phone"
+                        style={{ width: 100 }}
+                        background="dodgerblue"
+                        onClick={() => {
+                          setIsSell(true);
+                        }}
+                      />
+                    )}
                   </Col>
                 </Row>
                 <br />
@@ -169,6 +250,180 @@ const PhoneDetail = () => {
           </Row>
         </Wrapper>
       )}
+
+      <CustomModalUI
+        visible={isSell}
+        component={() => {
+          return (
+            <SelectCards>
+              <h1>Select Plan</h1>
+              <SubscriptionPlan setValue={setPlan} setisOpen={setisAmount} />
+              <br />
+            </SelectCards>
+          );
+        }}
+        handleCancel={() => setIsSell(false)}
+        width={550}
+        closable={false}
+      />
+
+      <CustomModalUI
+        visible={modal}
+        component={() => {
+          return (
+            <SelectCards>
+              <h1>Delete Phone</h1>
+              <p>Are you sure you want to delete this phone?</p>
+              <SelectActions>
+                <SelectCard
+                  onClick={() => {
+                    setModal(false);
+                  }}
+                >
+                  <span>No</span>
+                </SelectCard>
+                <SelectCard onClick={deletePhone}>
+                  <span>Yes</span>
+                </SelectCard>
+              </SelectActions>
+            </SelectCards>
+          );
+        }}
+        handleCancel={() => {}}
+        width={350}
+        closable={false}
+      />
+
+      {/* payment mode */}
+      <CustomModalUI
+        visible={isAmount}
+        component={() => {
+          return (
+            <SelectCards>
+              <h1>Select Payment Option</h1>
+              <p>Please select your mode of payment</p>
+              <SelectActions>
+                <SelectCard
+                  onClick={() => {
+                    setPayType(1);
+                    setShowPayModal(true);
+                    setIsSell(false);
+                  }}
+                >
+                  <i className="fas fa-university"></i>
+                  <span>Card</span>
+                </SelectCard>
+                <SelectCard
+                  onClick={() => {
+                    setPayType(0);
+                    setShowWalletModal(true);
+                    setIsSell(false);
+                  }}
+                >
+                  <i className="fas fa-wallet"></i>
+                  <span>Wallet</span>
+                </SelectCard>
+              </SelectActions>
+            </SelectCards>
+          );
+        }}
+        handleCancel={() => {
+          setisAmount(false);
+        }}
+        width={350}
+        closable={false}
+      />
+
+      {/* paystack card  */}
+      <CustomModalUI
+        component={() => (
+          <PayStackChargeModalDiv>
+            <h1>Paystack Charge</h1>
+            <p>
+              Pay stack charges you{" "}
+              {formatPrice(paystackCharge(parseInt(plan?.amount)))}
+            </p>
+            <div className="action_btns">
+              <ButtonStyle
+                style={{ padding: 2 }}
+                disabled={!plan?.amount}
+                onClick={() => {
+                  setShowPayModal(false);
+                }}
+              >
+                Cancel
+              </ButtonStyle>
+              {false ? (
+                <div
+                  style={{
+                    height: 22,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    marginBottom: 20,
+                  }}
+                >
+                  <Loader size={0} type="Oval" width={18} height={18} />
+                </div>
+              ) : (
+                <PayStack
+                  background={"#FF2A5F"}
+                  style={{ height: 27, border: 0 }}
+                  amount={
+                    parseInt(plan?.amount) +
+                    paystackCharge(parseInt(plan?.amount))
+                  }
+                  userId={user.id}
+                  charges={paystackCharge(parseInt(plan?.amount))}
+                  email={user?.email ? user.email : ""}
+                  trans_type={2}
+                  saveTransaction={choosePlan}
+                  description={`Fund wallet with ${parseInt(plan?.amount)}`}
+                  label={"Pay"}
+                  showNumber={true}
+                />
+              )}
+            </div>
+          </PayStackChargeModalDiv>
+        )}
+        visible={showPayModal}
+        handleCancel={() => {}}
+        width={300}
+        closable={false}
+      />
+
+      {/* wallet card payment */}
+      <CustomModalUI
+        visible={showWalletModal}
+        component={() => {
+          return (
+            <SelectCards>
+              <p>Your mode of payment is wallet</p>
+              <p>
+                Are you sure you want to subscribe with this package,{" "}
+                {plan?.amount}
+              </p>
+              <SelectActions>
+                <SelectCard
+                  onClick={() => {
+                    setShowWalletModal(false);
+                  }}
+                >
+                  <span>No</span>
+                </SelectCard>
+                <SelectCard onClick={choosePlan}>
+                  <span>Yes</span>
+                </SelectCard>
+              </SelectActions>
+            </SelectCards>
+          );
+        }}
+        handleCancel={() => {
+          setisAmount(false);
+        }}
+        width={350}
+        closable={false}
+      />
     </HomeLayout>
   );
 };
@@ -202,7 +457,7 @@ const Wrapper = styled.div`
       color: #c5c7e2;
     }
 
-    h2{
+    h2 {
       font-size: 16px;
     }
   }

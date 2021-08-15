@@ -98,7 +98,7 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
             iconType="wallet"
           />
         </MenuList>
-        <MenuList
+        {/* <MenuList
           isCollapse={isCollapse}
           to="/subscription-plans"
           activeClassName="selected"
@@ -108,7 +108,7 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
             text="Subscription Plans"
             iconType="money-bill"
           />
-        </MenuList>
+        </MenuList> */}
         <MenuList isCollapse={isCollapse} to="/user" activeClassName="selected">
           <ShowMenu
             isShowOrHideIconLabel={isShowOrHideIconLabel}

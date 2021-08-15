@@ -2,14 +2,34 @@ import React from "react";
 import styled from "styled-components";
 
 type Props = {
+  id: number;
   name: string;
   amount: string;
   period: number;
+  setValue?: any;
+  setIsOpen?: any;
 };
 
-const SubscriptionPlanCard: React.FC<Props> = ({ name, amount, period }) => {
+const SubscriptionPlanCard: React.FC<Props> = ({
+  id,
+  name,
+  amount,
+  period,
+  setValue,
+  setIsOpen,
+}) => {
   return (
-    <Card>
+    <Card
+      onClick={() => {
+        setValue({
+          id,
+          amount,
+          name,
+          period,
+        });
+        setIsOpen(true);
+      }}
+    >
       <h3>{name}</h3>
       <p className="amount">{amount}</p>
       <p className="period">
@@ -25,6 +45,12 @@ const Card = styled.div`
   border: 1px solid #cccccc;
   text-align: center;
   border-radius: 8px;
+  margin-right: 10px;
+  cursor: pointer;
+
+  &:last-child {
+    margin-right: 0;
+  }
 
   h3,
   p {

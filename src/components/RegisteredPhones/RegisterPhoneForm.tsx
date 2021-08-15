@@ -168,12 +168,6 @@ const RegisterPhoneForm: React.FC<Props> = ({
       ? reg_fee?.fee
       : others?.warranty_fee;
 
-  console.log(
-    "values === ",
-    formatPrice(
-      phoneRegFeeAndWalletFee + paystackCharge(phoneRegFeeAndWalletFee)
-    )
-  );
   return (
     <HomeLayout>
       <Container>

@@ -154,14 +154,23 @@ export const AddPhoto = styled.label`
   }
 `;
 
-export const PhoneListStyle = styled.div<{ status?: boolean }>`
+export const PhoneListStyle = styled.div<{ status?: boolean; gridNo?: string }>`
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: ${({ gridNo }) => (gridNo ? gridNo : "150px")} 1fr;
   gap: 10px;
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #eeeeee;
   cursor: pointer;
+  position: relative;
+
+  &:hover .float-action {
+    display: block;
+    position: absolute;
+    right: 0px;
+    bottom: 10px;
+    transition: all 0.5s ease-in-out;
+  }
 
   .image {
     width: 120px;
@@ -173,6 +182,11 @@ export const PhoneListStyle = styled.div<{ status?: boolean }>`
     }
   }
 
+  .float-action {
+    display: none;
+    transition: all 0.5s ease-in-out;
+  }
+
   .top {
     display: flex;
     justify-content: space-between;
@@ -180,12 +194,25 @@ export const PhoneListStyle = styled.div<{ status?: boolean }>`
 
     h1 {
       margin-bottom: 0;
+      font-size: 20px;
     }
 
     .price {
       font-weight: bold;
       font-size: 17px;
       color: green;
+    }
+
+    @media (max-width: 1160px) {
+      h1 {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 766px) {
+      h1 {
+        font-size: 20px;
+      }
     }
   }
 

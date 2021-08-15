@@ -1,8 +1,9 @@
-import React, { createContext, useReducer, useEffect } from "react";
+import React, { createContext, useReducer, useEffect, useContext } from "react";
 import { DType } from "components/ui/CustomDropdown";
 import { RegisterValueType } from "pages/RegisteredPhonesPage/RegisterPhoneFormPage";
 import { createHttp, deleteHttp, getHttp } from "utils/api/createHttp";
 import registerPhoneReducer from "./RegisterPhoneReducer";
+import { AuthContext } from "context/auth/AuthProvider";
 
 export type InitialStateTypes = {
   all_categories: DType[];
@@ -22,6 +23,7 @@ export type InitialStateTypes = {
   device_detail: any;
   searchedPhones: any;
   subscription_plans: any;
+  phone_advert_lists: any;
   loading: boolean;
 };
 
@@ -43,6 +45,7 @@ const initialState: InitialStateTypes = {
   device_detail: null,
   searchedPhones: null,
   subscription_plans: [],
+  phone_advert_lists: [],
   loading: false,
 };
 
@@ -65,6 +68,7 @@ export const ALL_REGISTER_PHONES = "ALL_REGISTER_PHONES";
 export const DEVICE_DETAIL = "DEVICE_DETAIL";
 export const SEARCH_PHONE = "SEARCH_PHONE";
 export const SUBSCRIPTION_PLANS = "SUBSCRIPTION_PLANS";
+export const PHONE_ADVERTLISTS = "PHONE_ADVERTLISTS";
 export const LOADING = "LOADING";
 
 type ContextType = {
@@ -85,6 +89,7 @@ type ContextType = {
   device_detail: any;
   searchedPhones: any;
   subscription_plans: any;
+  phone_advert_lists: any;
   loading: boolean;
   getCategories: () => void;
   getBrands: () => void;
@@ -106,6 +111,9 @@ type ContextType = {
   deleteRegisterPhone: (id: string) => void;
   searchADevice: (deviceId: string) => void;
   subscriptionPlans: () => void;
+  phoneAdvertLists: () => void;
+  clearADevice: () => void;
+  subscribePhoneForAdvert: (payload: any) => void;
 };
 
 export const RegisterPhoneContext = createContext<ContextType>({
@@ -126,6 +134,7 @@ export const RegisterPhoneContext = createContext<ContextType>({
   device_detail: null,
   searchedPhones: null,
   subscription_plans: [],
+  phone_advert_lists: [],
   loading: false,
   getCategories: () => {},
   getBrands: () => {},
@@ -147,6 +156,9 @@ export const RegisterPhoneContext = createContext<ContextType>({
   deleteRegisterPhone: (id: string) => {},
   searchADevice: (deviceId: string) => {},
   subscriptionPlans: () => {},
+  phoneAdvertLists: () => {},
+  clearADevice: () => {},
+  subscribePhoneForAdvert: (payload: any) => {},
 });
 
 const RegisterPhoneProvider: React.FC = ({ children }) => {
@@ -354,7 +366,15 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
   const searchADevice = async (deviceId: string) => {
     try {
       const results = await getHttp(`/devices/${deviceId}`);
-      dispatch({ type: DEVICE_DETAIL, payload: results });
+      dispatch({ type: SEARCH_PHONE, payload: results });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const clearADevice = async () => {
+    try {
+      dispatch({ type: SEARCH_PHONE, payload: null });
     } catch (error) {
       throw error;
     }
@@ -369,8 +389,32 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     }
   };
 
+  const phoneAdvertLists = async () => {
+    try {
+      const results = await getHttp(`/subscribed/adverts`);
+      dispatch({ type: PHONE_ADVERTLISTS, payload: results?.data });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const subscribePhoneForAdvert = async (payload: any) => {
+    try {
+      await createHttp(`/users/subscribe`, payload);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const { user } = useContext(AuthContext);
+
   useEffect(() => {
-    subscriptionPlans();
+    if (user?.user_type === "USER") {
+      subscriptionPlans();
+      phoneAdvertLists();
+    }
+
+    // eslint-disable-next-line
   }, []);
 
   const values = {
@@ -391,6 +435,7 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     device_detail: state?.device_detail,
     searchedPhones: state?.searchedPhones,
     subscription_plans: state?.subscription_plans,
+    phone_advert_lists: state?.phone_advert_lists,
     loading: state?.loading,
     getCategories,
     getBrands,
@@ -412,6 +457,9 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     searchADevice,
     deleteRegisterPhone,
     subscriptionPlans,
+    phoneAdvertLists,
+    subscribePhoneForAdvert,
+    clearADevice,
   };
   return (
     <RegisterPhoneContext.Provider value={values}>
