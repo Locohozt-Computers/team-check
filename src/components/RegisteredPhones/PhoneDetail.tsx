@@ -431,12 +431,14 @@ const PhoneDetail = () => {
 const Wrapper = styled.div`
   height: 80vh;
   background-color: white;
+  overflow-y: auto;
 
   .image {
-    height: 60vh;
+    max-height: 70vh;
     width: 100%;
     background-color: white;
     overflow-y: hidden;
+    margin-bottom: 30px;
 
     img {
       width: 100%;
