@@ -21,6 +21,8 @@ import { paystackCharge } from "utils/paystackCharge";
 import PayStack from "utils/PayStack";
 import { errorNotify, successNotify } from "utils/errorMessage";
 
+// SMG-21-86B2F5
+
 const PhoneDetail = () => {
   const { deviceId } = useParams<{ deviceId: string }>();
 
@@ -114,9 +116,54 @@ const PhoneDetail = () => {
               <div className="image">
                 <img src={device_detail?.images[0]} alt={device_detail?.id} />
               </div>
+              {/* <Row>
+                <Col xs={24} md={7}>
+                  {user?.user_type === "AGENT" && (
+                    <CustomButton
+                      label="Delete Phone"
+                      background="orangered"
+                      style={{ width: 150 }}
+                      onClick={() => {
+                        setModal(true);
+                      }}
+                    />
+                  )}
+                </Col>
+                <Col xs={24} md={7}>
+                  {user?.user_type === "USER" && (
+                    <CustomButton
+                      label="List Phone"
+                      style={{ width: 100 }}
+                      background="dodgerblue"
+                      onClick={() => {
+                        setIsSell(true);
+                      }}
+                    />
+                  )}
+                </Col>
+                <Col xs={24} md={7}>
+                  {user?.user_type === "AGENT" && (
+                    <CustomButton
+                      label="Renew Warranty"
+                      style={{ maxWidth: 150 }}
+                      background="green"
+                      onClick={() => {
+                        setIsSell(true);
+                      }}
+                    />
+                  )}
+                </Col>
+              </Row> */}
             </Col>
             <Col sm={24} md={12}>
               <div className="content">
+                <Row>
+                  <Col sm={24} md={12}>
+                    <p>Device ID</p>
+                    <h2>{device_detail?.id}</h2>
+                  </Col>
+                </Row>
+                <br />
                 <Row>
                   <Col sm={24} md={12}>
                     <p>Brand</p>
@@ -217,26 +264,60 @@ const PhoneDetail = () => {
                     <p>Price</p>
                     <h2>{formatPrice(device_detail?.amount)}</h2>
                   </Col>
+                  <Col sm={24} md={12}>
+                    <p>Warranty Amount</p>
+                    <h2>
+                      {device_detail?.warrantyCommision
+                        ? formatPrice(device_detail?.warrantyCommision)
+                        : "N/A"}
+                    </h2>
+                  </Col>
+                </Row>
+                <br />
+                <Row>
+                  <Col sm={24} md={12}>
+                    <p>Warranty Start</p>
+                    <h2>{device_detail?.warranty_start}</h2>
+                  </Col>
+                  <Col sm={24} md={12}>
+                    <p>Warranty End</p>
+                    <h2>{device_detail?.warranty_expiry}</h2>
+                  </Col>
                 </Row>
                 <br />
                 <br />
                 <Row>
-                  <Col xs={24} md={12}>
-                    <CustomButton
-                      label="Delete Phone"
-                      background="orangered"
-                      style={{ width: 150 }}
-                      onClick={() => {
-                        setModal(true);
-                      }}
-                    />
+                  <Col xs={24} md={8}>
+                    {user?.user_type === "AGENT" && (
+                      <CustomButton
+                        label="Delete Phone"
+                        background="orangered"
+                        style={{ width: 150 }}
+                        onClick={() => {
+                          setModal(true);
+                        }}
+                      />
+                    )}
                   </Col>
-                  <Col xs={24} md={12}>
+                  <Col xs={24} md={8}>
                     {user?.user_type === "USER" && (
                       <CustomButton
-                        label="Sell Phone"
+                        label="List Phone"
                         style={{ width: 100 }}
                         background="dodgerblue"
+                        onClick={() => {
+                          setIsSell(true);
+                        }}
+                      />
+                    )}
+                  </Col>
+                  <Col xs={24} md={8}>
+                    {user?.user_type === "AGENT" && (
+                      <CustomButton
+                        label="Renew Warranty"
+                        style={{ width: 150 }}
+                        disabled={device_detail?.warranty}
+                        background={device_detail?.warranty ? "grey" : "green"}
                         onClick={() => {
                           setIsSell(true);
                         }}

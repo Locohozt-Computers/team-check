@@ -65,6 +65,7 @@ const Button = styled.button<{ background?: string; width?: string }>`
   background-color: transparent;
   width: 100%;
   text-align: center;
+  white-space: nowrap;
 
   @media (max-width: 768px) {
     font-size: 12px;

@@ -411,8 +411,8 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
   useEffect(() => {
     if (user?.user_type === "USER") {
       subscriptionPlans();
-      phoneAdvertLists();
     }
+    phoneAdvertLists();
 
     // eslint-disable-next-line
   }, []);

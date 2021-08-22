@@ -29,7 +29,7 @@ const PhoneList = ({
         <div className="top">
           <h1>
             {phone?.phoneModel?.brand?.name}{" "}
-            {phone?.phoneModel?.phone_model?.name}
+            {phone?.phoneModel?.phone_model?.name} ({phone?.device_id})
           </h1>
           <div className="">
             {!hidePrice && (
