@@ -11,13 +11,18 @@ const PhoneList = ({
   width = 100,
   height = 100,
   gridNo = "150px",
+  isRoute = true,
 }: any) => {
   const history = useHistory();
   return (
     <PhoneListStyle
       status={false}
       gridNo={gridNo}
-      onClick={() => history.push(`/phones/phone-detail/${phone?.device_id}`)}
+      onClick={() => {
+        if (isRoute) {
+          history.push(`/phones/phone-detail/${phone?.device_id}`);
+        }
+      }}
     >
       <div className="image" style={{ width, height }}>
         <img

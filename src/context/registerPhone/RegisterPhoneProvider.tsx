@@ -114,6 +114,7 @@ type ContextType = {
   phoneAdvertLists: () => void;
   clearADevice: () => void;
   subscribePhoneForAdvert: (payload: any) => void;
+  renewWarranty: (payload: any) => void;
 };
 
 export const RegisterPhoneContext = createContext<ContextType>({
@@ -159,6 +160,7 @@ export const RegisterPhoneContext = createContext<ContextType>({
   phoneAdvertLists: () => {},
   clearADevice: () => {},
   subscribePhoneForAdvert: (payload: any) => {},
+  renewWarranty: (payload: any) => {},
 });
 
 const RegisterPhoneProvider: React.FC = ({ children }) => {
@@ -406,6 +408,14 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     }
   };
 
+  const renewWarranty = async (payload: any) => {
+    try {
+      await createHttp(`/users/renew-warranty`, payload);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
@@ -413,6 +423,16 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
       subscriptionPlans();
     }
     phoneAdvertLists();
+    getBrands();
+    getCategories();
+    getStates();
+    getColors();
+    getCondition();
+    getScreenSize();
+    getRams();
+    getRegFee();
+    allRegisterPhonesUsers();
+    allRegisterPhonesAgent();
 
     // eslint-disable-next-line
   }, []);
@@ -460,6 +480,7 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     phoneAdvertLists,
     subscribePhoneForAdvert,
     clearADevice,
+    renewWarranty,
   };
   return (
     <RegisterPhoneContext.Provider value={values}>

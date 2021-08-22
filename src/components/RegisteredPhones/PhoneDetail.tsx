@@ -26,6 +26,8 @@ import { errorNotify, successNotify } from "utils/errorMessage";
 const PhoneDetail = () => {
   const { deviceId } = useParams<{ deviceId: string }>();
 
+  const [type, setType] = useState("");
+
   const [modal, setModal] = useState(false);
   const [isSell, setIsSell] = useState(false);
   const [isAmount, setisAmount] = useState(false);
@@ -39,23 +41,26 @@ const PhoneDetail = () => {
     period: 0,
   });
   const [pay_type, setPayType] = useState(0);
+  const [isWarranty, setIsWarranty] = useState(false);
 
   const history = useHistory();
 
   const { user } = useContext(AuthContext);
   const {
-    getADevice,
     device_detail,
+    loading,
+    getADevice,
     deleteRegisterPhone,
     subscribePhoneForAdvert,
-    loading,
+    renewWarranty,
   } = useContext(RegisterPhoneContext);
 
   useEffect(() => {
     getADevice(deviceId);
+    setIsWarranty(device_detail?.warranty);
 
     // eslint-disable-next-line
-  }, []);
+  }, [device_detail?.warranty]);
 
   const deletePhone = async () => {
     try {
@@ -74,24 +79,53 @@ const PhoneDetail = () => {
     }
   };
 
+  const listPhoneFunc = async (response?: any) => {
+    try {
+      const obj = {
+        plan_id: plan?.id,
+        price: plan?.amount,
+        pay_type,
+        trxref: response ? response?.response?.trxref : "",
+        device_id: deviceId,
+      };
+
+      console.log(obj, response);
+      await subscribePhoneForAdvert(obj);
+      setisAmount(false);
+      setIsSell(false);
+      setShowWalletModal(false);
+
+      successNotify("Successfully added phone to advert");
+    } catch (error) {}
+  };
+
+  const renewWarrantyFunc = async (response?: any) => {
+    try {
+      if (deviceId) {
+        const payload = {
+          trxref: response ? response?.response?.trxref : "",
+          reference: response ? response?.response?.reference : "",
+          device_id: deviceId,
+          pay_type
+        };
+        await renewWarranty(payload);
+      }
+    } catch (error) {}
+  };
+
   const choosePlan = async (response?: any) => {
     try {
       if (deviceId) {
-        const obj = {
-          plan_id: plan?.id,
-          price: plan?.amount,
-          pay_type,
-          trxref: response ? response?.response?.trxref : "",
-          device_id: deviceId,
-        };
-
-        console.log(obj, response);
-        await subscribePhoneForAdvert(obj);
-        setisAmount(false);
-        setIsSell(false);
-        setShowWalletModal(false);
-
-        successNotify("Successfully added phone to advert");
+        switch (type) {
+          case "listPhone":
+            listPhoneFunc(response);
+            break;
+          case "renewWarranty":
+            renewWarrantyFunc(response);
+            break;
+          default:
+            return () => {};
+        }
       }
     } catch (error) {
       errorNotify(
@@ -306,20 +340,26 @@ const PhoneDetail = () => {
                         style={{ width: 100 }}
                         background="dodgerblue"
                         onClick={() => {
+                          setType("listPhone");
                           setIsSell(true);
                         }}
                       />
                     )}
                   </Col>
                   <Col xs={24} md={8}>
-                    {user?.user_type === "AGENT" && (
+                    {user?.user_type === "USER" && (
                       <CustomButton
                         label="Renew Warranty"
                         style={{ width: 150 }}
-                        disabled={device_detail?.warranty}
-                        background={device_detail?.warranty ? "grey" : "green"}
+                        disabled={isWarranty}
+                        background={isWarranty ? "grey" : "green"}
                         onClick={() => {
-                          setIsSell(true);
+                          setType("renewWarranty");
+                          setPlan({
+                            ...plan,
+                            amount: device_detail?.warrantyCommission,
+                          });
+                          setisAmount(true);
                         }}
                       />
                     )}
