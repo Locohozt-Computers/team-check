@@ -16,6 +16,7 @@ type Props = {
   noLabel?: boolean | undefined;
   showIcon?: boolean | undefined;
   disabled?: boolean;
+  required?: boolean;
 };
 
 const InputWithLabel: React.FC<Props> = ({
@@ -32,10 +33,15 @@ const InputWithLabel: React.FC<Props> = ({
   noLabel,
   showIcon,
   disabled,
+  required,
 }) => {
   return (
     <InputDiv style={style}>
-      {noLabel ? null : <Label htmlFor={name}>{label} *</Label>}
+      {noLabel ? null : (
+        <Label htmlFor={name}>
+          {label} {required ? "*" : ""}
+        </Label>
+      )}
       <div className="input" style={inputStyle}>
         {showIcon && <i className="fas fa-search"></i>}
         <Input

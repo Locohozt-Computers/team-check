@@ -22,6 +22,9 @@ import "react-toastify/dist/ReactToastify.css";
 import "antd/dist/antd.css";
 import PhoneDetail from "components/RegisteredPhones/PhoneDetail";
 import SubscriptionPlan from "components/RegisteredPhones/SubscriptionPlan";
+import AdminPage from "pages/AdminPage";
+import SetupCommissionPage from "pages/AdminPage/SetupCommissionPage";
+import SetupWarrantyPeriodPage from "pages/AdminPage/SetupWarrantyPeriodPage";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -67,6 +70,24 @@ function App() {
           exact
           path="/user"
           component={ProfilePage}
+        />
+        <PrivateRoute
+          isAuth={true}
+          exact
+          path="/admin/setup"
+          component={AdminPage}
+        />
+        <PrivateRoute
+          isAuth={true}
+          exact
+          path="/admin/setup/commission"
+          component={SetupCommissionPage}
+        />
+        <PrivateRoute
+          isAuth={true}
+          exact
+          path="/admin/setup/warrantyperiod"
+          component={SetupWarrantyPeriodPage}
         />
         <Route exact path="/auth/signin" component={SignInPage} />
         <Route exact path="/auth/signup" component={SignUpPage} />

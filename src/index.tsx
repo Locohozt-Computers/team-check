@@ -7,17 +7,20 @@ import AuthProvider from "./context/auth/AuthProvider";
 import LayoutProvider from "context/layout/LayoutProvider";
 import WalletProvider from "context/wallet/WalletProvider";
 import RegisterPhoneProvider from "context/registerPhone/RegisterPhoneProvider";
+import AdminProvider from "context/admin/AdminProvider";
 
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
-      <WalletProvider>
-        <LayoutProvider>
-          <RegisterPhoneProvider>
-            <App />
-          </RegisterPhoneProvider>
-        </LayoutProvider>
-      </WalletProvider>
+      <AdminProvider>
+        <WalletProvider>
+          <LayoutProvider>
+            <RegisterPhoneProvider>
+              <App />
+            </RegisterPhoneProvider>
+          </LayoutProvider>
+        </WalletProvider>
+      </AdminProvider>
     </AuthProvider>
   </React.StrictMode>,
   document.getElementById("root")

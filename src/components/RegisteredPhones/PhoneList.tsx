@@ -14,6 +14,7 @@ const PhoneList = ({
   isRoute = true,
 }: any) => {
   const history = useHistory();
+  console.log("########################### ", phone);
   return (
     <PhoneListStyle
       status={false}
@@ -47,11 +48,17 @@ const PhoneList = ({
         <p style={{ margin: 0 }}>{phone?.phoneModel?.description}</p>
         <div className="tag">
           <Badge
-            count={`${phone?.phoneModel?.internal_storage}`}
+            count={`${
+              phone?.phoneModel?.internal_storage
+                ? phone?.phoneModel?.internal_storage
+                : ""
+            }`}
             style={{ background: "#dddddd", color: "#333333", marginRight: 10 }}
           />
           <Badge
-            count={`${phone?.phoneModel?.battery} MAH`}
+            count={`${
+              phone?.phoneModel?.battery ? phone?.phoneModel?.battery : ""
+            } MAH`}
             style={{ background: "#dddddd", color: "#333333" }}
           />
         </div>

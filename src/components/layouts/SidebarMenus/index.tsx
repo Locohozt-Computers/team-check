@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import { AuthContext } from "context/auth/AuthProvider";
+import React, { FC, useContext } from "react";
 import { useHistory } from "react-router-dom";
 
 import { Menus, MenuName, MenuLists, MenuList } from "./style";
@@ -25,6 +26,8 @@ const ShowMenu = ({
 
 const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
   const history = useHistory();
+
+  const { user } = useContext(AuthContext);
 
   const desktopMenuName = () => (
     <div className="profile" onClick={() => history.push("/")}>
@@ -116,6 +119,19 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
             iconType="user"
           />
         </MenuList>
+        {user.user_type?.toLocaleUpperCase() === "ADMIN" && (
+          <MenuList
+            isCollapse={isCollapse}
+            to="/admin/setup"
+            activeClassName="selected"
+          >
+            <ShowMenu
+              isShowOrHideIconLabel={isShowOrHideIconLabel}
+              text="Admin Settings"
+              iconType="user"
+            />
+          </MenuList>
+        )}
       </MenuLists>
     </Menus>
   );

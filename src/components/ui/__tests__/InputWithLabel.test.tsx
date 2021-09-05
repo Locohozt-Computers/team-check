@@ -16,7 +16,7 @@ describe("Auth Button", () => {
       />
     );
     expect(container).toBeInTheDocument();
-    expect(getByText("Email Address *")).toBeTruthy();
+    expect(getByText("Email Address")).toBeTruthy();
   });
 
   test("Render Button", async () => {
