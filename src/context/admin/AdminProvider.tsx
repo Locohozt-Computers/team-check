@@ -17,6 +17,10 @@ export type InitialStateTypes = {
   warrantyPeriod: any;
   users: any;
   agents: any;
+  users_total: number;
+  agents_total: number;
+  agents_next_url: string;
+  users_next_url: string;
 };
 
 const initialState = {
@@ -24,6 +28,10 @@ const initialState = {
   warrantyPeriod: null,
   users: [],
   agents: [],
+  users_total: 0,
+  agents_total: 0,
+  agents_next_url: "",
+  users_next_url: "",
 };
 
 export const COMMISSION = "COMMISSION";
@@ -37,10 +45,16 @@ type ContextType = {
   warrantyPeriod: any;
   users: any;
   agents: any;
+  users_total: number;
+  agents_total: number;
+  agents_next_url: string;
+  users_next_url: string;
   setupWarrantyPeriod: (payload: any) => void;
   setupCommission: (payload: any) => void;
   getCommissions: () => void;
   getWarrantyPeriods: () => void;
+  getUsers: (page: number) => void;
+  getAgents: (page: number) => void;
 };
 
 export const AdminContext = createContext<ContextType>({
@@ -48,10 +62,16 @@ export const AdminContext = createContext<ContextType>({
   warrantyPeriod: null,
   users: [],
   agents: [],
+  users_total: 0,
+  agents_total: 0,
+  agents_next_url: "",
+  users_next_url: "",
   setupWarrantyPeriod: (payload: any) => {},
   setupCommission: (payload: any) => {},
   getWarrantyPeriods: () => {},
   getCommissions: () => {},
+  getUsers: (page: number) => {},
+  getAgents: (page: number) => {},
 });
 
 const AdminProvider: React.FC = ({ children }) => {
@@ -93,18 +113,18 @@ const AdminProvider: React.FC = ({ children }) => {
     }
   };
 
-  const getUsers = async () => {
+  const getUsers = async (page: number = 1) => {
     try {
-      const response = await getHttp("/admin/all-users");
-      dispatch({ type: ALL_AGENTS, payload: response });
+      const response = await getHttp(`/admin/all-users?page=${page}`);
+      dispatch({ type: ALL_USERS, payload: response });
     } catch (error) {
       throw error;
     }
   };
 
-  const getAgents = async () => {
+  const getAgents = async (page: number = 1) => {
     try {
-      const response = await getHttp("/admin/all-agents");
+      const response = await getHttp(`/admin/all-agents?page=${page}`);
       dispatch({ type: ALL_AGENTS, payload: response });
     } catch (error) {
       throw error;
@@ -123,10 +143,16 @@ const AdminProvider: React.FC = ({ children }) => {
     warrantyPeriod: state.warrantyPeriod,
     users: state.users,
     agents: state.agents,
+    agents_total: state.agents_total,
+    users_total: state.users_total,
+    agents_next_url: state.agents_next_url,
+    users_next_url: state.users_next_url,
     setupWarrantyPeriod,
     setupCommission,
     getCommissions,
     getWarrantyPeriods,
+    getUsers,
+    getAgents,
   };
 
   return (

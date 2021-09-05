@@ -3,8 +3,9 @@ import React from "react";
 import { InitialCharacter } from "components/layouts/AuthNavbar/style";
 import { getInitialCharacter } from "utils/getInitialCharacter";
 
-const Initials = (user: any) => {
+const Initials = ({ user }: any) => {
   const getInitials = getInitialCharacter(user);
+  console.log(user, getInitials);
   return (
     <InitialCharacter>
       <span>{getInitials}</span>

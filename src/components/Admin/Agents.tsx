@@ -5,6 +5,7 @@ import moment from "moment";
 import Initials from "components/ui/Avatar/Initials";
 import CustomTable from "components/ui/CustomTable";
 import { AdminContext } from "context/admin/AdminProvider";
+import { limit } from "./data";
 
 const Agents = () => {
   const { agents } = useContext(AdminContext);
@@ -32,9 +33,11 @@ const Agents = () => {
     },
   ];
 
+  const showRoute = agents?.length > limit;
+
   const data = useMemo(() => {
     return [
-      ...agents?.slice(0, 3)?.map((agent: any) => ({
+      ...agents?.slice(0, limit)?.map((agent: any) => ({
         avatar: <Initials user={agent} />,
         username: agent?.username,
         email: agent?.email,
@@ -45,7 +48,13 @@ const Agents = () => {
 
   return (
     <Container>
-      <CustomTable title="All Agents" data={data} columns={columns} />
+      <CustomTable
+        title="All Agents"
+        data={data}
+        columns={columns}
+        route="/admin/all-agents"
+        showRoute={showRoute}
+      />
     </Container>
   );
 };

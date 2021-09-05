@@ -25,6 +25,8 @@ import SubscriptionPlan from "components/RegisteredPhones/SubscriptionPlan";
 import AdminPage from "pages/AdminPage";
 import SetupCommissionPage from "pages/AdminPage/SetupCommissionPage";
 import SetupWarrantyPeriodPage from "pages/AdminPage/SetupWarrantyPeriodPage";
+import AllUsersPage from "pages/AdminPage/AllUsersPage";
+import AllAgentsPage from "pages/AdminPage/AllAgentsPage";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -88,6 +90,24 @@ function App() {
           exact
           path="/admin/setup/warrantyperiod"
           component={SetupWarrantyPeriodPage}
+        />
+        <PrivateRoute
+          isAuth={true}
+          exact
+          path="/admin/all-users"
+          component={AllUsersPage}
+        />
+        <PrivateRoute
+          isAuth={true}
+          exact
+          path="/admin/all-agents"
+          component={AllAgentsPage}
+        />
+        <PrivateRoute
+          isAuth={true}
+          exact
+          path="/admin/all-users"
+          component={AllUsersPage}
         />
         <Route exact path="/auth/signin" component={SignInPage} />
         <Route exact path="/auth/signup" component={SignUpPage} />

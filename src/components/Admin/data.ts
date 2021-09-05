@@ -10,3 +10,5 @@ export const mockUser = [
     date: "Ï2021-07-18T02:01:04.000000Z",
   },
 ];
+
+export const limit = 5;

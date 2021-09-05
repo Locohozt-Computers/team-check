@@ -1,14 +1,15 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
 
 import Initials from "components/ui/Avatar/Initials";
 import CustomTable from "components/ui/CustomTable";
 import { AdminContext } from "context/admin/AdminProvider";
-import { limit } from "./data";
 
-const Users = () => {
-  const { users } = useContext(AdminContext);
+const AllUsers = () => {
+  const { users, users_total, getUsers } = useContext(AdminContext);
+
+  const [current, setCurrent] = useState(1);
 
   const columns = [
     {
@@ -35,16 +36,22 @@ const Users = () => {
 
   const data = useMemo(() => {
     return [
-      ...users?.slice(0, limit)?.map((agent: any) => ({
-        avatar: <Initials user={agent} />,
-        username: agent?.username,
-        email: agent?.email,
-        date: moment(agent?.created_at).fromNow(),
+      ...users?.map((user: any) => ({
+        avatar: <Initials user={user} />,
+        username: user?.username,
+        email: user?.email,
+        date: moment(user?.created_at).fromNow(),
       })),
     ];
   }, [users]);
 
-  const showRoute = users?.length > limit;
+  const handlePagination = async (page: number) => {
+    try {
+      await getUsers(page);
+    } catch (error) {
+      throw error;
+    }
+  };
 
   return (
     <Container>
@@ -52,13 +59,20 @@ const Users = () => {
         title="All Users"
         data={data}
         columns={columns}
-        route="/admin/all-users"
-        showRoute={showRoute}
+        paginate={true}
+        total={users_total}
+        current={current}
+        setCurrent={setCurrent}
+        onClick={handlePagination}
       />
     </Container>
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  height: 90vh;
+  overflow-y: auto;
+  padding-bottom: 40px;
+`;
 
-export default Users;
+export default AllUsers;
