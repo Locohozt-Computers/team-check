@@ -5,7 +5,6 @@ import { ToastContainer } from "react-toastify";
 import SignInPage from "pages/Signin";
 import SignUpPage from "pages/Signup";
 import axios from "axios";
-import HomePage from "pages/Home";
 import SearchPage from "pages/SearchPage";
 import PrivateRoute from "route/PrivateRoute";
 import ForgotPasswordPage from "pages/ForgotPasswordPage";
