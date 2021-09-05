@@ -122,7 +122,7 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
         {user.user_type?.toLocaleUpperCase() === "ADMIN" && (
           <MenuList
             isCollapse={isCollapse}
-            to="/admin/setup"
+            to="/admin"
             activeClassName="selected"
           >
             <ShowMenu

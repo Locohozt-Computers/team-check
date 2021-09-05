@@ -78,12 +78,7 @@ function App() {
           path="/user"
           component={ProfilePage}
         />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/admin/setup"
-          component={AdminPage}
-        />
+        <PrivateRoute isAuth={true} exact path="/admin" component={AdminPage} />
         <PrivateRoute
           isAuth={true}
           exact
