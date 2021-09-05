@@ -1,4 +1,6 @@
 import {
+  ALL_AGENTS,
+  ALL_USERS,
   COMMISSION,
   CommissionType,
   InitialStateTypes,
@@ -27,6 +29,16 @@ const layoutReducer = (
       return {
         ...state,
         commission: action.payload,
+      };
+    case ALL_USERS:
+      return {
+        ...state,
+        users: action.payload,
+      };
+    case ALL_AGENTS:
+      return {
+        ...state,
+        agents: action.payload,
       };
 
     default:

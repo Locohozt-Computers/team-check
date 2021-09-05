@@ -15,19 +15,28 @@ export type WarrantyPeriodType = {
 export type InitialStateTypes = {
   commission: any;
   warrantyPeriod: any;
+  users: any;
+  agents: any;
 };
 
 const initialState = {
   commission: null,
   warrantyPeriod: null,
+  users: [],
+  agents: [],
 };
 
 export const COMMISSION = "COMMISSION";
 export const WARRANTY_PERIOD = "WARRANTY_PERIOD";
+export const ALL_AGENTS = "ALL_AGENTS";
+export const ALL_USERS = "ALL_USERS";
+export const DEACTIVATE_USER = "DEACTIVATE_USER";
 
 type ContextType = {
   commission: any;
   warrantyPeriod: any;
+  users: any;
+  agents: any;
   setupWarrantyPeriod: (payload: any) => void;
   setupCommission: (payload: any) => void;
   getCommissions: () => void;
@@ -37,6 +46,8 @@ type ContextType = {
 export const AdminContext = createContext<ContextType>({
   commission: null,
   warrantyPeriod: null,
+  users: [],
+  agents: [],
   setupWarrantyPeriod: (payload: any) => {},
   setupCommission: (payload: any) => {},
   getWarrantyPeriods: () => {},
@@ -82,14 +93,36 @@ const AdminProvider: React.FC = ({ children }) => {
     }
   };
 
+  const getUsers = async () => {
+    try {
+      const response = await getHttp("/admin/all-users");
+      dispatch({ type: ALL_AGENTS, payload: response });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const getAgents = async () => {
+    try {
+      const response = await getHttp("/admin/all-agents");
+      dispatch({ type: ALL_AGENTS, payload: response });
+    } catch (error) {
+      throw error;
+    }
+  };
+
   useEffect(() => {
     getCommissions();
     getWarrantyPeriods();
+    getUsers();
+    getAgents();
   }, []);
 
   const values = {
     commission: state?.commission,
     warrantyPeriod: state.warrantyPeriod,
+    users: state.users,
+    agents: state.agents,
     setupWarrantyPeriod,
     setupCommission,
     getCommissions,
