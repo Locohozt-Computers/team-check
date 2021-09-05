@@ -35,7 +35,12 @@ function App() {
     <Router>
       <Switch>
         <Route exact path="/" component={SearchPage} />
-        <PrivateRoute isAuth={true} exact path="/home" component={HomePage} />
+        <PrivateRoute
+          isAuth={true}
+          exact
+          path="/home"
+          component={RegisteredPhonesPage}
+        />
         <PrivateRoute
           isAuth={true}
           exact
