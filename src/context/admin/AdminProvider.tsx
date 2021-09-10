@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from "react";
-import { createHttp, getHttp } from "utils/api/createHttp";
+import { createHttp, getHttp, updateHttp } from "utils/api/createHttp";
 import AdminReducer from "./AdminReducer";
 
 export type CommissionType = {
@@ -10,6 +10,11 @@ export type CommissionType = {
 export type WarrantyPeriodType = {
   warranty_offset_period: number;
   warranty_validity: number;
+};
+
+export type InviteAdminType = {
+  username: string;
+  email: string;
 };
 
 export type InitialStateTypes = {
@@ -37,6 +42,7 @@ const initialState = {
 export const COMMISSION = "COMMISSION";
 export const WARRANTY_PERIOD = "WARRANTY_PERIOD";
 export const ALL_AGENTS = "ALL_AGENTS";
+export const INVITE_ADMIN = "INVITE_ADMIN";
 export const ALL_USERS = "ALL_USERS";
 export const DEACTIVATE_USER = "DEACTIVATE_USER";
 
@@ -55,6 +61,8 @@ type ContextType = {
   getWarrantyPeriods: () => void;
   getUsers: (page: number) => void;
   getAgents: (page: number) => void;
+  inviteAdmin: (payload: any) => void;
+  deactivateUser: (id: string) => void;
 };
 
 export const AdminContext = createContext<ContextType>({
@@ -72,6 +80,8 @@ export const AdminContext = createContext<ContextType>({
   getCommissions: () => {},
   getUsers: (page: number) => {},
   getAgents: (page: number) => {},
+  inviteAdmin: (payload: any) => {},
+  deactivateUser: (id: string) => {},
 });
 
 const AdminProvider: React.FC = ({ children }) => {
@@ -131,6 +141,27 @@ const AdminProvider: React.FC = ({ children }) => {
     }
   };
 
+  const deactivateUser = async (id: string) => {
+    try {
+      const response = await updateHttp(
+        `/admin/deactivate-activate-user/${id}`,
+        {}
+      );
+      dispatch({ type: DEACTIVATE_USER, payload: response });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const inviteAdmin = async (payload: InviteAdminType) => {
+    try {
+      const response = await createHttp(`/admin/invite-admin`, payload);
+      dispatch({ type: INVITE_ADMIN, payload: response });
+    } catch (error) {
+      throw error;
+    }
+  };
+
   useEffect(() => {
     getCommissions();
     getWarrantyPeriods();
@@ -153,6 +184,8 @@ const AdminProvider: React.FC = ({ children }) => {
     getWarrantyPeriods,
     getUsers,
     getAgents,
+    inviteAdmin,
+    deactivateUser,
   };
 
   return (

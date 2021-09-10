@@ -70,26 +70,38 @@ const AdminComponent = () => {
       <br />
 
       <Row>
-        <Col>
-          <div className="action">
-            <CustomButton
-              label="Setup Commission"
-              background="orangered"
-              onClick={() => history.push("/admin/setup/commission")}
-              style={{
-                width: 200,
-                marginRight: 20,
-              }}
-            />
-            <CustomButton
-              label="Setup Warranty period"
-              background="orangered"
-              onClick={() => history.push("/admin/setup/warrantyperiod")}
-              style={{
-                width: 200,
-              }}
-            />
-          </div>
+        <Col xs={12} sm={12} md={{ size: "2", offset: "6" }}>
+          <CustomButton
+            label="Setup Commission"
+            background="orangered"
+            onClick={() => history.push("/admin/setup/commission")}
+            style={{
+              width: 170,
+              marginBottom: 10,
+            }}
+          />
+        </Col>
+        <br />
+        <Col xs={12} sm={12} md={2}>
+          <CustomButton
+            label="Setup Warranty period"
+            background="orangered"
+            onClick={() => history.push("/admin/setup/warrantyperiod")}
+            style={{
+              width: 170,
+              marginBottom: 10,
+            }}
+          />
+        </Col>
+        <Col xs={12} sm={12} md={2}>
+          <CustomButton
+            label="Invite Admin"
+            background="orangered"
+            onClick={() => history.push("/admin/setup/inviteadmin")}
+            style={{
+              width: 100,
+            }}
+          />
         </Col>
       </Row>
 
