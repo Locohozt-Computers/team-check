@@ -5,11 +5,18 @@ import moment from "moment";
 import Initials from "components/ui/Avatar/Initials";
 import CustomTable from "components/ui/CustomTable";
 import { AdminContext } from "context/admin/AdminProvider";
+import CustomButton from "components/ui/CustomButton";
+import CustomModalUI from "components/ui/CustomModal";
+import { errorNotify } from "utils/errorMessage";
+import { Badge } from "reactstrap";
 
 const AllAgents = () => {
-  const { agents, agents_total, getAgents } = useContext(AdminContext);
+  const { agents, agents_total, getAgents, deactivateUser } =
+    useContext(AdminContext);
 
+  const [userId, setUserId] = useState("");
   const [current, setCurrent] = useState(1);
+  const [modal, setModal] = useState(false);
 
   const columns = [
     {
@@ -32,6 +39,11 @@ const AllAgents = () => {
       selector: "date",
       sortable: true,
     },
+    {
+      name: "Action",
+      selector: "action",
+      sortable: true,
+    },
   ];
 
   const data = useMemo(() => {
@@ -41,6 +53,21 @@ const AllAgents = () => {
         username: agent?.username,
         email: agent?.email,
         date: moment(agent?.created_at).fromNow(),
+        action: (
+          <Badge
+            style={{
+              color: "#01b64c",
+              background: "#03bd5049",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              setModal(true);
+              setUserId(agent?.profile?.id ? agent?.profile?.id : "");
+            }}
+          >
+            Deactivate
+          </Badge>
+        ),
       })),
     ];
   }, [agents]);
@@ -50,6 +77,15 @@ const AllAgents = () => {
       await getAgents(page);
     } catch (error) {
       throw error;
+    }
+  };
+
+  const handleDeativate = async (id: string) => {
+    try {
+      await deactivateUser(id);
+      setModal(false);
+    } catch (error) {
+      errorNotify("Something went wrong, try again");
     }
   };
 
@@ -65,6 +101,36 @@ const AllAgents = () => {
         setCurrent={setCurrent}
         onClick={handlePagination}
       />
+
+      <CustomModalUI
+        component={() => (
+          <div style={{ backgroundColor: "white", padding: 25 }}>
+            <h4>Deactivate User</h4>
+            <p>Are you sure you want to deactivate user?</p>
+            <Action>
+              <CustomButton
+                label="No"
+                onClick={() => setModal(false)}
+                background="grey"
+                style={{ width: 50, marginRight: 10 }}
+              />
+              <CustomButton
+                label="Yes"
+                onClick={() => {
+                  if (userId) {
+                    handleDeativate(userId);
+                  }
+                }}
+                background="green"
+                style={{ width: 50 }}
+              />
+            </Action>
+          </div>
+        )}
+        visible={modal}
+        closable={true}
+        handleCancel={() => setModal(false)}
+      />
     </Container>
   );
 };
@@ -73,6 +139,12 @@ const Container = styled.div`
   height: 90vh;
   overflow-y: auto;
   padding-bottom: 40px;
+`;
+
+const Action = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `;
 
 export default AllAgents;

@@ -28,6 +28,7 @@ const CustomTable: React.FC<Props> = ({
   current,
   setCurrent,
   onClick,
+  onRowClicked,
 }: any) => {
   const history = useHistory();
 
@@ -68,6 +69,11 @@ const CustomTable: React.FC<Props> = ({
         columns={columns}
         theme="solarized"
         style={{ marginBottom: 20 }}
+        onRowClicked={() => {
+          if (onRowClicked) {
+            onRowClicked();
+          }
+        }}
       />
       {paginate && (
         <Pagination>
