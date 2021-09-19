@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { errorNotify, successNotify } from "utils/errorMessage";
 import { canNotRegisterPhone } from "utils/canNotRegisterPhone";
 import { useHistory } from "react-router-dom";
+import { authErrorHandler } from "utils/CatchErrors";
 
 export type RegisterValueType = {
   agent_id?: number | any;
@@ -101,13 +102,14 @@ const RegisterPhoneFormPage = () => {
       history.push("/phones");
       successNotify("Successfully register a phone");
       setShowError(false);
-    } catch (error) {
-      console.log(error?.response?.data?.message);
-      errorNotify(
-        error?.response?.data
-          ? error?.response?.data?.message
-          : "error?.response?.data?.message"
-      );
+    } catch (error: any) {
+      // console.log(error?.response?.data?.message);
+      // errorNotify(
+      //   error?.response?.data
+      //     ? error?.response?.data?.message
+      //     : "error?.response?.data?.message"
+      // );
+      authErrorHandler(error);
     }
   };
 

@@ -17,7 +17,6 @@ const SetupCommssion = () => {
     } catch (error) {
       errorNotify("Something went wrong, try again");
     }
-    // alert(JSON.stringify(data, null, 4));
   };
 
   const { handleSubmit, errors, touched, isSubmitting, getFieldProps } =
@@ -28,6 +27,7 @@ const SetupCommssion = () => {
       },
       onSubmit,
     });
+
   return (
     <Form
       style={{

@@ -78,7 +78,7 @@ const AuthProvider: React.FC = ({ children }) => {
       const data = await createHttp("/login", user);
       localStorage.setItem("techCheckPoint", JSON.stringify({ ...data }));
       dispatch({ type: SIGNIN, payload: data });
-    } catch (error) {
+    } catch (error: any) {
       if (!error?.response) {
         errorNotify("Network went wrong!!!");
       }
@@ -90,7 +90,7 @@ const AuthProvider: React.FC = ({ children }) => {
     try {
       const data = await createHttp("/register", user);
       dispatch({ type: SIGNUP, payload: data });
-    } catch (error) {
+    } catch (error: any) {
       if (!error?.response) {
         errorNotify("Network went wrong!!!");
 
@@ -108,7 +108,7 @@ const AuthProvider: React.FC = ({ children }) => {
     try {
       const data = await createHttp("/password/reset", reset);
       dispatch({ type: RESET_PASSWORD, payload: data });
-    } catch (error) {
+    } catch (error: any) {
       if (!error?.response) {
         // eslint-disable-next-line
         throw "Network went wrong!!!";
@@ -121,7 +121,7 @@ const AuthProvider: React.FC = ({ children }) => {
     try {
       const data = await createHttp("/password/email", { email });
       dispatch({ type: FORGOT_PASSWORD, payload: data });
-    } catch (error) {
+    } catch (error: any) {
       if (!error?.response) {
         // eslint-disable-next-line
         throw "Network went wrong!!!";
@@ -134,7 +134,7 @@ const AuthProvider: React.FC = ({ children }) => {
     try {
       const data = await createHttp("/change-password", passwords);
       dispatch({ type: FORGOT_PASSWORD, payload: data });
-    } catch (error) {
+    } catch (error: any) {
       if (!error?.response) {
         // eslint-disable-next-line
         throw "Network went wrong!!!";
@@ -147,7 +147,7 @@ const AuthProvider: React.FC = ({ children }) => {
     try {
       const data = await getHttp(`/profile/${profile_id}`);
       dispatch({ type: GET_PROFILE, payload: data });
-    } catch (error) {
+    } catch (error: any) {
       // if (!error?.response) {
       //   // eslint-disable-next-line
       //   throw "Network went wrong!!!";
@@ -162,7 +162,7 @@ const AuthProvider: React.FC = ({ children }) => {
     try {
       await updateHttp(`/profile/${profile_id}`, profile);
       // dispatch({ type: GET_PROFILE, payload: data });
-    } catch (error) {
+    } catch (error: any) {
       if (!error?.response) {
         // eslint-disable-next-line
         throw "Network went wrong!!!";

@@ -6,7 +6,6 @@ import Initials from "components/ui/Avatar/Initials";
 import CustomTable from "components/ui/CustomTable";
 import { AdminContext } from "context/admin/AdminProvider";
 import { limit } from "./data";
-import modal from "antd/lib/modal";
 import CustomButton from "components/ui/CustomButton";
 import CustomModalUI from "components/ui/CustomModal";
 import { Badge } from "reactstrap";

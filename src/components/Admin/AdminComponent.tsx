@@ -74,6 +74,26 @@ const AdminComponent = () => {
           <div className="action">
             {/* <Col xs={12} sm={12} md={{ size: "2", offset: "6" }}> */}
             <CustomButton
+              label="Add Phone Brand"
+              background="orangered"
+              onClick={() => history.push("/admin/setup/phone-brand")}
+              style={{
+                width: 170,
+                marginBottom: 10,
+                marginRight: 10,
+              }}
+            />
+            <CustomButton
+              label="Add Phone Model"
+              background="orangered"
+              onClick={() => history.push("/admin/setup/phone-model")}
+              style={{
+                width: 170,
+                marginBottom: 10,
+                marginRight: 10,
+              }}
+            />
+            <CustomButton
               label="Setup Commission"
               background="orangered"
               onClick={() => history.push("/admin/setup/commission")}

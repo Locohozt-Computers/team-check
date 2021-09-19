@@ -17,6 +17,27 @@ export type InviteAdminType = {
   email: string;
 };
 
+export type PhoneBrandType = {
+  operating_system_id: number;
+  name: string;
+  prefix: string;
+};
+
+export type PhoneModelType = {
+  name: string;
+  category_id: number;
+  brand_id: number;
+  warranty_fee: number;
+  storage: string[];
+  display_type: string[];
+  resolution: string[];
+  sim: string[];
+  card_slot: string[];
+  main_camera: string[];
+  selfie_camera: string[];
+  battery: string[];
+};
+
 export type InitialStateTypes = {
   commission: any;
   warrantyPeriod: any;
@@ -63,6 +84,10 @@ type ContextType = {
   getAgents: (page: number) => void;
   inviteAdmin: (payload: any) => void;
   deactivateUser: (id: string) => void;
+  addPhoneModel: (payload: PhoneModelType) => void;
+  updatePhoneModel: (payload: PhoneModelType) => void;
+  updatePhoneBrand: (payload: PhoneBrandType) => void;
+  addPhoneBrand: (payload: PhoneBrandType) => void;
 };
 
 export const AdminContext = createContext<ContextType>({
@@ -82,6 +107,10 @@ export const AdminContext = createContext<ContextType>({
   getAgents: (page: number) => {},
   inviteAdmin: (payload: any) => {},
   deactivateUser: (id: string) => {},
+  addPhoneModel: (payload: PhoneModelType) => {},
+  updatePhoneModel: (payload: PhoneModelType) => {},
+  updatePhoneBrand: (payload: PhoneBrandType) => {},
+  addPhoneBrand: (payload: PhoneBrandType) => {},
 });
 
 const AdminProvider: React.FC = ({ children }) => {
@@ -162,6 +191,43 @@ const AdminProvider: React.FC = ({ children }) => {
     }
   };
 
+  const addPhoneModel = async (payload: PhoneModelType) => {
+    console.log(payload);
+    try {
+      const response = await createHttp(`/admin/phone-model`, payload);
+      dispatch({ type: INVITE_ADMIN, payload: response });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const updatePhoneModel = async (payload: PhoneModelType) => {
+    try {
+      const response = await updateHttp(`/admin/phone-model`, payload);
+      dispatch({ type: INVITE_ADMIN, payload: response });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const addPhoneBrand = async (payload: PhoneBrandType) => {
+    try {
+      const response = await createHttp(`/admin/brand`, payload);
+      dispatch({ type: INVITE_ADMIN, payload: response });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const updatePhoneBrand = async (payload: Partial<PhoneBrandType>) => {
+    try {
+      const response = await updateHttp(`/admin/brand`, payload);
+      dispatch({ type: INVITE_ADMIN, payload: response });
+    } catch (error) {
+      throw error;
+    }
+  };
+
   useEffect(() => {
     getCommissions();
     getWarrantyPeriods();
@@ -186,6 +252,10 @@ const AdminProvider: React.FC = ({ children }) => {
     getAgents,
     inviteAdmin,
     deactivateUser,
+    addPhoneModel,
+    updatePhoneModel,
+    updatePhoneBrand,
+    addPhoneBrand,
   };
 
   return (

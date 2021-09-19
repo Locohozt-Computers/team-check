@@ -171,7 +171,19 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
   };
 
   const getCategories = async () => {
-    dispatch({ type: ALL_CATEGORIES, payload: [] });
+    try {
+      const results = await getHttp("/device/categories");
+      const categories = results?.data?.map((category: any) => ({
+        id: category?.id,
+        osId: category?.operating_system_id,
+        value: category?.name,
+        label: category?.name,
+        os: category?.os,
+      }));
+      dispatch({ type: ALL_CATEGORIES, payload: categories });
+    } catch (error) {
+      
+    }
   };
 
   const getBrands = async () => {

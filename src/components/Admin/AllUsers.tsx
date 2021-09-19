@@ -65,7 +65,7 @@ const AllUsers = () => {
               setUserId(user?.profile?.id ? user?.profile?.id : "");
             }}
           >
-            Deactivate
+            {user?.profile?.is_active ? "Deactivate" : "Activate"}
           </Badge>
         ),
       })),

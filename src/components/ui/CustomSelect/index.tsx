@@ -1,5 +1,4 @@
 import { Select } from "antd";
-import React, { useContext } from "react";
 import styled from "styled-components";
 
 const { Option } = Select;
@@ -30,7 +29,7 @@ const CustomSelect = (props: SType) => {
         className="select"
       >
         {props?.options?.map((option: any) => (
-          <Option key={option.key} value={option?.value}>
+          <Option key={option.id} value={option?.id}>
             {option.label}
           </Option>
         ))}
@@ -42,8 +41,6 @@ const CustomSelect = (props: SType) => {
 const SelectDiv = styled.div`
   width: 100%;
   background-color: transparent;
-  border: 1px solid #dddddd;
-  padding: 10px;
   border-radius: 8px;
 `;
 const SelectStyle = styled(Select)<{ theme?: string }>`
@@ -55,8 +52,7 @@ const SelectStyle = styled(Select)<{ theme?: string }>`
     width: 100%;
     border: none;
     outline: none;
-    padding: 10px;
-    padding: 0;
+    border: 1px solid #dddddd;
 
     span .ant-select-arrow .anticon-down {
       color: white;
