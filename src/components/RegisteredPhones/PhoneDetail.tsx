@@ -69,13 +69,12 @@ const PhoneDetail = () => {
         successNotify("Phone deleted successfully");
         history.push("/phones");
       }
-    } catch (error) {
+    } catch (error: any) {
       errorNotify(
         error?.response?.data?.message
           ? error?.response?.data?.message
           : "Something went wrong,try again"
       );
-      console.log(error);
     }
   };
 
@@ -89,7 +88,6 @@ const PhoneDetail = () => {
         device_id: deviceId,
       };
 
-      console.log(obj, response);
       await subscribePhoneForAdvert(obj);
       setisAmount(false);
       setIsSell(false);
@@ -106,7 +104,7 @@ const PhoneDetail = () => {
           trxref: response ? response?.response?.trxref : "",
           reference: response ? response?.response?.reference : "",
           device_id: deviceId,
-          pay_type
+          pay_type,
         };
         await renewWarranty(payload);
       }
@@ -127,13 +125,12 @@ const PhoneDetail = () => {
             return () => {};
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       errorNotify(
         error?.response?.data?.message
           ? error?.response?.data?.message
           : "Something went wrong,try again"
       );
-      console.log(error?.response);
     }
   };
 

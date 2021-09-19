@@ -24,14 +24,6 @@ const CustomPagination = ({
 
   const [offset, setOffset] = useState<number>(1);
 
-  console.log(
-    "current == ",
-    pages >= offset * limit - 1,
-    pages,
-    offset,
-    offset * limit - 1
-  );
-
   return (
     <Pagination aria-label="Page navigation example">
       {offset > 1 && (

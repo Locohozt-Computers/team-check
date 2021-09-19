@@ -103,7 +103,6 @@ const RegisterPhoneFormPage = () => {
       successNotify("Successfully register a phone");
       setShowError(false);
     } catch (error: any) {
-      // console.log(error?.response?.data?.message);
       // errorNotify(
       //   error?.response?.data
       //     ? error?.response?.data?.message

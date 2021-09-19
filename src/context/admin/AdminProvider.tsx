@@ -192,7 +192,6 @@ const AdminProvider: React.FC = ({ children }) => {
   };
 
   const addPhoneModel = async (payload: PhoneModelType) => {
-    console.log(payload);
     try {
       const response = await createHttp(`/admin/phone-model`, payload);
       dispatch({ type: INVITE_ADMIN, payload: response });

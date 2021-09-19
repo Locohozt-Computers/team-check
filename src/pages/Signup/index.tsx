@@ -27,8 +27,6 @@ const SignUpPage = () => {
       role_id: role,
     };
 
-    console.log(finalValues);
-
     try {
       setSubmitting(true);
       await signUpUserContext(finalValues);

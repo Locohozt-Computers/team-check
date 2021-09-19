@@ -12,7 +12,6 @@ type Props = {
 
 const SubscriptionPlan: React.FC<Props> = ({ setValue, setisOpen }) => {
   const { subscription_plans } = useContext(RegisterPhoneContext);
-  console.log(subscription_plans);
   return (
     // <HomeLayout>
     <>

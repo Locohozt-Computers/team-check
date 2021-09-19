@@ -14,7 +14,6 @@ const PhoneList = ({
   isRoute = true,
 }: any) => {
   const history = useHistory();
-  console.log("########################### ", phone);
   return (
     <PhoneListStyle
       status={false}

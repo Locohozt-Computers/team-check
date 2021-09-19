@@ -55,7 +55,6 @@ const AddPhoneModel = () => {
         brand_id: state.brand_id,
         category_id: state.category_id,
       };
-      console.log(payload);
       await addPhoneModelFunc(payload);
       successNotify("Successfully updated");
     } catch (error) {
@@ -85,9 +84,9 @@ const AddPhoneModel = () => {
   useEffect(() => {
     getBrands();
     getCategories();
-  }, []);
 
-  console.log(all_categories);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Form
