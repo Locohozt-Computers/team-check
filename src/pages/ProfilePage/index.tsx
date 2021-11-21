@@ -96,13 +96,13 @@ const ProfilePage = () => {
           </Image>
           <Profile>
             <h1>My Profile</h1>
-            <input
+            {/* <input
               type="text"
               name="username"
               placeholder="Username..."
               value={values.username}
               onChange={handleInput}
-            />
+            /> */}
             <input
               type="text"
               name="email"

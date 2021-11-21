@@ -272,7 +272,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
                 options={states}
                 isSearchable={true}
                 name="state_id"
-                placeholder="States"
+                placeholder="State of residence"
                 onChange={({ id }: any) => {
                   getDestrict(id);
                   setValues({
@@ -299,7 +299,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
                 isDisabled={destrict?.length > 0 ? false : true}
                 isSearchable={true}
                 options={destrict}
-                placeholder="Destrict"
+                placeholder="Local Government Area"
                 onChange={({ id }: any) => {
                   setValues({
                     ...values,

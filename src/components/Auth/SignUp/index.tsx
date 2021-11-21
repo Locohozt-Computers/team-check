@@ -79,7 +79,7 @@ const SignUpComponent: FC<Props> = ({ onSubmit }) => {
         <ErrorLabel textAlign="center">
           {typeof errors === "string" ? errors : null}
         </ErrorLabel>
-        <InputWithLabel
+        {/* <InputWithLabel
           placeholder="Enter Username"
           label="Username"
           name="username"
@@ -91,7 +91,7 @@ const SignUpComponent: FC<Props> = ({ onSubmit }) => {
           style={{
             marginBottom: 30,
           }}
-        />
+        /> */}
         <InputWithLabel
           placeholder="Enter Email"
           label="Email address"

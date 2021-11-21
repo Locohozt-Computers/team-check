@@ -27,7 +27,7 @@ const RegisteredPhones = () => {
         </Header>
 
         <Content>
-          {!loading && all_register_phones?.length <= 0 && <h2>No Phone Register Yet</h2>}
+          {!loading && all_register_phones?.length <= 0 && <h2>No Phone Registered Yet</h2>}
           {!all_register_phones?.length && loading && (
             <div>
               <Loader width={30} />

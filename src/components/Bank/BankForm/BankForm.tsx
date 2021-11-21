@@ -29,7 +29,7 @@ const BankForm: React.FC<Props> = ({
 }) => {
   const [banks, setBanks] = useState([]);
   const [, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   const getBanks = async () => {
     try {
@@ -73,14 +73,15 @@ const BankForm: React.FC<Props> = ({
       });
       setName(res?.account_name);
       setLoading(false);
-    } catch (error) {
+    } catch (error: any) {
       if (name && error) {
         setName("");
       }
       setError(
-        error?.response?.data?.errors?.account_number[0]
-          ? error?.response?.data?.errors?.account_number[0]
-          : error?.response?.data?.message
+        // error?.response?.data?.errors?.account_number[0]
+        //   ? error?.response?.data?.errors?.account_number[0]
+        //   : error?.response?.data?.message
+        "Something went wrong, try again"
       );
     }
   };

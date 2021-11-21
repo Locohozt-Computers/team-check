@@ -79,7 +79,7 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
         >
           <ShowMenu
             isShowOrHideIconLabel={isShowOrHideIconLabel}
-            text="Register Phones"
+            text="Registered Phones"
             iconType="phone"
           />
         </MenuList>
