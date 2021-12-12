@@ -141,7 +141,7 @@ function App() {
           path="/auth/emailverification"
           component={EmailVerificationPage}
         />
-        <Route exact path="/auth/reset" component={ResetPasswordPage} />
+        <Route exact path="/change-password" component={ResetPasswordPage} />
         <Route>
           <NotFound status={404} />
         </Route>

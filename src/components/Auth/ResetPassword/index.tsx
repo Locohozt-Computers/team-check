@@ -97,7 +97,7 @@ const ResetPassword: React.FC<Props> = ({ onSubmit }) => {
         />
         <CustomButton
           testId="reset-password-btn"
-          label={"Submit Email"}
+          label={"Change Password"}
           type={"submit"}
           disabled={isSubmitting}
           background={isSubmitting ? "#f1f1f7" : "#177BFF"}
