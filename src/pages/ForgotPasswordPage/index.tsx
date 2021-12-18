@@ -18,7 +18,7 @@ const ForgotPasswordPage: React.FC = () => {
     try {
       setSubmitting(true);
       await forgotPasswordContext(values.email);
-      history.push("/auth/signin");
+      history.push("/auth/emailverification");
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);
