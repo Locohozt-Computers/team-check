@@ -1,20 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 
 import SignUpComponent from "components/Auth/SignUp";
-import { AuthContext, SIGNIN } from "context/auth/AuthProvider";
+import { SIGNIN, useAuth } from "context/auth/AuthProvider";
 import { SignupUserType } from "types/authTypes";
 import { getRole } from "components/helpers/getRole";
 import { onSubmitActionType } from "components/Auth/SignIn";
 import { signInWithGoogle } from "firebase/firebase";
 import { googleResponse } from "utils/googleResponse";
-import { errorNotify } from "utils/errorMessage";
 import { authErrorHandler } from "utils/CatchErrors";
 
 const SignUpPage = () => {
-  const { signUpUserContext, dispatch } = useContext(AuthContext);
+  const { signUpUserContext, dispatch } = useAuth();
   const history = useHistory();
 
   const onSubmit = async (

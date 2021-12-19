@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 
 import RegisterPhoneForm from "components/RegisteredPhones/RegisterPhoneForm";
-import { useContext } from "react";
-import { AuthContext } from "context/auth/AuthProvider";
-import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvider";
+import { useAuth } from "context/auth/AuthProvider";
+import { useRegisterPhone } from "context/registerPhone/RegisterPhoneProvider";
 import { useEffect } from "react";
 import { errorNotify, successNotify } from "utils/errorMessage";
 import { canNotRegisterPhone } from "utils/canNotRegisterPhone";
@@ -44,8 +43,9 @@ export type RegisterValueType = {
 const RegisterPhoneFormPage = () => {
   const history = useHistory();
 
-  const { user } = useContext(AuthContext);
-  const { getRegFee, registerPhone } = useContext(RegisterPhoneContext);
+  const { user } = useAuth();
+  const { getRegFee, registerPhone } = useRegisterPhone();
+
   const [showError, setShowError] = useState(false);
   const [values, setValues] = useState<RegisterValueType>({
     agent_id: user?.id,

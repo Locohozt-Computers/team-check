@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 import jwtDecode from "jwt-decode";
 import {
   ChangePasswordType,
@@ -71,6 +71,8 @@ export const AuthContext = createContext<ContextType>({
   updateProfile: (profile: any, id: string) => {},
   dispatch: null,
 });
+
+export const useAuth = () => useContext(AuthContext);
 
 const AuthProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);

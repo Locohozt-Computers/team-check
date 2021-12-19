@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import ForgotPassword, { ResetType } from "components/Auth/ForgotPassword";
 import { onSubmitActionType } from "components/Auth/SignIn";
-import { AuthContext } from "context/auth/AuthProvider";
+import { useAuth } from "context/auth/AuthProvider";
 import { errorNotify } from "utils/errorMessage";
 
 const ForgotPasswordPage: React.FC = () => {
-  const { forgotPasswordContext } = useContext(AuthContext);
+  const { forgotPasswordContext } = useAuth();
   const history = useHistory();
 
   const onSubmit = async (

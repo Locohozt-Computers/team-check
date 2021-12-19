@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useWindowSize } from "utils/useWindowResize";
 import layoutReducer from "./LayoutReducer";
 
@@ -9,7 +9,7 @@ export type InitialStateTypes = {
 
 const initialState = {
   isMobile: false,
-  avatarMenu: false
+  avatarMenu: false,
 };
 
 export const MOBILE_LAYOUT = "MOBILE_LAYOUT";
@@ -29,6 +29,8 @@ export const LayoutContext = createContext<ContextType>({
   closeAvatarMenu: () => {},
 });
 
+export const useLayout = () => useContext(LayoutContext);
+
 const LayoutProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(layoutReducer, initialState);
 
@@ -41,13 +43,12 @@ const LayoutProvider: React.FC = ({ children }) => {
   };
 
   const openAvatarMenu = () => {
-    dispatch({type: AVATAR_LAYOUT, payload: true})
-  }
+    dispatch({ type: AVATAR_LAYOUT, payload: true });
+  };
 
   const closeAvatarMenu = () => {
-    dispatch({type: AVATAR_LAYOUT, payload: false})
-  }
-
+    dispatch({ type: AVATAR_LAYOUT, payload: false });
+  };
 
   useEffect(() => {
     isMobileLayout();
@@ -58,7 +59,7 @@ const LayoutProvider: React.FC = ({ children }) => {
     isMobile: state?.isMobile,
     avatarMenu: state.avatarMenu,
     openAvatarMenu,
-    closeAvatarMenu
+    closeAvatarMenu,
   };
   return (
     <LayoutContext.Provider value={values}>{children}</LayoutContext.Provider>

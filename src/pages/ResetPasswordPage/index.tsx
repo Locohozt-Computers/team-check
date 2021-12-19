@@ -1,12 +1,12 @@
+import React from "react";
+import { useHistory } from "react-router-dom";
 import ResetPassword, { ResetType } from "components/Auth/ResetPassword";
 import { onSubmitActionType } from "components/Auth/SignIn";
-import { AuthContext } from "context/auth/AuthProvider";
-import React, { useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useAuth } from "context/auth/AuthProvider";
 import { errorNotify } from "utils/errorMessage";
 
 const ResetPasswordPage = () => {
-  const { resetPasswordContext } = useContext(AuthContext);
+  const { resetPasswordContext } = useAuth();
   const history = useHistory();
 
   const onSubmit = async (

@@ -1,10 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import WalletComponent from "components/Wallet";
-import { AuthContext } from "context/auth/AuthProvider";
+import { useAuth } from "context/auth/AuthProvider";
 
 const WalletPage = () => {
-  const { profile } = useContext(AuthContext);
+  const { profile } = useAuth();
 
   return (
     <div>

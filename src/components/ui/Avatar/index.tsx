@@ -1,6 +1,5 @@
-import { AuthContext } from "context/auth/AuthProvider";
-import { LayoutContext } from "context/layout/LayoutProvider";
-import React, { useContext } from "react";
+import { useAuth } from "context/auth/AuthProvider";
+import { useLayout } from "context/layout/LayoutProvider";
 import { SignupUserType } from "types/authTypes";
 import { getInitialCharacter } from "utils/getInitialCharacter";
 import Dropdown from "../Dropdown";
@@ -12,9 +11,8 @@ type Props = {
 };
 
 const Avatar: React.FC<Props> = ({ user, menus }) => {
-  const { avatarMenu, openAvatarMenu, closeAvatarMenu } =
-    useContext(LayoutContext);
-  const { profile } = useContext(AuthContext);
+  const { avatarMenu, openAvatarMenu, closeAvatarMenu } = useLayout();
+  const { profile } = useAuth();
 
   console.log(user);
 

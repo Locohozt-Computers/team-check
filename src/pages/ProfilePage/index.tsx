@@ -1,9 +1,9 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import ChangePassword from "components/Auth/ChangePassword";
 import { onSubmitActionType } from "components/Auth/SignIn";
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
-import { AuthContext } from "context/auth/AuthProvider";
+import { useAuth } from "context/auth/AuthProvider";
 import { useHistory } from "react-router-dom";
 import { ChangePasswordType } from "types/authTypes";
 import { Container, First, Left, Profile, Right, Second, Image } from "./style";
@@ -12,8 +12,7 @@ import { singleUpload } from "utils/cloudinary/singleUpload";
 import UploadImage from "components/ui/Avatar/UploadImage";
 
 const ProfilePage = () => {
-  const { changePasswordContext, profile, updateProfile } =
-    useContext(AuthContext);
+  const { changePasswordContext, profile, updateProfile } = useAuth();
   const history = useHistory();
 
   const user: any = localStorage.getItem("techCheckPoint");

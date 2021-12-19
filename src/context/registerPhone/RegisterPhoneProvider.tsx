@@ -3,7 +3,7 @@ import { DType } from "components/ui/CustomDropdown";
 import { RegisterValueType } from "pages/RegisteredPhonesPage/RegisterPhoneFormPage";
 import { createHttp, deleteHttp, getHttp } from "utils/api/createHttp";
 import registerPhoneReducer from "./RegisterPhoneReducer";
-import { AuthContext } from "context/auth/AuthProvider";
+import { useAuth } from "context/auth/AuthProvider";
 
 export type InitialStateTypes = {
   all_categories: DType[];
@@ -163,6 +163,8 @@ export const RegisterPhoneContext = createContext<ContextType>({
   renewWarranty: (payload: any) => {},
 });
 
+export const useRegisterPhone = () => useContext(RegisterPhoneContext);
+
 const RegisterPhoneProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(registerPhoneReducer, initialState);
 
@@ -181,9 +183,7 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
         os: category?.os,
       }));
       dispatch({ type: ALL_CATEGORIES, payload: categories });
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const getBrands = async () => {
@@ -428,7 +428,7 @@ const RegisterPhoneProvider: React.FC = ({ children }) => {
     }
   };
 
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (user?.user_type === "USER") {

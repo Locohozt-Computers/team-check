@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Col, Row } from "antd";
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
 import { useHistory, useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { useContext } from "react";
-import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvider";
+import { useRegisterPhone } from "context/registerPhone/RegisterPhoneProvider";
 import { formatPrice } from "utils/formatPrice";
 import CustomButton from "components/ui/CustomButton";
 import Loader from "components/ui/Loader";
 import CustomModalUI from "components/ui/CustomModal";
 import { SelectCards, SelectActions, SelectCard } from "components/Wallet";
 import SubscriptionPlan from "./SubscriptionPlan";
-import { AuthContext } from "context/auth/AuthProvider";
+import { useAuth } from "context/auth/AuthProvider";
 import {
   ButtonStyle,
   PayStackChargeModalDiv,
@@ -45,7 +43,7 @@ const PhoneDetail = () => {
 
   const history = useHistory();
 
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const {
     device_detail,
     loading,
@@ -53,7 +51,7 @@ const PhoneDetail = () => {
     deleteRegisterPhone,
     subscribePhoneForAdvert,
     renewWarranty,
-  } = useContext(RegisterPhoneContext);
+  } = useRegisterPhone();
 
   useEffect(() => {
     getADevice(deviceId);

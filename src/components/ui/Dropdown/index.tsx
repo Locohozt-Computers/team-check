@@ -1,5 +1,5 @@
-import { LayoutContext } from "context/layout/LayoutProvider";
-import React, { FC, useContext } from "react";
+import { useLayout } from "context/layout/LayoutProvider";
+import React, { FC } from "react";
 import { useHistory } from "react-router";
 import { DropdownContainer } from "./style";
 
@@ -12,8 +12,7 @@ type Props = {
 };
 
 const Dropdown: FC<Props> = ({ menus = [] }) => {
-  const { closeAvatarMenu } =
-    useContext(LayoutContext);
+  const { closeAvatarMenu } = useLayout();
 
   const history = useHistory();
 

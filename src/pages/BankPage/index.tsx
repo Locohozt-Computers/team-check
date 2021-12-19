@@ -1,15 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import BankForm from "components/Bank/BankForm/BankForm";
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
 import { Container } from "./style";
 import BankDisplay from "components/Bank/BankDisplay/BankDisplay";
-import { WalletContext } from "context/wallet/WalletProvider";
+import { useWallet } from "context/wallet/WalletProvider";
 import { BankType } from "types/walletTypes";
-import { AuthContext } from "context/auth/AuthProvider";
+import { useAuth } from "context/auth/AuthProvider";
 
 const BankPage = () => {
-  const { profile, getProfile } = useContext(AuthContext);
-  const { addBank, displayBankDetails } = useContext(WalletContext);
+  const { profile, getProfile } = useAuth();
+  const { addBank, displayBankDetails } = useWallet();
 
   const [name, setName] = useState("");
 

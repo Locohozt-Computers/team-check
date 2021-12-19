@@ -1,10 +1,10 @@
+import React, { useEffect, useState } from "react";
 import {
-  AuthContext,
   logoutUserWhenTokenHasExpired,
+  useAuth,
 } from "context/auth/AuthProvider";
-import { LayoutContext } from "context/layout/LayoutProvider";
-import { WalletContext } from "context/wallet/WalletProvider";
-import React, { useContext, useEffect, useState } from "react";
+import { useLayout } from "context/layout/LayoutProvider";
+import { useWallet } from "context/wallet/WalletProvider";
 import Navbar from "../Navbar";
 import SideMenus from "../SidebarMenus";
 
@@ -12,10 +12,10 @@ import { Content, Dashboard, Sidebar, InnerContent } from "./style";
 
 const HomeLayout: React.FC = ({ children }) => {
   const [isCollapse, setIsCollapse] = useState(false);
-  const { isMobile } = useContext(LayoutContext);
+  const { isMobile } = useLayout();
 
-  const { user, getProfile, profile } = useContext(AuthContext);
-  const { getWalletBalance } = useContext(WalletContext);
+  const { user, getProfile, profile } = useAuth();
+  const { getWalletBalance } = useWallet();
 
   const isShowOrHideIconLabel = !!(isCollapse || isMobile);
 

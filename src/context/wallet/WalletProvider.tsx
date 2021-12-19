@@ -1,10 +1,7 @@
 import axios from "axios";
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { BankType, WalletType } from "types/walletTypes";
-import {
-  createHttp,
-  getHttp,
-} from "utils/api/createHttp";
+import { createHttp, getHttp } from "utils/api/createHttp";
 import { authErrorHandler } from "utils/CatchErrors";
 import { errorNotify, successNotify } from "utils/errorMessage";
 import walletReducer from "./Walletreducer";
@@ -62,6 +59,8 @@ export const WalletContext = createContext<ContextType>({
   displayBankDetails: (bank: any) => {},
 });
 
+export const useWallet = () => useContext(WalletContext);
+
 const WalletProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(walletReducer, initialState);
 
@@ -75,7 +74,7 @@ const WalletProvider: React.FC = ({ children }) => {
           nextUrl: data?.next_page_url,
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       throw error;
     }
   };
@@ -93,7 +92,7 @@ const WalletProvider: React.FC = ({ children }) => {
           },
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       throw error;
     }
   };
@@ -103,7 +102,7 @@ const WalletProvider: React.FC = ({ children }) => {
       const data = await createHttp("/wallet/fund", wallet);
       successNotify("Your wallet transfer was successful");
       dispatch({ type: FUND_WALLET, payload: data });
-    } catch (error) {
+    } catch (error: any) {
       if (!error?.response) {
         errorNotify("Network went wrong!!!");
       }
@@ -118,7 +117,7 @@ const WalletProvider: React.FC = ({ children }) => {
       });
       successNotify("Your bank transfer was successful");
       dispatch({ type: WALLET_TRANSFER_TO_BANK, payload: data });
-    } catch (error) {
+    } catch (error: any) {
       if (!error?.response) {
         errorNotify("Network went wrong!!!");
       }
@@ -133,7 +132,7 @@ const WalletProvider: React.FC = ({ children }) => {
     try {
       const data = await createHttp("/wallet/transfer-to-wallet", wallet);
       dispatch({ type: WALLET_TRANSFER_TO_WALLET, payload: data });
-    } catch (error) {
+    } catch (error: any) {
       if (!error?.response) {
         errorNotify("Network went wrong!!!");
       }
@@ -155,7 +154,7 @@ const WalletProvider: React.FC = ({ children }) => {
       dispatch({ type: ADD_BANK, payload: response?.data?.data });
       successNotify("Bank added successfully!!");
       return response?.data?.data;
-    } catch (error) {
+    } catch (error: any) {
       if (!error?.response) {
         errorNotify("Network went wrong!!!");
       }

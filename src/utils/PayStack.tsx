@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { AuthContext } from "context/auth/AuthProvider";
+import React, { useState } from "react";
+import { useAuth } from "context/auth/AuthProvider";
 import { usePaystackPayment } from "react-paystack";
 import styled from "styled-components";
 
@@ -38,11 +38,11 @@ const PayStack = ({
   label,
   onClick,
   charges,
-  userId
+  userId,
 }: PProps) => {
   const [ref, setRef] = useState(new Date().getTime());
 
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const config: any = {
     reference: ref,
@@ -54,7 +54,7 @@ const PayStack = ({
       description,
       trans_type,
       charges,
-      amount
+      amount,
     },
   };
 

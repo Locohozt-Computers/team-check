@@ -1,18 +1,12 @@
-import React, {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useState,
-} from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 
 import CustomModalUI from "components/ui/CustomModal";
 import Loader from "components/ui/Loader";
 import { formatPrice } from "utils/formatPrice";
 import CustomButton from "components/ui/CustomButton";
-import { WalletContext } from "context/wallet/WalletProvider";
-import { AuthContext } from "context/auth/AuthProvider";
+import { useWallet } from "context/wallet/WalletProvider";
+import { useAuth } from "context/auth/AuthProvider";
 
 type Props = {
   setShowTransferToWallet: Dispatch<SetStateAction<boolean>>;
@@ -27,9 +21,8 @@ const TransferToWallet: React.FC<Props> = ({
   setAmount: setStateAmount,
   amount: stateAmount,
 }) => {
-  const { walletTransferToWallet, removeFromWalletBalance } =
-    useContext(WalletContext);
-  const { profile } = useContext(AuthContext);
+  const { walletTransferToWallet, removeFromWalletBalance } = useWallet();
+  const { profile } = useAuth();
 
   const [amount, setAmount] = useState<number>(0);
   const [email, setEmail] = useState("");
