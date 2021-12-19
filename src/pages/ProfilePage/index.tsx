@@ -7,7 +7,9 @@ import { AuthContext } from "context/auth/AuthProvider";
 import { useHistory } from "react-router-dom";
 import { ChangePasswordType } from "types/authTypes";
 import { Container, First, Left, Profile, Right, Second, Image } from "./style";
-import avatar from "assets/images/unisex.jpeg";
+import { errorNotify } from "utils/errorMessage";
+import { singleUpload } from "utils/cloudinary/singleUpload";
+import UploadImage from "components/ui/Avatar/UploadImage";
 
 const ProfilePage = () => {
   const { changePasswordContext, profile, updateProfile } =
@@ -26,6 +28,8 @@ const ProfilePage = () => {
     telephone: "",
   });
 
+  const [image, setImage] = useState("");
+  const [imgLoading, setImgLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [enable, setEnable] = useState(false);
 
@@ -78,6 +82,22 @@ const ProfilePage = () => {
     setEnable(true);
   };
 
+  const handleUpload = async ({
+    target: { files },
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    const file = files?.[0];
+    try {
+      setImgLoading(true);
+      const imageUrl = await singleUpload(file);
+      await updateProfile({ profile_image_url: imageUrl }, profileId);
+      setImage(imageUrl);
+      setImgLoading(false);
+    } catch (error) {
+      setImgLoading(false);
+      errorNotify("Something went wrong, try again");
+    }
+  };
+
   const handleUpdate = useCallback(async () => {
     setLoading(true);
     await updateProfile(values, profileId);
@@ -92,7 +112,11 @@ const ProfilePage = () => {
       <Container>
         <Left>
           <Image>
-            <img src={avatar} alt="avatar" width="70%" />
+            <UploadImage
+              onChange={handleUpload}
+              imageUrl={image ? image : profile?.profile_image_url ?? ""}
+              loading={imgLoading}
+            />
           </Image>
           <Profile>
             <h1>My Profile</h1>

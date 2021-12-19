@@ -3,6 +3,7 @@ import { onSubmitActionType } from "components/Auth/SignIn";
 import { AuthContext } from "context/auth/AuthProvider";
 import React, { useContext } from "react";
 import { useHistory } from "react-router-dom";
+import { errorNotify } from "utils/errorMessage";
 
 const ResetPasswordPage = () => {
   const { resetPasswordContext } = useContext(AuthContext);
@@ -18,6 +19,7 @@ const ResetPasswordPage = () => {
       history.push("/auth/signin");
       setSubmitting(false);
     } catch (error) {
+      errorNotify("something went wrong, try again");
       setSubmitting(false);
       setErrors(error);
     }

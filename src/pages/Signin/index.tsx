@@ -6,9 +6,11 @@ import * as Yup from "yup";
 import SignInComponent, { onSubmitActionType } from "components/Auth/SignIn";
 import { AuthContext } from "context/auth/AuthProvider";
 import { SigninUserType } from "types/authTypes";
+import { errorNotify } from "utils/errorMessage";
 
 const SignInPage = () => {
-  const { signInUserContext } = useContext(AuthContext);
+  const { signInUserContext, signInUserGoogleContext } =
+    useContext(AuthContext);
   const history = useHistory();
 
   const onSubmit = async (
@@ -23,6 +25,16 @@ const SignInPage = () => {
     } catch (error) {
       setSubmitting(false);
       setErrors(error);
+    }
+  };
+
+  const googleSignIn = async () => {
+    try {
+      await signInUserGoogleContext();
+      // window.location.href = "/home";
+    } catch (error: any) {
+      console.log(error);
+      errorNotify("Something went wrong, try again");
     }
   };
 
@@ -61,6 +73,7 @@ const SignInPage = () => {
         handleChange={handleChange}
         handleBlur={handleBlur}
         getFieldProps={getFieldProps}
+        googleSignIn={googleSignIn}
       />
     </div>
   );

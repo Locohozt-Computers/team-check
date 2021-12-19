@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import ForgotPassword, { ResetType } from "components/Auth/ForgotPassword";
 import { onSubmitActionType } from "components/Auth/SignIn";
 import { AuthContext } from "context/auth/AuthProvider";
+import { errorNotify } from "utils/errorMessage";
 
 const ForgotPasswordPage: React.FC = () => {
   const { forgotPasswordContext } = useContext(AuthContext);
@@ -21,6 +22,7 @@ const ForgotPasswordPage: React.FC = () => {
       history.push("/auth/emailverification");
       setSubmitting(false);
     } catch (error) {
+      errorNotify("something went wrong, try again");
       setSubmitting(false);
       setErrors(error);
     }

@@ -22,6 +22,7 @@ type Props = {
   handleBlur: (e: React.ChangeEvent<HTMLInputElement> | undefined) => void;
   isSubmitting: boolean;
   getFieldProps: (nameOrOptions: any) => FieldInputProps<any>;
+  googleSignIn: () => Promise<void>;
   history: History;
 };
 
@@ -37,6 +38,7 @@ const SignInComponent: React.FC<Props> = ({
   handleBlur,
   handleChange,
   handleSubmit,
+  googleSignIn,
 }) => {
   return (
     <Container>
@@ -96,7 +98,7 @@ const SignInComponent: React.FC<Props> = ({
         </div>
         <AuthButton
           label="Continue With Google"
-          onClick={() => {}}
+          onClick={googleSignIn}
           style={{ marginTop: 20 }}
         />
       </Form>

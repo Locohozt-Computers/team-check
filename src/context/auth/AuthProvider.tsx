@@ -12,6 +12,7 @@ import { createHttp, getHttp, updateHttp } from "utils/api/createHttp";
 import { authErrorHandler, logoutUnauthorizeUser } from "utils/CatchErrors";
 import { errorNotify } from "utils/errorMessage";
 import authReducer from "./Authreducer";
+import { auth } from "firebase/firebase";
 
 let user: any = localStorage.getItem("techCheckPoint");
 user = JSON.parse(user);
@@ -56,6 +57,8 @@ type ContextType = {
   resetPasswordContext: (reset: ResetType) => void;
   getProfile: (profile_id: string) => void;
   updateProfile: (profile: any, id: string) => void;
+  signInUserGoogleContext: () => void;
+  dispatch: any;
 };
 
 export const AuthContext = createContext<ContextType>({
@@ -68,6 +71,8 @@ export const AuthContext = createContext<ContextType>({
   resetPasswordContext: (reset: ResetType) => {},
   getProfile: (profile_id: string) => {},
   updateProfile: (profile: any, id: string) => {},
+  signInUserGoogleContext: () => {},
+  dispatch: null,
 });
 
 const AuthProvider: React.FC = ({ children }) => {
@@ -83,6 +88,19 @@ const AuthProvider: React.FC = ({ children }) => {
         errorNotify("Network went wrong!!!");
       }
       authErrorHandler(error);
+    }
+  };
+
+  const signInUserGoogleContext = async () => {
+    try {
+      const data = await auth.signInWithGoogle();
+      console.log(data);
+      // window.location.href = "/home";
+      // localStorage.setItem("techCheckPoint", JSON.stringify({ ...data }));
+      // dispatch({ type: SIGNIN, payload: data });
+    } catch (error: any) {
+      throw error;
+      // authErrorHandler(error);
     }
   };
 
@@ -185,8 +203,10 @@ const AuthProvider: React.FC = ({ children }) => {
     forgotPasswordContext,
     changePasswordContext,
     resetPasswordContext,
+    signInUserGoogleContext,
     getProfile,
     updateProfile,
+    dispatch,
   };
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
 };

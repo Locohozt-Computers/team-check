@@ -101,6 +101,10 @@ export const authErrorHandler = <T>(error: T | any) => {
       errorNotify(error?.response?.data?.errors?.new_password[0]);
       return;
     }
+    if (errorsName.includes("password")) {
+      errorNotify(error?.response?.data?.errors?.password[0]);
+      return;
+    }
     if (errorsName.includes("date_of_birth")) {
       errorNotify(error?.response?.data?.errors?.date_of_birth[0]);
       return;
