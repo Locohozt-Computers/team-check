@@ -4,13 +4,14 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import SignInComponent, { onSubmitActionType } from "components/Auth/SignIn";
-import { AuthContext } from "context/auth/AuthProvider";
+import { AuthContext, SIGNIN } from "context/auth/AuthProvider";
 import { SigninUserType } from "types/authTypes";
 import { errorNotify } from "utils/errorMessage";
+import { signInWithGoogle } from "firebase/firebase";
+import { googleResponse } from "utils/googleResponse";
 
 const SignInPage = () => {
-  const { signInUserContext, signInUserGoogleContext } =
-    useContext(AuthContext);
+  const { signInUserContext, dispatch } = useContext(AuthContext);
   const history = useHistory();
 
   const onSubmit = async (
@@ -30,8 +31,13 @@ const SignInPage = () => {
 
   const googleSignIn = async () => {
     try {
-      await signInUserGoogleContext();
-      // window.location.href = "/home";
+      const response = await signInWithGoogle();
+      localStorage.setItem(
+        "techCheckPoint",
+        JSON.stringify({ ...googleResponse(response).user })
+      );
+      dispatch({ type: SIGNIN, payload: googleResponse(response) });
+      window.location.href = "/home";
     } catch (error: any) {
       console.log(error);
       errorNotify("Something went wrong, try again");

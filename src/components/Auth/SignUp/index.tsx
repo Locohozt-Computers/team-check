@@ -6,6 +6,7 @@ import CustomButton from "components/ui/CustomButton";
 import InputWithLabel from "components/ui/InputWithLabel";
 import { Container, Form, UserAgent } from "./style";
 import { ErrorLabel } from "../common/style";
+import AuthButton from "components/ui/AuthButton";
 
 type Props = {
   handleSubmit: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
@@ -16,6 +17,7 @@ type Props = {
   handleBlur: (e: React.ChangeEvent<HTMLInputElement> | undefined) => void;
   isSubmitting: boolean;
   history: History;
+  googleSignIn: () => Promise<void>;
 };
 
 const SignUpComponent: FC<Props> = ({
@@ -27,6 +29,7 @@ const SignUpComponent: FC<Props> = ({
   handleBlur,
   handleChange,
   handleSubmit,
+  googleSignIn,
 }) => {
   return (
     <Container>
@@ -112,6 +115,11 @@ const SignUpComponent: FC<Props> = ({
             <span onClick={() => history.push("/auth/signin")}>Signin</span>
           </p>
         </div>
+        <AuthButton
+          label="Continue With Google"
+          onClick={googleSignIn}
+          style={{ marginTop: 20 }}
+        />
       </Form>
     </Container>
   );

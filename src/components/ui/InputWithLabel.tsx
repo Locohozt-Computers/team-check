@@ -66,7 +66,7 @@ const InputDiv = styled.div`
     border: 1px solid #dddddd;
     display: flex;
     align-items: center;
-    border-radius: 8px;
+    border-radius: 4px;
     overflow: hidden;
     width: 100%;
     padding: 0 10px;
@@ -86,7 +86,7 @@ const Input = styled.input`
   outline: none;
   border: none;
   width: 100%;
-  padding: 15px 0;
+  padding: 10px 0;
 `;
 
 export default InputWithLabel;

@@ -47,7 +47,7 @@ const BankPage = () => {
         account_name: "",
       });
       setName("");
-    } catch (error) {
+    } catch (error: any) {
       setForm({
         ...form,
         loading: false,

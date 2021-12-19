@@ -700,6 +700,7 @@ const RegisterPhoneForm: React.FC<Props> = ({
                   })
                 }
                 inputStyle={{ height: 16 }}
+                style={{ borderRadius: 4 }}
               />
               {!values.amount && (
                 <ErrorDiv

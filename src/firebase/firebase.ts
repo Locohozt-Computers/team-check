@@ -1,8 +1,8 @@
-import app from "firebase";
-import "firebase/storage";
-import "firebase/analytics";
-import "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import "firebase/auth";
+import { createHttp } from "utils/api/createHttp";
+import { googleResponse } from "utils/googleResponse";
 
 const apiKey = process.env.REACT_APP_API_KEY;
 const authDomain = process.env.REACT_APP_AUTH_DOMAIN;
@@ -11,7 +11,6 @@ const storageBucket = process.env.REACT_APP_STORAGE_BUCKET;
 const messagingSenderId = process.env.REACT_APP_MESSAGING_SENDER_ID;
 const appId = process.env.REACT_APP_APP_ID;
 const measurementId = process.env.REACT_APP_MEASUREMENT_ID;
-
 
 const firebaseConfig = {
   apiKey,
@@ -22,52 +21,30 @@ const firebaseConfig = {
   appId,
   measurementId,
 };
+// const firebaseConfig = {
+//   apiKey: "AIzaSyB0Jci_cwFOXwu8ZMZbHIN90E3L5KW8ddU",
+//   authDomain: "tech-point-phone.firebaseapp.com",
+//   projectId: "tech-point-phone",
+//   storageBucket: "tech-point-phone.appspot.com",
+//   messagingSenderId: "123586626638",
+//   appId: "1:123586626638:web:fb69f0b0a7b1d16c536f1f",
+//   measurementId: "G-N065XDRFMT",
+// };
 
-// Initialize Firebase
-app.initializeApp(firebaseConfig);
-if (!app.app.length) {
-  app.analytics();
-}
+const app = initializeApp(firebaseConfig);
 
-export const firebaseStorage = app.storage();
-export const galleryFirestore = app.firestore();
+const auth = getAuth(app);
 
-class FirebaseAuth {
-  auth: any;
-  constructor() {
-    this.auth = app.auth();
-  }
-  
-  async signInWithGoogle() {
-    const googleProvider = new app.auth.GoogleAuthProvider();
-    const details: any = await app.auth().signInWithPopup(googleProvider);
-    
-    return details;
-  }
-  async signInWithTwitter() {
-    const twitterProvider = new app.auth.TwitterAuthProvider();
-    const details: any = await app.auth().signInWithPopup(twitterProvider);
+export const signInWithGoogle = async () => {
+  const googleProvider = new GoogleAuthProvider();
+  const details: any = await signInWithPopup(auth, googleProvider);
 
-    let data = {
-      ...details?.additionalUserInfo?.profile,
-      email: details?.user?.email,
-      emailVerified: details?.user?.emailVerified,
-      username: details?.additionalUserInfo?.username,
-      phoneNumber: details?.user?.phoneNumber,
-    };
+  await createHttp("/register", {
+    ...googleResponse(details).user,
+    password_confirmation: "Abcde12345!",
+    password: "Abcde12345!",
+    provider: "google",
+  });
 
-    return data;
-    // return details?.additionalUserInfo?.profile
-  }
-
-  async facebookSignout() {
-    await app.auth().signOut();
-    sessionStorage.removeItem("hahyvToken");
-    sessionStorage.removeItem("hahyvUser");
-  }
-}
-
-export const firebaseAnalytics = app.analytics();
-export const auth = new FirebaseAuth();
-
-// export auth;
+  return details;
+};

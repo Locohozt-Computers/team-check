@@ -19,6 +19,8 @@ const ProfilePage = () => {
   const user: any = localStorage.getItem("techCheckPoint");
   const profileId = JSON.parse(user).profile_id;
 
+  console.log(profile);
+
   const [values, setValues] = useState({
     username: "",
     email: "",

@@ -26,7 +26,6 @@ export const Detail = styled.div`
   min-height: 400px;
   background: white;
   border-radius: 8px;
-  padding: 40px;
 
   h1 {
     margin-bottom: 30px;

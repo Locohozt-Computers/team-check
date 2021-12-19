@@ -7,6 +7,7 @@ export const Container = styled.div`
   background-color: white;
   height: 84vh;
   overflow-y: auto;
+  align-items: center;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;

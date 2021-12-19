@@ -53,6 +53,7 @@ export const Second = styled.div``;
 export const Image = styled.div`
   height: 300px;
   text-align: center;
+  overflow: hidden;
 `;
 export const Profile = styled.div`
   padding: 40px;

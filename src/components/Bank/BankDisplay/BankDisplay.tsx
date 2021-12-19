@@ -56,7 +56,7 @@ const BankDisplay: React.FC<{
             </p>
           </>
         ) : (
-          <p>No date to display, please add a bank</p>
+          <p>No data to display, please add a bank</p>
         )}
       </Detail>
     </Container>

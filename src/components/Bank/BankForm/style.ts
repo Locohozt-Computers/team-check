@@ -6,6 +6,8 @@ export const Container = styled.div`
   padding: 16px;
   overflow-y: auto;
   background-color: white;
+  /* display: flex;
+  align-items: center; */
 
   h1 {
     margin-bottom: 5px;
