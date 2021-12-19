@@ -11,6 +11,7 @@ import { onSubmitActionType } from "components/Auth/SignIn";
 import { signInWithGoogle } from "firebase/firebase";
 import { googleResponse } from "utils/googleResponse";
 import { errorNotify } from "utils/errorMessage";
+import { authErrorHandler } from "utils/CatchErrors";
 
 const SignUpPage = () => {
   const { signUpUserContext, dispatch } = useContext(AuthContext);
@@ -54,7 +55,8 @@ const SignUpPage = () => {
       window.location.href = "/home";
     } catch (error: any) {
       console.log(error);
-      errorNotify("Something went wrong, try again");
+      authErrorHandler(error);
+      // errorNotify("Something went wrong, try again");
     }
   };
 

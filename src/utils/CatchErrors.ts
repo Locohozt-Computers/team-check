@@ -41,6 +41,10 @@ export const authErrorHandler = <T>(error: T | any) => {
       errorNotify(error?.response?.data?.errors?.name[0]);
       return;
     }
+    if (errorsName.includes("email")) {
+      errorNotify(error?.response?.data?.errors?.email[0]);
+      return;
+    }
     if (errorsName.includes("battery")) {
       errorNotify(error?.response?.data?.errors?.battery[0]);
       return;
