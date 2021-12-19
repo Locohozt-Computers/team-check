@@ -10,7 +10,7 @@ export const MenuName = styled.div`
   display: flex;
   align-items: center;
   font-size: 20px;
-  padding-left: 15%;
+  padding-left: 10%;
 
   .profile {
     display: flex;

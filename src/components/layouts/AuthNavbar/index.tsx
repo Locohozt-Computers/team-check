@@ -10,6 +10,7 @@ import Avatar from "components/ui/Avatar";
 import { menus } from "utils/data/menus";
 import { MenuName, Menus, NavbarLink, NavbarMenu } from "./style";
 import { useHistory } from "react-router-dom";
+import Logo from "components/ui/Logo";
 
 const AuthNavbar = () => {
   let user: any = localStorage.getItem("techCheckPoint");
@@ -26,9 +27,10 @@ const AuthNavbar = () => {
   return (
     <NavbarMenu>
       <MenuName>
-        <span className="blue">Tech</span>
+        {/* <span className="blue">Tech</span>
         <span className="red">Check</span>
-        <span className="yellow">Point</span>
+        <span className="yellow">Point</span> */}
+        <Logo />
       </MenuName>
       <div>
         {token ? (
