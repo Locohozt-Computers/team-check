@@ -21,15 +21,6 @@ const firebaseConfig = {
   appId,
   measurementId,
 };
-// const firebaseConfig = {
-//   apiKey: "AIzaSyB0Jci_cwFOXwu8ZMZbHIN90E3L5KW8ddU",
-//   authDomain: "tech-point-phone.firebaseapp.com",
-//   projectId: "tech-point-phone",
-//   storageBucket: "tech-point-phone.appspot.com",
-//   messagingSenderId: "123586626638",
-//   appId: "1:123586626638:web:fb69f0b0a7b1d16c536f1f",
-//   measurementId: "G-N065XDRFMT",
-// };
 
 const app = initializeApp(firebaseConfig);
 
