@@ -71,6 +71,7 @@ const SignInComponent: React.FC<Props> = ({
           onBlur={handleBlur}
           name="password"
           value={values.password}
+          isShowPassword={true}
           style={{
             marginBottom: 30,
           }}

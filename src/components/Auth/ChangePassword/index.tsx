@@ -21,7 +21,6 @@ type Props = {
 };
 
 const ChangePassword: React.FC<Props> = ({ onSubmit }) => {
-
   const validate = (values: Partial<ChangePasswordType>) => {
     const errors: Partial<ChangePasswordType> = {};
 
@@ -50,7 +49,7 @@ const ChangePassword: React.FC<Props> = ({ onSubmit }) => {
       current_password: Yup.string().min(4).required(),
       new_password: Yup.string().min(4).required(),
     }),
-    validate
+    validate,
   });
 
   return (
@@ -58,7 +57,11 @@ const ChangePassword: React.FC<Props> = ({ onSubmit }) => {
       <Form onSubmit={handleSubmit}>
         <h1>Change Password</h1>
         <ErrorLabel textAlign="center">
-          {typeof errors === "string" ? errors ? errors : "Something went wrong" : null}
+          {typeof errors === "string"
+            ? errors
+              ? errors
+              : "Something went wrong"
+            : null}
         </ErrorLabel>
         <InputWithLabel
           placeholder="Current Password"
@@ -69,6 +72,7 @@ const ChangePassword: React.FC<Props> = ({ onSubmit }) => {
           name="current_password"
           error={touched && errors.current_password}
           value={values.current_password}
+          isShowPassword={true}
           style={{
             marginBottom: 30,
           }}
@@ -82,6 +86,7 @@ const ChangePassword: React.FC<Props> = ({ onSubmit }) => {
           name="new_password"
           error={touched && errors.new_password}
           value={values.new_password}
+          isShowPassword={true}
           style={{
             marginBottom: 30,
           }}

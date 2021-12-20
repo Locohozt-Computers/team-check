@@ -59,7 +59,7 @@ const ResetPassword: React.FC<Props> = ({ onSubmit }) => {
       password_confirmation: Yup.string().min(4).required(),
       token: Yup.string().required(),
     }),
-    validate
+    validate,
   });
 
   return (
@@ -78,6 +78,7 @@ const ResetPassword: React.FC<Props> = ({ onSubmit }) => {
           name="password"
           error={touched && errors.password}
           value={values.password}
+          isShowPassword={true}
           style={{
             marginBottom: 30,
           }}
@@ -91,6 +92,7 @@ const ResetPassword: React.FC<Props> = ({ onSubmit }) => {
           name="password_confirmation"
           error={touched && errors.password_confirmation}
           value={values.password_confirmation}
+          isShowPassword={true}
           style={{
             marginBottom: 30,
           }}

@@ -65,6 +65,7 @@ const SignUpComponent: FC<Props> = ({
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.password}
+          isShowPassword={true}
           style={{
             marginBottom: 30,
           }}
@@ -78,6 +79,7 @@ const SignUpComponent: FC<Props> = ({
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.password_confirmation}
+          isShowPassword={true}
           style={{
             marginBottom: 30,
           }}

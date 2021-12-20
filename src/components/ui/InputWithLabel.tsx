@@ -1,5 +1,5 @@
 import { ErrorLabel } from "components/Auth/common/style";
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, useState } from "react";
 import styled from "styled-components";
 
 type Props = {
@@ -15,6 +15,7 @@ type Props = {
   inputStyle?: CSSProperties;
   noLabel?: boolean | undefined;
   showIcon?: boolean | undefined;
+  isShowPassword?: boolean;
   disabled?: boolean;
   required?: boolean;
 };
@@ -34,7 +35,10 @@ const InputWithLabel: React.FC<Props> = ({
   showIcon,
   disabled,
   required,
+  isShowPassword,
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <InputDiv style={style}>
       {noLabel ? null : (
@@ -45,7 +49,7 @@ const InputWithLabel: React.FC<Props> = ({
       <div className="input" style={inputStyle}>
         {showIcon && <i className="fas fa-search"></i>}
         <Input
-          type={type}
+          type={showPassword ? "text" : type}
           id={name}
           value={value}
           name={name}
@@ -55,6 +59,19 @@ const InputWithLabel: React.FC<Props> = ({
           data-testid="input"
           disabled={disabled}
         />
+        {isShowPassword ? (
+          !showPassword ? (
+            <i
+              className="fas fa-eye eye"
+              onClick={() => setShowPassword(!showPassword)}
+            ></i>
+          ) : (
+            <i
+              className="fas fa-eye-slash eye"
+              onClick={() => setShowPassword(!showPassword)}
+            ></i>
+          )
+        ) : null}
       </div>
       <ErrorLabel htmlFor="input">{error}</ErrorLabel>
     </InputDiv>
@@ -74,6 +91,11 @@ const InputDiv = styled.div`
     .fa-search {
       color: #aaaaaa;
       margin-right: 10px;
+    }
+
+    .eye {
+      color: #777777;
+      cursor: pointer;
     }
   }
 `;
