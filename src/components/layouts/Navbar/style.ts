@@ -46,6 +46,7 @@ export const MenuName = styled.div`
   align-items: center;
   font-size: 20px;
   padding-left: 10%;
+  cursor: pointer;
 
   @media (max-width: 768px) {
     height: 6vh;

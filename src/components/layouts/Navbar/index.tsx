@@ -36,7 +36,7 @@ const Navbar: React.FC<Props> = ({
   return (
     <Container>
       <Flex isCollapse={isCollapse}>
-        <MenuName>
+        <MenuName onClick={() => history.push('/')}>
           <Logo />
         </MenuName>
         {!isMobile ? (
