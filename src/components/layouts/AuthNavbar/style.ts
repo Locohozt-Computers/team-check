@@ -5,7 +5,7 @@ export const NavbarMenu = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 5%;
+  padding: 0 15px;
   border-bottom: 1px solid #eeeeee;
 
   .btn-secondary {
@@ -22,7 +22,7 @@ export const NavbarMenu = styled.div`
 export const MenuName = styled.h3`
   margin: 0;
   color: #121217;
-  padding: 20px 0;
+  padding: 10px 0;
 
   .blue {
     color: blue;

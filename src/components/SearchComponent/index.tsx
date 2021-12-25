@@ -1,84 +1,65 @@
-import React, { useContext, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
+import { Col } from "antd";
+
 import AuthNavbar from "components/layouts/AuthNavbar";
-import CustomButton from "components/ui/CustomButton";
+// import CustomButton from "components/ui/CustomButton";
 import InputWithLabel from "components/ui/InputWithLabel";
-import { Container, Content, PhonesAdvertStyle } from "./style";
-import { Col, Row } from "antd";
+import { Container, Content, PhonesAdvertStyle, SearchStyle, SearchButton } from "./style";
 import PhoneAdvert from "components/PhoneAdvert";
-import { RegisterPhoneContext } from "context/registerPhone/RegisterPhoneProvider";
-import { errorNotify } from "utils/errorMessage";
 import CustomModalUI from "components/ui/CustomModal";
 import { SelectCards, SelectActions, SelectCard } from "components/Wallet";
 import PhoneDetailComponent from "components/Home/PhoneDetailComponent";
 import Loader from "components/ui/Loader";
+import LandingComponent from "./LandingComponent";
 
-const SearchComponent = () => {
-  const { searchADevice, clearADevice, searchedPhones } =
-    useContext(RegisterPhoneContext);
+type Props = {
+  clearADevice: any;
+  searchedPhones: any;
+  value: string;
+  modal: boolean;
+  setModal: Dispatch<SetStateAction<boolean>>;
+  loading: boolean;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  searchPhone: () => Promise<void>;
+};
 
-  const [value, setValue] = useState("");
-  const [modal, setModal] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = ({
-    target: { value },
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(value);
-  };
-
-  const searchPhone = async () => {
-    try {
-      setModal(true);
-      setLoading(true);
-      await searchADevice(value);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      setModal(false);
-      errorNotify("Could not find phone");
-    }
-  };
-
+const SearchComponent: React.FC<Props> = ({
+  value,
+  modal,
+  setModal,
+  loading,
+  handleChange,
+  searchPhone,
+  searchedPhones,
+  clearADevice,
+}) => {
   return (
     <Container>
       <AuthNavbar />
-      <Row>
-        <Col xs={24} md={16}>
-          <Content>
-            <h2>
-              <span className="blue">Tech</span>
-              <span className="red">Check</span>
-              <span className="yellow">Point</span>
-            </h2>
-            <InputWithLabel
-              showIcon={true}
-              noLabel={true}
-              value={value}
-              onChange={handleChange}
-              placeholder="Search for a device..."
-              style={{ maxWidth: 600, width: "100%", marginBottom: 20 }}
-            />
-            <CustomButton
-              label="Search Device"
-              onClick={searchPhone}
-              style={{
-                width: 200,
-                border: "1px solid #dddddd",
-                borderRadius: 10,
-                background: "#177BFF",
-                color: 'white',
-                fontWeight: 900,
-                overflow: "hidden",
-              }}
-            />
-          </Content>
-        </Col>
-        <Col xs={24} md={8}>
-          <PhonesAdvertStyle>
-            <PhoneAdvert />
-          </PhonesAdvertStyle>
-        </Col>
-      </Row>
+      <LandingComponent>
+        <SearchStyle>
+          <Col xs={24} md={24}>
+            <Content>
+              <InputWithLabel
+                showIcon={true}
+                noLabel={true}
+                value={value}
+                onChange={handleChange}
+                placeholder="Search for a device..."
+                style={{ width: "100%", background: "white" }}
+              />
+              <SearchButton onClick={searchPhone}>
+                <i className="fas fa-search"></i>
+              </SearchButton>
+            </Content>
+          </Col>
+        </SearchStyle>
+      </LandingComponent>
+      <Col xs={24} md={24}>
+        <PhonesAdvertStyle>
+          <PhoneAdvert />
+        </PhonesAdvertStyle>
+      </Col>
 
       <CustomModalUI
         visible={modal}

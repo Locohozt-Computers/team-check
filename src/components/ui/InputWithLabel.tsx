@@ -79,6 +79,9 @@ const InputWithLabel: React.FC<Props> = ({
 };
 
 const InputDiv = styled.div`
+  overflow: hidden;
+  border-radius: 4px;
+  
   .input {
     border: 1px solid #dddddd;
     display: flex;

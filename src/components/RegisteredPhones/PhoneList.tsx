@@ -4,6 +4,7 @@ import { formatDate } from "components/Wallet/TransactionList";
 import { formatPrice } from "utils/formatPrice";
 import { PhoneListStyle } from "./style";
 import { Badge } from "antd";
+import { truncateText } from "utils/truncateText";
 
 const PhoneList = ({
   phone,
@@ -44,7 +45,9 @@ const PhoneList = ({
             )}
           </div>
         </div>
-        <p style={{ margin: 0 }}>{phone?.phoneModel?.description}</p>
+        <p style={{ margin: 0 }}>
+          {truncateText(phone?.phoneModel?.description, 20)}
+        </p>
         <div className="tag">
           <Badge
             count={`${
