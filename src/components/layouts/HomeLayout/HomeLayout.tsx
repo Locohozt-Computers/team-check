@@ -17,7 +17,7 @@ const HomeLayout: React.FC = ({ children }) => {
   const { user, getProfile, profile } = useAuth();
   const { getWalletBalance } = useWallet();
 
-  const isShowOrHideIconLabel = !!(isCollapse || isMobile);
+  // const isShowOrHideIconLabel = !!(isCollapse || isMobile);
 
   useEffect(() => {
     getProfile(user?.profile_id ?? "");
@@ -29,17 +29,23 @@ const HomeLayout: React.FC = ({ children }) => {
   }, [profile?.walletBalance]);
 
   return (
-    <Dashboard isCollapse={isShowOrHideIconLabel}>
-      <Sidebar>
-        <SideMenus isCollapse={isCollapse} isMobile={isMobile} />
-      </Sidebar>
-      <Content>
-        <Navbar
-          isCollapse={isCollapse}
-          setIsCollapse={setIsCollapse}
-          isMobile={isMobile}
-          user={user}
-        />
+    <Dashboard>
+      <Navbar
+        isCollapse={isCollapse}
+        setIsCollapse={setIsCollapse}
+        isMobile={isMobile}
+        user={user}
+      />
+      <Content isCollapse={isCollapse} isMobile={isMobile}>
+        {!isCollapse ? (
+          <Sidebar>
+            <SideMenus isCollapse={isCollapse} isMobile={isMobile} />
+          </Sidebar>
+        ) : (
+          <Sidebar>
+            <SideMenus isCollapse={isCollapse} isMobile={isMobile} />
+          </Sidebar>
+        )}
         <InnerContent>{children}</InnerContent>
       </Content>
     </Dashboard>

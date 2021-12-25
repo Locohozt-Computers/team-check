@@ -2,12 +2,6 @@ import React from "react";
 
 import RegisteredPhones from "components/RegisteredPhones";
 
-const RegisteredPhonesPage = () => {
-  return (
-    <div>
-      <RegisteredPhones />
-    </div>
-  );
-};
+const RegisteredPhonesPage = () => <RegisteredPhones />;
 
 export default RegisteredPhonesPage;

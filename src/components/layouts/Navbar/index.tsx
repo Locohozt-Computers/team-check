@@ -7,11 +7,12 @@ import {
 } from "reactstrap";
 
 import HamBurger from "components/ui/HamBurger";
-import { Container } from "./style";
+import { Container, MenuName, Flex } from "./style";
 import { SignupUserType } from "types/authTypes";
 import Avatar from "components/ui/Avatar";
 import { menus } from "utils/data/menus";
 import { useHistory } from "react-router-dom";
+import Logo from "components/ui/Logo";
 
 type Props = {
   isCollapse: boolean;
@@ -34,11 +35,16 @@ const Navbar: React.FC<Props> = ({
 
   return (
     <Container>
-      {!isMobile ? (
-        <HamBurger isCollapse={isCollapse} setIsCollapse={setIsCollapse} />
-      ) : (
-        <div></div>
-      )}
+      <Flex isCollapse={isCollapse}>
+        <MenuName>
+          <Logo />
+        </MenuName>
+        {!isMobile ? (
+          <HamBurger isCollapse={isCollapse} setIsCollapse={setIsCollapse} />
+        ) : (
+          <div></div>
+        )}
+      </Flex>
       <div className="menu">
         <Dropdown isOpen={dropdownOpen} toggle={toggle}>
           <DropdownToggle>

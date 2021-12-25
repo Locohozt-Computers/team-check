@@ -136,7 +136,7 @@ const AllAgents = () => {
 };
 
 const Container = styled.div`
-  height: 90vh;
+  height: 100%;
   overflow-y: auto;
   padding-bottom: 40px;
 `;

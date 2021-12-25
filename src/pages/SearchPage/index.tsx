@@ -1,12 +1,6 @@
 import React from "react";
 import SearchComponent from "components/SearchComponent";
 
-const SearchPage = () => {
-  return (
-    <div>
-      <SearchComponent />
-    </div>
-  );
-};
+const SearchPage = () => <SearchComponent />;
 
 export default SearchPage;

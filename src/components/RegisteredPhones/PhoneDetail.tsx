@@ -545,7 +545,7 @@ const PhoneDetail = () => {
 };
 
 const Wrapper = styled.div`
-  height: 80vh;
+  height: 100%;
   background-color: white;
   overflow-y: auto;
 

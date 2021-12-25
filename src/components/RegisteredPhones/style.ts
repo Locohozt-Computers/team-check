@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  height: 84vh;
-  padding: 2% 5%;
+  height: 100%;
+  padding: 20px;
   overflow-y: auto;
   background-color: white;
 
@@ -21,7 +21,7 @@ export const Container = styled.div`
   }
 
   @media (max-width: 768px) {
-    height: 86vh;
+    height: 100%;
 
     .pr {
       padding-right: 0;

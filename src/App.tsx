@@ -29,125 +29,134 @@ import AllAgentsPage from "pages/AdminPage/AllAgentsPage";
 import InviteAdminPage from "pages/AdminPage/InviteAdminPage";
 import PhoneBrandPage from "pages/AdminPage/PhoneBrandPage";
 import PhoneModelPage from "pages/AdminPage/PhoneModelPage";
+import { ThemeProvider } from "styled-components";
+import { theme } from "assets/theme/theme";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={SearchPage} />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/home"
-          component={RegisteredPhonesPage}
-        />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/phones"
-          component={RegisteredPhonesPage}
-        />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/phones/registerphoneform"
-          component={RegisterPhoneFormPage}
-        />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/phones/phone-detail/:deviceId"
-          component={PhoneDetail}
-        />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/subscription-plans"
-          component={SubscriptionPlan}
-        />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/wallet"
-          component={WalletPage}
-        />
-        <PrivateRoute isAuth={true} exact path="/bank" component={BankPage} />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/user"
-          component={ProfilePage}
-        />
-        <PrivateRoute isAuth={true} exact path="/admin" component={AdminPage} />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/admin/setup/commission"
-          component={SetupCommissionPage}
-        />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/admin/setup/phone-brand"
-          component={PhoneBrandPage}
-        />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/admin/setup/phone-model"
-          component={PhoneModelPage}
-        />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/admin/setup/warrantyperiod"
-          component={SetupWarrantyPeriodPage}
-        />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/admin/setup/inviteadmin"
-          component={InviteAdminPage}
-        />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/admin/all-users"
-          component={AllUsersPage}
-        />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/admin/all-agents"
-          component={AllAgentsPage}
-        />
-        <PrivateRoute
-          isAuth={true}
-          exact
-          path="/admin/all-users"
-          component={AllUsersPage}
-        />
-        <Route exact path="/auth/signin" component={SignInPage} />
-        <Route exact path="/auth/signup" component={SignUpPage} />
-        <Route
-          exact
-          path="/auth/forgotpassword"
-          component={ForgotPasswordPage}
-        />
-        <Route
-          exact
-          path="/auth/emailverification"
-          component={EmailVerificationPage}
-        />
-        <Route exact path="/change-password" component={ResetPasswordPage} />
-        <Route>
-          <NotFound status={404} />
-        </Route>
-      </Switch>
-      <ToastContainer />
-    </Router>
+    <ThemeProvider theme={theme.light}>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={SearchPage} />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/home"
+            component={RegisteredPhonesPage}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/phones"
+            component={RegisterPhoneFormPage}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/phones/registerphoneform"
+            component={RegisterPhoneFormPage}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/phones/phone-detail/:deviceId"
+            component={PhoneDetail}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/subscription-plans"
+            component={SubscriptionPlan}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/wallet"
+            component={WalletPage}
+          />
+          <PrivateRoute isAuth={true} exact path="/bank" component={BankPage} />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/user"
+            component={ProfilePage}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/admin"
+            component={AdminPage}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/admin/setup/commission"
+            component={SetupCommissionPage}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/admin/setup/phone-brand"
+            component={PhoneBrandPage}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/admin/setup/phone-model"
+            component={PhoneModelPage}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/admin/setup/warrantyperiod"
+            component={SetupWarrantyPeriodPage}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/admin/setup/inviteadmin"
+            component={InviteAdminPage}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/admin/all-users"
+            component={AllUsersPage}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/admin/all-agents"
+            component={AllAgentsPage}
+          />
+          <PrivateRoute
+            isAuth={true}
+            exact
+            path="/admin/all-users"
+            component={AllUsersPage}
+          />
+          <Route exact path="/auth/signin" component={SignInPage} />
+          <Route exact path="/auth/signup" component={SignUpPage} />
+          <Route
+            exact
+            path="/auth/forgotpassword"
+            component={ForgotPasswordPage}
+          />
+          <Route
+            exact
+            path="/auth/emailverification"
+            component={EmailVerificationPage}
+          />
+          <Route exact path="/change-password" component={ResetPasswordPage} />
+          <Route>
+            <NotFound status={404} />
+          </Route>
+        </Switch>
+        <ToastContainer />
+      </Router>
+    </ThemeProvider>
   );
 }
 

@@ -65,6 +65,9 @@ const SearchComponent = () => {
                 width: 200,
                 border: "1px solid #dddddd",
                 borderRadius: 10,
+                background: "#177BFF",
+                color: 'white',
+                fontWeight: 900,
                 overflow: "hidden",
               }}
             />

@@ -5,11 +5,9 @@ export const Container = styled.div`
   width: 100%;
 `;
 export const Form = styled.form`
-  max-width: 500px;
   width: 100%;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   padding: 20px;
 
   h1 {

@@ -11,6 +11,7 @@ export const Content = styled.div`
   align-items: center;
   height: 90vh;
   padding: 0 10px;
+  background: ${({theme}) => theme.primary.background};
 
   @media(max-width: 766px) {
       height: 250px;

@@ -1,9 +1,7 @@
 import React, { FC } from "react";
-import { useHistory } from "react-router-dom";
 
 import { useAuth } from "context/auth/AuthProvider";
-import { Menus, MenuName, MenuLists, MenuList } from "./style";
-import Logo from "components/ui/Logo";
+import { Menus, MenuLists, MenuList } from "./style";
 
 type Props = {
   isCollapse?: boolean;
@@ -26,55 +24,12 @@ const ShowMenu = ({
 );
 
 const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
-  const history = useHistory();
-
   const { user } = useAuth();
-
-  const desktopMenuName = () => (
-    <div className="profile" onClick={() => history.push("/")}>
-      <Logo />
-    </div>
-  );
-  // const desktopMenuName = () => (
-  //   <div className="profile" onClick={() => history.push("/")}>
-  //     <span className="blue" onClick={() => history.push("/")}>
-  //       Tech
-  //     </span>
-  //     <span className="red" onClick={() => history.push("/")}>
-  //       Check
-  //     </span>
-  //     <span className="yellow" onClick={() => history.push("/")}>
-  //       Point
-  //     </span>
-  //   </div>
-  // );
-
-  const mobileMenuName = () => (
-    <div className="profile" onClick={() => history.push("/")}>
-      <Logo width={40} />
-    </div>
-  );
-  // const mobileMenuName = () => (
-  //   <div className="profile" onClick={() => history.push("/")}>
-  //     <span className="blue" onClick={() => history.push("/")}>
-  //       T
-  //     </span>
-  //     <span className="red" onClick={() => history.push("/")}>
-  //       C
-  //     </span>
-  //     <span className="yellow" onClick={() => history.push("/")}>
-  //       P
-  //     </span>
-  //   </div>
-  // );
 
   const isShowOrHideIconLabel = !!(isCollapse || isMobile);
 
   return (
     <Menus>
-      <MenuName>
-        {isShowOrHideIconLabel ? mobileMenuName() : desktopMenuName()}
-      </MenuName>
       <MenuLists isCollapse={isCollapse}>
         <MenuList isCollapse={isCollapse} to="/home" activeClassName="selected">
           <ShowMenu

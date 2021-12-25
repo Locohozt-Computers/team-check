@@ -18,7 +18,7 @@ const RegisteredPhones = () => {
     <HomeLayout>
       <Container>
         <Header>
-          <Title title="Register Phone" />
+          <Title title="Lists Of Phones" />
           {user?.user_type === "AGENT" && (
             <button onClick={() => history.push("/phones/registerphoneform")}>
               <i className="fas fa-plus"></i>

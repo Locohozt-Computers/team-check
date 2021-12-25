@@ -2,8 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100%;
-  height: 84vh;
-  padding: 2%;
+  height: 100%;
   padding-top: 0;
   overflow-y: auto;
   background-color: #f1f1f7;
@@ -30,7 +29,7 @@ export const Container = styled.div`
   }
 
   @media (max-width: 768px) {
-    height: 86vh;
+    height: 100%;
 
     .fund_btn {
       flex-direction: column;

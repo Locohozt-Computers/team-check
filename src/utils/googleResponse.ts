@@ -22,10 +22,10 @@ export const googleResponse = (data: any) => ({
     email: data?.user?.email,
     email_verified_at: data?._tokenResponse?.emailVerified,
     user_type: "USER",
-    role_id: 1,
+    role_id: 3,
     updated_at: data?.user?.reloadUserInfo?.createdAt,
   },
   user_id: 18,
   walletBalance: 0,
-  role_id: 1,
+  role_id: 3,
 });

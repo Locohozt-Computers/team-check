@@ -19,7 +19,7 @@ export const Container = styled.div`
   }
 
   @media (max-width: 768px) {
-    min-height: 66vh;
+    min-height: 500px;
   }
 `;
 
@@ -29,7 +29,7 @@ export const Form = styled.form`
   min-height: 400px;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); */
   padding: 40px;
 
   h1 {

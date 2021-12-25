@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 30px;
-  height: 84vh;
+  height: 100%;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -17,7 +17,8 @@ export const Left = styled.div`
   display: grid;
   grid-template-rows: 50% 50%;
   gap: 10px;
-  height: 83vh;
+  padding: 10px 0;
+  height: 100%;
   overflow-y: auto;
 
   @media (max-width: 768px) {
@@ -30,7 +31,7 @@ export const Right = styled.div`
   display: grid;
   grid-template-rows: 40% 60%;
   gap: 10px;
-  height: 84vh;
+  height: 100%;
   overflow-y: auto;
 
   @media (max-width: 768px) {
@@ -49,7 +50,9 @@ export const First = styled.div`
   background-color: white;
   border-radius: 8px;
 `;
-export const Second = styled.div``;
+export const Second = styled.div`
+  background: ${({ theme }) => theme.primary.background};
+`;
 export const Image = styled.div`
   height: 300px;
   text-align: center;

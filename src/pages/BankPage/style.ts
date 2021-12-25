@@ -5,7 +5,7 @@ export const Container = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 30px;
   background-color: white;
-  height: 84vh;
+  height: 100%;
   overflow-y: auto;
   align-items: center;
 

@@ -12,6 +12,10 @@ export const MenuName = styled.div`
   font-size: 20px;
   padding-left: 10%;
 
+  @media (max-width: 768px) {
+    height: 6vh;
+  }
+
   .profile {
     display: flex;
     align-items: center;
@@ -52,7 +56,7 @@ export const MenuLists = styled.div<{ isCollapse?: boolean }>`
   }
 `;
 export const MenuList = styled(NavLink)<{ isCollapse?: boolean }>`
-  padding: 15px 0;
+  padding: 10px 0;
   padding-left: ${({ isCollapse }) => (isCollapse ? "30%" : "15%")};
   text-decoration: none;
   color: #555555;

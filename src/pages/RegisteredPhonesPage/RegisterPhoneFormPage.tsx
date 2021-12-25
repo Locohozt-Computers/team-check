@@ -99,7 +99,7 @@ const RegisterPhoneFormPage = () => {
         reference: obj?.reference ?? "",
         trxref: obj?.trxref ?? "",
       });
-      history.push("/phones");
+      history.push("/home");
       successNotify("Successfully register a phone");
       setShowError(false);
     } catch (error: any) {

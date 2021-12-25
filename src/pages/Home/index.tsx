@@ -6,11 +6,7 @@ const HomePage = () => {
   const userFromLocalStorage: any = localStorage.getItem("techCheckPoint");
   const user = JSON.parse(userFromLocalStorage);
 
-  return (
-    <div>
-      <HomeComponent user={user} />
-    </div>
-  );
+  return <HomeComponent user={user} />;
 };
 
 export default HomePage;
