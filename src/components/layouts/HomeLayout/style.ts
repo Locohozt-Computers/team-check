@@ -37,4 +37,8 @@ export const InnerContent = styled.div`
   width: 100%;
   background: ${({ theme }) => theme && theme.primary.background2};
   margin: auto;
+
+  @media(max-width: 768px) {
+    padding: 5px;
+  }
 `;

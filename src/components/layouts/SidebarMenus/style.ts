@@ -42,11 +42,15 @@ export const MenuName = styled.div`
     color: orchid;
   }
 `;
-export const MenuLists = styled.div<{ isCollapse?: boolean }>`
+export const MenuLists = styled.div<{
+  isCollapse?: boolean;
+  isMobile?: boolean;
+}>`
   display: flex;
   flex-direction: column;
-  margin-top: 10%;
-  padding-left: ${({ isCollapse }) => (isCollapse ? "5px" : "15px")};
+  margin-top: 15%;
+  padding-left: ${({ isCollapse, isMobile }) =>
+    isCollapse || isMobile ? "5px" : "15px"};
 
   .selected {
     background-color: #f1f1f7;
@@ -54,10 +58,18 @@ export const MenuLists = styled.div<{ isCollapse?: boolean }>`
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
   }
+
+  @media (max-width: 768px) {
+    margin-top: 50%;
+  }
 `;
-export const MenuList = styled(NavLink)<{ isCollapse?: boolean }>`
+export const MenuList = styled(NavLink)<{
+  isCollapse?: boolean;
+  isMobile?: boolean;
+}>`
   padding: 10px 0;
-  padding-left: ${({ isCollapse }) => (isCollapse ? "30%" : "15%")};
+  padding-left: ${({ isCollapse, isMobile }) =>
+    isCollapse || isMobile ? "15px" : "15px"};
   text-decoration: none;
   color: #555555;
 

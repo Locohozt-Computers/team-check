@@ -10,7 +10,7 @@ export const Container = styled.div`
   padding-left: 0;
 
   @media (max-width: 768px) {
-    height: 6vh;
+    padding: 0 0;
   }
 
   .menu {
@@ -45,11 +45,11 @@ export const MenuName = styled.div`
   display: flex;
   align-items: center;
   font-size: 20px;
-  padding-left: 10%;
+  padding-left: 25px;
   cursor: pointer;
 
   @media (max-width: 768px) {
-    height: 6vh;
+    padding-left: 10px;
   }
 `;
 
@@ -58,5 +58,4 @@ export const Flex = styled.div<{ isCollapse?: boolean }>`
   align-items: center;
   justify-content: space-between;
   width: ${({ isCollapse }) => (isCollapse ? "110px" : "calc(250px + 40px)")};
-  /* width: calc(250px + 40px); */
 `;
