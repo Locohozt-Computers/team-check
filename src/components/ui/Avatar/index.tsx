@@ -14,8 +14,6 @@ const Avatar: React.FC<Props> = ({ user, menus }) => {
   const { avatarMenu, openAvatarMenu, closeAvatarMenu } = useLayout();
   const { profile } = useAuth();
 
-  console.log(user);
-
   const getInitials = getInitialCharacter(user);
 
   return (

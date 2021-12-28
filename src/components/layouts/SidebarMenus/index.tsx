@@ -2,6 +2,7 @@ import React, { FC } from "react";
 
 import { useAuth } from "context/auth/AuthProvider";
 import { Menus, MenuLists, MenuList } from "./style";
+import { menus } from "./data/menus";
 
 type Props = {
   isCollapse?: boolean;
@@ -31,7 +32,20 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
   return (
     <Menus>
       <MenuLists isCollapse={isCollapse} isMobile={isMobile}>
-        <MenuList isCollapse={isCollapse} to="/home" activeClassName="selected">
+        {menus.map((menu: any) => (
+          <MenuList
+            isCollapse={isCollapse}
+            to={menu.route}
+            activeClassName="selected"
+          >
+            <ShowMenu
+              isShowOrHideIconLabel={isShowOrHideIconLabel}
+              text={menu.text}
+              iconType="home"
+            />
+          </MenuList>
+        ))}
+        {/* <MenuList isCollapse={isCollapse} to="/home" activeClassName="selected">
           <ShowMenu
             isShowOrHideIconLabel={isShowOrHideIconLabel}
             text="Home"
@@ -67,24 +81,13 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
             iconType="wallet"
           />
         </MenuList>
-        {/* <MenuList
-          isCollapse={isCollapse}
-          to="/subscription-plans"
-          activeClassName="selected"
-        >
-          <ShowMenu
-            isShowOrHideIconLabel={isShowOrHideIconLabel}
-            text="Subscription Plans"
-            iconType="money-bill"
-          />
-        </MenuList> */}
         <MenuList isCollapse={isCollapse} to="/user" activeClassName="selected">
           <ShowMenu
             isShowOrHideIconLabel={isShowOrHideIconLabel}
             text="Profile"
             iconType="user"
           />
-        </MenuList>
+        </MenuList> */}
         {user.user_type?.toLocaleUpperCase() === "ADMIN" && (
           <MenuList
             isCollapse={isCollapse}

@@ -33,6 +33,7 @@ export const Section = styled.div`
     background: #39ac31;
     margin: 20px 0;
     display: inline-block;
+    cursor: pointer;
   }
   .contant_box_404 {
     margin-top: -50px;

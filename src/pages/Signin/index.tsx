@@ -9,10 +9,15 @@ import { SigninUserType } from "types/authTypes";
 import { errorNotify } from "utils/errorMessage";
 import { signInWithGoogle } from "firebase/firebase";
 import { googleResponse } from "utils/googleResponse";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "redux/store";
+import { signInUserAction } from "redux/slices/authSlice/action";
 
 const SignInPage = () => {
-  const { signInUserContext, dispatch } = useAuth();
+  const { dispatch: contextDispatch } = useAuth();
   const history = useHistory();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const onSubmit = async (
     values: SigninUserType,
@@ -20,7 +25,7 @@ const SignInPage = () => {
   ) => {
     try {
       setSubmitting(true);
-      await signInUserContext(values);
+      await dispatch(signInUserAction(values));
       window.location.href = "/home";
       setSubmitting(false);
     } catch (error) {
@@ -36,7 +41,7 @@ const SignInPage = () => {
         "techCheckPoint",
         JSON.stringify({ ...googleResponse(response).user })
       );
-      dispatch({ type: SIGNIN, payload: googleResponse(response) });
+      contextDispatch({ type: SIGNIN, payload: googleResponse(response) });
       window.location.href = "/home";
     } catch (error: any) {
       console.log(error);

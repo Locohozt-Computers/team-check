@@ -11,10 +11,15 @@ import { onSubmitActionType } from "components/Auth/SignIn";
 import { signInWithGoogle } from "firebase/firebase";
 import { googleResponse } from "utils/googleResponse";
 import { authErrorHandler } from "utils/CatchErrors";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "redux/store";
+import { signUpUserAction } from "redux/slices/authSlice/action";
 
 const SignUpPage = () => {
-  const { signUpUserContext, dispatch } = useAuth();
+  const { dispatch: contextDispatch } = useAuth();
   const history = useHistory();
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const onSubmit = async (
     values: SignupUserType,
@@ -34,7 +39,7 @@ const SignUpPage = () => {
 
     try {
       setSubmitting(true);
-      await signUpUserContext(finalValues);
+      await dispatch(signUpUserAction(finalValues));
       setSubmitting(false);
       history.push("/auth/emailverification");
     } catch (error) {
@@ -50,12 +55,10 @@ const SignUpPage = () => {
         "techCheckPoint",
         JSON.stringify({ ...googleResponse(response).user })
       );
-      dispatch({ type: SIGNIN, payload: googleResponse(response) });
+      contextDispatch({ type: SIGNIN, payload: googleResponse(response) });
       window.location.href = "/home";
     } catch (error: any) {
-      console.log(error);
       authErrorHandler(error);
-      // errorNotify("Something went wrong, try again");
     }
   };
 

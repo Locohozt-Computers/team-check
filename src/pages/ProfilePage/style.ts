@@ -47,7 +47,7 @@ export const Right = styled.div`
   }
 `;
 export const First = styled.div`
-  background-color: white;
+  background-color: ${({ theme }) => theme.primary.background};
   border-radius: 8px;
 `;
 export const Second = styled.div`
