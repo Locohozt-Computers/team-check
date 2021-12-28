@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
@@ -31,10 +31,24 @@ import PhoneBrandPage from "pages/AdminPage/PhoneBrandPage";
 import PhoneModelPage from "pages/AdminPage/PhoneModelPage";
 import { ThemeProvider } from "styled-components";
 import { theme } from "assets/theme/theme";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "redux/store";
+import { getProfileAction } from "redux/slices/authSlice/action";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
-function App() {
+let user: any = localStorage.getItem("techCheckPoint");
+user = JSON.parse(user);
+
+const App = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(getProfileAction(user?.profile_id));
+
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <ThemeProvider theme={theme.light}>
       <Router>
@@ -158,6 +172,6 @@ function App() {
       </Router>
     </ThemeProvider>
   );
-}
+};
 
 export default App;

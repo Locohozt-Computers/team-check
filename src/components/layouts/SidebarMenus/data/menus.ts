@@ -11,6 +11,6 @@ export const menus = [
       { id: 2, text: "Transaction", iconType: "wallet" },
     ],
   },
-  { id: 1, route: "bank", text: "Bank", iconType: "user" },
+  { id: 1, route: "bank", text: "Bank", iconType: "university" },
   { id: 1, route: "user", text: "Profile", iconType: "user" },
 ];

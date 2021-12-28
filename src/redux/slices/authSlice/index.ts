@@ -1,8 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "redux/store";
 import { UserType } from "types/authTypes";
 import { errorNotify } from "utils/errorMessage";
-import { NETWORK_ERROR_MESSAGE, signInUserAction } from "./action";
+import {
+  getProfileAction,
+  NETWORK_ERROR_MESSAGE,
+  signInUserAction,
+} from "./action";
 
 export type UserInitialState<T> = {
   user: T;
@@ -28,12 +32,15 @@ export const authSlice = createSlice({
           return errorNotify(NETWORK_ERROR_MESSAGE);
         }
         errorNotify(payload);
+      })
+      .addCase(getProfileAction.fulfilled, (state, { payload }) => {
+        state.profile = payload;
       });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {} = authSlice.actions;
+// export const {} = authSlice.actions;
 
 export const authSelector = ({ auth }: RootState) => auth;
 
