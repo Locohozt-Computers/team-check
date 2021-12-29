@@ -12,6 +12,7 @@ import { googleResponse } from "utils/googleResponse";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "redux/store";
 import { signInUserAction } from "redux/slices/authSlice/action";
+import { callbackHandler } from "utils/callback";
 
 const SignInPage = () => {
   const { dispatch: contextDispatch } = useAuth();
@@ -19,14 +20,16 @@ const SignInPage = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
+  const callback = (response: any) =>
+    callbackHandler(response, { reload: "/home" });
+
   const onSubmit = async (
     values: SigninUserType,
     { setSubmitting, setErrors }: onSubmitActionType
   ) => {
     try {
       setSubmitting(true);
-      await dispatch(signInUserAction(values));
-      window.location.href = "/home";
+      await dispatch(signInUserAction({ user: values, cb: callback }));
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);

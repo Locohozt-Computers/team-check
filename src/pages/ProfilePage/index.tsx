@@ -3,20 +3,25 @@ import React, { useCallback, useEffect, useState } from "react";
 import ChangePassword from "components/Auth/ChangePassword";
 import { onSubmitActionType } from "components/Auth/SignIn";
 import HomeLayout from "components/layouts/HomeLayout/HomeLayout";
-import { useAuth } from "context/auth/AuthProvider";
-import { useHistory } from "react-router-dom";
 import { ChangePasswordType } from "types/authTypes";
 import { Container, First, Left, Profile, Right, Second, Image } from "./style";
 import { errorNotify } from "utils/errorMessage";
 import { singleUpload } from "utils/cloudinary/singleUpload";
 import UploadImage from "components/ui/Avatar/UploadImage";
+import { useAppDispatch, useAppSelector } from "redux/store";
+import { authSelector } from "redux/slices/authSlice";
+import {
+  changePasswordAction,
+  updateProfileAction,
+} from "redux/slices/authSlice/action";
 
 const ProfilePage = () => {
-  const { changePasswordContext, profile, updateProfile } = useAuth();
-  const history = useHistory();
+  const dispatch = useAppDispatch();
 
   const user: any = localStorage.getItem("techCheckPoint");
   const profileId = JSON.parse(user).profile_id;
+
+  const { profile } = useAppSelector(authSelector);
 
   const [values, setValues] = useState({
     username: "",
@@ -38,18 +43,13 @@ const ProfilePage = () => {
   ) => {
     try {
       setSubmitting(true);
-      await changePasswordContext(values);
-      history.push("/auth/signin");
+      await dispatch(changePasswordAction(values));
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);
       setErrors(error);
     }
   };
-
-  // useEffect(() => {
-  //   setEnable(false)
-  // }, [])
 
   useEffect(() => {
     setValues({
@@ -88,7 +88,12 @@ const ProfilePage = () => {
     try {
       setImgLoading(true);
       const imageUrl = await singleUpload(file);
-      await updateProfile({ profile_image_url: imageUrl }, profileId);
+      await dispatch(
+        updateProfileAction({
+          profile: { profile_image_url: imageUrl },
+          profileId,
+        })
+      );
       setImage(imageUrl);
       setImgLoading(false);
     } catch (error) {
@@ -99,7 +104,7 @@ const ProfilePage = () => {
 
   const handleUpdate = useCallback(async () => {
     setLoading(true);
-    await updateProfile(values, profileId);
+    await dispatch(updateProfileAction({ profile: values, profileId }));
     setLoading(false);
     setEnable(false);
 

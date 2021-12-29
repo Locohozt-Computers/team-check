@@ -3,6 +3,7 @@ import { RootState } from "redux/store";
 import { UserType } from "types/authTypes";
 import { errorNotify } from "utils/errorMessage";
 import {
+  forgotPasswordAction,
   getProfileAction,
   NETWORK_ERROR_MESSAGE,
   signInUserAction,
@@ -11,11 +12,13 @@ import {
 export type UserInitialState<T> = {
   user: T;
   profile: UserType | null;
+  forgotPasswordError: null | string | unknown;
 };
 
 const initialState: UserInitialState<any> = {
   user: null,
   profile: null,
+  forgotPasswordError: null,
 };
 
 export const authSlice = createSlice({
@@ -35,13 +38,20 @@ export const authSlice = createSlice({
       })
       .addCase(getProfileAction.fulfilled, (state, { payload }) => {
         state.profile = payload;
+      })
+      .addCase(forgotPasswordAction.rejected, (state, { payload }) => {
+        console.log(JSON.stringify(payload, null, 2));
+        state.forgotPasswordError = payload;
       });
   },
 });
 
-// Action creators are generated for each case reducer function
-// export const {} = authSlice.actions;
-
-export const authSelector = ({ auth }: RootState) => auth;
+export const authSelector = ({
+  auth: { profile, user, forgotPasswordError },
+}: RootState) => ({
+  profile,
+  user,
+  forgotPasswordError,
+});
 
 export default authSlice.reducer;

@@ -45,49 +45,6 @@ const SideMenus: FC<Props> = ({ isCollapse, isMobile }) => {
             />
           </MenuList>
         ))}
-        {/* <MenuList isCollapse={isCollapse} to="/home" activeClassName="selected">
-          <ShowMenu
-            isShowOrHideIconLabel={isShowOrHideIconLabel}
-            text="Home"
-            iconType="home"
-          />
-        </MenuList>
-        <MenuList
-          isCollapse={isCollapse}
-          to="/phones"
-          activeClassName="selected"
-        >
-          <ShowMenu
-            isShowOrHideIconLabel={isShowOrHideIconLabel}
-            text="Registered Phones"
-            iconType="phone"
-          />
-        </MenuList>
-        <MenuList isCollapse={isCollapse} to="/bank" activeClassName="selected">
-          <ShowMenu
-            isShowOrHideIconLabel={isShowOrHideIconLabel}
-            text="Bank"
-            iconType="university"
-          />
-        </MenuList>
-        <MenuList
-          isCollapse={isCollapse}
-          to="/wallet"
-          activeClassName="selected"
-        >
-          <ShowMenu
-            isShowOrHideIconLabel={isShowOrHideIconLabel}
-            text="Wallet"
-            iconType="wallet"
-          />
-        </MenuList>
-        <MenuList isCollapse={isCollapse} to="/user" activeClassName="selected">
-          <ShowMenu
-            isShowOrHideIconLabel={isShowOrHideIconLabel}
-            text="Profile"
-            iconType="user"
-          />
-        </MenuList> */}
         {user.user_type?.toLocaleUpperCase() === "ADMIN" && (
           <MenuList
             isCollapse={isCollapse}

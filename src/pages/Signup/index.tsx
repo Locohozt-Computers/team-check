@@ -14,12 +14,16 @@ import { authErrorHandler } from "utils/CatchErrors";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "redux/store";
 import { signUpUserAction } from "redux/slices/authSlice/action";
+import { callbackHandler } from "utils/callback";
 
 const SignUpPage = () => {
   const { dispatch: contextDispatch } = useAuth();
   const history = useHistory();
 
   const dispatch = useDispatch<AppDispatch>();
+
+  const callback = (response: any) =>
+    callbackHandler(response, { path: "/auth/emailverification", history });
 
   const onSubmit = async (
     values: SignupUserType,
@@ -39,9 +43,8 @@ const SignUpPage = () => {
 
     try {
       setSubmitting(true);
-      await dispatch(signUpUserAction(finalValues));
+      await dispatch(signUpUserAction({ user: finalValues, cb: callback }));
       setSubmitting(false);
-      history.push("/auth/emailverification");
     } catch (error) {
       setSubmitting(false);
       setErrors(error);

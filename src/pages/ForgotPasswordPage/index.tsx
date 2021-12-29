@@ -5,12 +5,17 @@ import * as Yup from "yup";
 
 import ForgotPassword, { ResetType } from "components/Auth/ForgotPassword";
 import { onSubmitActionType } from "components/Auth/SignIn";
-import { useAuth } from "context/auth/AuthProvider";
-import { errorNotify } from "utils/errorMessage";
+import { useAppDispatch } from "redux/store";
+import { forgotPasswordAction } from "redux/slices/authSlice/action";
+import { callbackHandler } from "utils/callback";
 
 const ForgotPasswordPage: React.FC = () => {
-  const { forgotPasswordContext } = useAuth();
   const history = useHistory();
+
+  const dispatch = useAppDispatch();
+
+  const callback = (data: any, ...rest: any) =>
+    callbackHandler(data, { path: "/auth/emailverification", history });
 
   const onSubmit = async (
     values: { email: string },
@@ -18,11 +23,11 @@ const ForgotPasswordPage: React.FC = () => {
   ) => {
     try {
       setSubmitting(true);
-      await forgotPasswordContext(values.email);
-      history.push("/auth/emailverification");
+      await dispatch(
+        forgotPasswordAction({ email: values.email, cb: callback })
+      );
       setSubmitting(false);
     } catch (error) {
-      errorNotify("something went wrong, try again");
       setSubmitting(false);
       setErrors(error);
     }
