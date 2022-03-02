@@ -34,6 +34,7 @@ import { theme } from "assets/theme/theme";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "redux/store";
 import { getProfileAction } from "redux/slices/authSlice/action";
+import AdminSignInPage from "pages/Signin/adminPage";
 
 axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -152,6 +153,7 @@ const App = () => {
             component={AllUsersPage}
           />
           <Route exact path="/auth/signin" component={SignInPage} />
+          <Route exact path="/auth/admin/signin" component={AdminSignInPage} />
           <Route exact path="/auth/signup" component={SignUpPage} />
           <Route
             exact

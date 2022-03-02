@@ -6,8 +6,7 @@ import {
   SignupUserType,
 } from "types/authTypes";
 import { createHttp, getHttp, updateHttp } from "utils/api/createHttp";
-import { authErrorHandler, logoutUnauthorizeUser } from "utils/CatchErrors";
-import { errorNotify, successNotify } from "utils/errorMessage";
+import { logoutUnauthorizeUser } from "utils/CatchErrors";
 
 export const NETWORK_ERROR_MESSAGE = "Network went wrong!!!";
 export const SUCCESS = "SUCCESS";
@@ -19,6 +18,26 @@ export const signInUserAction = createAsyncThunk(
     const { user, cb } = payload;
     try {
       const data = await createHttp("/login", user);
+      localStorage.setItem("techCheckPoint", JSON.stringify({ ...data }));
+      cb({ status: SUCCESS, data });
+      return data;
+    } catch (error: any) {
+      if (!error?.response) {
+        cb({ status: "error", error: "Network went wrong!!!" });
+        return NETWORK_ERROR_MESSAGE;
+      }
+      cb({ status: "error", error });
+      return error;
+    }
+  }
+);
+
+export const adminSignInUserAction = createAsyncThunk(
+  "admin/signin",
+  async (payload: { user: SigninUserType; cb: <T>(arg: T) => void }) => {
+    const { user, cb } = payload;
+    try {
+      const data = await createHttp("/admin/login", user);
       localStorage.setItem("techCheckPoint", JSON.stringify({ ...data }));
       cb({ status: SUCCESS, data });
       return data;
@@ -92,18 +111,22 @@ export const forgotPasswordAction = createAsyncThunk(
 
 export const changePasswordAction = createAsyncThunk(
   "changePassword",
-  async (passwords: ChangePasswordType) => {
+  async (payload: {
+    passwords: ChangePasswordType;
+    cb: (arg: any) => void;
+  }) => {
+    const { passwords, cb } = payload;
     try {
       const data = await createHttp("/change-password", passwords);
-      successNotify("Password changed");
+      cb({ status: SUCCESS, data });
       return data;
     } catch (error: any) {
       if (!error?.response) {
         // eslint-disable-next-line
-        errorNotify("Network went wrong!!!");
+        cb({ status: "error", error: "Network went wrong!!!" });
         return "Network went wrong!!!";
       }
-      authErrorHandler(error);
+      cb({ status: "error", error });
       return error?.response?.data?.message;
     }
   }
@@ -123,19 +146,22 @@ export const getProfileAction = createAsyncThunk(
 
 export const updateProfileAction = createAsyncThunk(
   "updateProfile",
-  async (profileObj: any) => {
+  async (payload: {
+    cb: (arg: any) => void;
+    profileId: string;
+    profile: any;
+  }) => {
+    const { profileId, profile, cb } = payload;
     try {
-      await updateHttp(
-        `/profile/${profileObj?.profileId}`,
-        profileObj?.profile
-      );
+      await updateHttp(`/profile/${profileId}`, profile);
+      cb({ status: SUCCESS });
     } catch (error: any) {
       if (!error?.response) {
         // eslint-disable-next-line
-        errorNotify("Network went wrong!!!");
+        cb({ status: "error", error: "Network went wrong!!!" });
         return "Network went wrong!!!";
       }
-      authErrorHandler(error);
+      cb({ status: "error", error });
       return error?.response?.data?.message;
     }
   }

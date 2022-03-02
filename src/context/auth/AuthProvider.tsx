@@ -50,6 +50,7 @@ type ContextType = {
   user: Partial<SignupUserType>;
   profile: (UserType & { bank: GetEdBankType }) | null;
   signInUserContext: (user: SigninUserType) => void;
+  adminSignInUserContext: (user: SigninUserType) => void;
   signUpUserContext: (user: Partial<SignupUserType>) => void;
   forgotPasswordContext: (email: string) => void;
   changePasswordContext: (passwords: ChangePasswordType) => void;
@@ -63,6 +64,7 @@ export const AuthContext = createContext<ContextType>({
   user,
   profile: null,
   signInUserContext: (user: SigninUserType) => {},
+  adminSignInUserContext: (user: SigninUserType) => {},
   signUpUserContext: (user: Partial<SignupUserType>) => {},
   forgotPasswordContext: (email: string) => {},
   changePasswordContext: (passwords: ChangePasswordType) => {},
@@ -80,6 +82,19 @@ const AuthProvider: React.FC = ({ children }) => {
   const signInUserContext = async (user: SigninUserType) => {
     try {
       const data = await createHttp("/login", user);
+      localStorage.setItem("techCheckPoint", JSON.stringify({ ...data }));
+      dispatch({ type: SIGNIN, payload: data });
+    } catch (error: any) {
+      if (!error?.response) {
+        errorNotify("Network went wrong!!!");
+      }
+      authErrorHandler(error);
+    }
+  };
+
+  const adminSignInUserContext = async (user: SigninUserType) => {
+    try {
+      const data = await createHttp("/admin/login", user);
       localStorage.setItem("techCheckPoint", JSON.stringify({ ...data }));
       dispatch({ type: SIGNIN, payload: data });
     } catch (error: any) {
@@ -185,6 +200,7 @@ const AuthProvider: React.FC = ({ children }) => {
     user: state?.user,
     profile: state.profile,
     signInUserContext,
+    adminSignInUserContext,
     signUpUserContext,
     forgotPasswordContext,
     changePasswordContext,

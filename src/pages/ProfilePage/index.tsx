@@ -14,6 +14,7 @@ import {
   changePasswordAction,
   updateProfileAction,
 } from "redux/slices/authSlice/action";
+import { callbackHandler } from "utils/callback";
 
 const ProfilePage = () => {
   const dispatch = useAppDispatch();
@@ -37,13 +38,21 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(false);
   const [enable, setEnable] = useState(false);
 
+  const passwordCallback = (response: any) =>
+    callbackHandler(response, { successMessage: "Password changed" });
+
+  const updateCallback = (response: any) =>
+    callbackHandler(response);
+
   const onSubmit = async (
     values: ChangePasswordType,
     { setSubmitting, setErrors }: onSubmitActionType
   ) => {
     try {
       setSubmitting(true);
-      await dispatch(changePasswordAction(values));
+      await dispatch(
+        changePasswordAction({ passwords: values, cb: passwordCallback })
+      );
       setSubmitting(false);
     } catch (error) {
       setSubmitting(false);
@@ -92,6 +101,7 @@ const ProfilePage = () => {
         updateProfileAction({
           profile: { profile_image_url: imageUrl },
           profileId,
+          cb: updateCallback,
         })
       );
       setImage(imageUrl);
@@ -104,7 +114,9 @@ const ProfilePage = () => {
 
   const handleUpdate = useCallback(async () => {
     setLoading(true);
-    await dispatch(updateProfileAction({ profile: values, profileId }));
+    await dispatch(
+      updateProfileAction({ profile: values, profileId, cb: updateCallback })
+    );
     setLoading(false);
     setEnable(false);
 
